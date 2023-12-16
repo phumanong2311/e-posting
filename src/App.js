@@ -1,4 +1,5 @@
 import { MantineProvider, createTheme, rem } from "@mantine/core";
+import "@mantine/core/styles.css";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { router } from "./routes";
