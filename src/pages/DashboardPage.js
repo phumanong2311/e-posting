@@ -42,41 +42,43 @@ const DashboardPage = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="h-screen w-full flex flex-col">
-      <HeadlineText text={headlineText} />
-      <Header containerClass="mt-12 px-16" />
-      <div className="w-full flex mt-4 px-16">
-        {dashboardLinks.map((link, index) => (
-          <>
-            <Link
-              to={link.path}
-              className={
-                index === 0
-                  ? "mr-4"
-                  : index === dashboardLinks.length - 1
-                  ? "ml-4"
-                  : "mx-4"
-              }
-            >
-              <p
-                className={`text-lg ${
-                  link.isActive
-                    ? "text-black font-bold"
-                    : "text-purple-800 font-normal"
-                }`}
+    <>
+      <div className="min-h-screen h-auto w-full flex flex-col">
+        <HeadlineText text={headlineText} />
+        <Header containerClass="mt-12 px-16" />
+        <div className="w-full flex mt-4 px-16">
+          {dashboardLinks.map((link, index) => (
+            <>
+              <Link
+                to={link.path}
+                className={
+                  index === 0
+                    ? "mr-4"
+                    : index === dashboardLinks.length - 1
+                    ? "ml-4"
+                    : "mx-4"
+                }
               >
-                {link.label}
-              </p>
-            </Link>
-            {index !== dashboardLinks.length - 1 && (
-              <Divider orientation="vertical" />
-            )}
-          </>
-        ))}
+                <p
+                  className={`text-lg ${
+                    link.isActive
+                      ? "text-black font-bold"
+                      : "text-purple-800 font-normal"
+                  }`}
+                >
+                  {link.label}
+                </p>
+              </Link>
+              {index !== dashboardLinks.length - 1 && (
+                <Divider orientation="vertical" />
+              )}
+            </>
+          ))}
+        </div>
+        <Outlet />
       </div>
-      <Outlet />
       <Footer />
-    </div>
+    </>
   );
 };
 

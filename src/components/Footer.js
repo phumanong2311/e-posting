@@ -2,7 +2,7 @@ import { Divider } from "@mantine/core";
 
 const Footer = () => {
   return (
-    <footer className="w-full flex items-center px-16 absolute bottom-5">
+    <footer className="w-full flex items-center px-16 py-5">
       <div className="flex mr-4">
         <p className="text-md text-gray-400">Access Level: </p>
         <p className="text-md text-gray-400 ml-3">admin</p>

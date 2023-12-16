@@ -1,7 +1,9 @@
 import { Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 const MyJobPostingsPage = () => {
+  const navigate = useNavigate();
   const data = [
     {
       description: "Urgent Senior Project Manager with Fortune in 500 client",
@@ -36,7 +38,11 @@ const MyJobPostingsPage = () => {
   ];
 
   const rows = data.map((element, index) => (
-    <Table.Tr key={index}>
+    <Table.Tr
+      key={index}
+      onClick={() => navigate("/dashboard/my-job-postings/detail")}
+      className="cursor-pointer "
+    >
       <Table.Td>{element.description}</Table.Td>
       <Table.Td className="text-center">{element.postedDate}</Table.Td>
       <Table.Td className="text-center">{element.status}</Table.Td>

@@ -5,6 +5,9 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
 const MyJobPostingsPage = lazy(() => import("./pages/MyJobPostings"));
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
+const MyJobPostingsDetailPage = lazy(() =>
+  import("./pages/MyJobPostingDetailPage")
+);
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +47,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense>
             <MyJobRequestsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "my-job-postings/detail",
+        element: (
+          <Suspense>
+            <MyJobPostingsDetailPage />
           </Suspense>
         ),
       },
