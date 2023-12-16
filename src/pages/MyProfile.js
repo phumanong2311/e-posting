@@ -1,4 +1,4 @@
-import { IconEdit, IconPencil } from "@tabler/icons-react";
+import { IconPencil } from "@tabler/icons-react";
 
 const MyProfilePage = () => {
   const userInfo = {
