@@ -1,8 +1,10 @@
 import { IconTrash, IconPencil, IconChevronLeft } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MyJobPostingsDetailPage = () => {
+  const { state } = useLocation();
   const navigate = useNavigate();
+  const { isFromSearchPage } = state || {};
 
   const userInfo = {
     jobTitle: "Urgent Senior Project Manager with Fortune in 500 client",
@@ -24,10 +26,29 @@ const MyJobPostingsDetailPage = () => {
       <div className="w-full px-16">
         <p
           className="flex text-lg items-center w-full justify-end text-purple-500 cursor-pointer "
-          onClick={() => navigate("/dashboard/my-job-postings")}
+          onClick={() =>
+            navigate(
+              isFromSearchPage ? "/search" : "/dashboard/my-job-postings"
+            )
+          }
         >
           <IconChevronLeft /> back to list
         </p>
+
+        {isFromSearchPage && (
+          <div className="flex w-full justify-between items-center my-6">
+            <div className="flex items-center">
+              <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
+                Owner:
+              </p>
+              <p className="text-lg ml-3 font-bold">William Chung</p>
+            </div>
+            <div className="flex gap-3">
+              <IconPencil />
+              <IconTrash />
+            </div>
+          </div>
+        )}
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex items-center">
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
@@ -36,8 +57,12 @@ const MyJobPostingsDetailPage = () => {
             <p className="text-lg ml-3 font-bold">{userInfo.jobTitle}</p>
           </div>
           <div className="flex gap-3">
-            <IconPencil />
-            <IconTrash />
+            {!isFromSearchPage && (
+              <>
+                <IconPencil />
+                <IconTrash />
+              </>
+            )}
           </div>
         </div>
         <div className="flex w-full justify-between items-center my-6">

@@ -8,6 +8,7 @@ const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(() =>
   import("./pages/MyJobPostingDetailPage")
 );
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 export const router = createBrowserRouter([
   {
@@ -59,5 +60,13 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/search",
+    element: (
+      <Suspense>
+        <SearchPage />
+      </Suspense>
+    ),
   },
 ]);
