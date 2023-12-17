@@ -13,7 +13,11 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: (
+      <Suspense>
+        <LoginPage />
+      </Suspense>
+    ),
   },
   {
     path: "/login",
@@ -28,7 +32,7 @@ export const router = createBrowserRouter([
     element: <DashboardPage />,
     children: [
       {
-        path: "my-profile",
+        path: "profile",
         element: (
           <Suspense>
             <MyProfilePage />
@@ -36,7 +40,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-job-postings",
+        path: "job-postings",
         element: (
           <Suspense>
             <MyJobPostingsPage />
@@ -44,7 +48,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-job-requests",
+        path: "job-requests",
         element: (
           <Suspense>
             <MyJobRequestsPage />
@@ -52,7 +56,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-job-postings/detail",
+        path: "job-postings/detail",
         element: (
           <Suspense>
             <MyJobPostingsDetailPage />

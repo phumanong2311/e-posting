@@ -1,40 +1,40 @@
+import { Divider } from "@mantine/core";
 import { useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Divider } from "@mantine/core";
 
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeadlineText from "../components/HeadlineText";
-import Footer from "../components/Footer";
 const DashboardPage = ({ children }) => {
   const location = useLocation();
   const dashboardLinks = useMemo(() => {
     return [
       {
         label: "My Profile",
-        path: "/dashboard/my-profile",
-        isActive: location.pathname.includes("/my-profile"),
+        path: "/dashboard/profile",
+        isActive: location.pathname.includes("/profile"),
       },
       {
         label: "My Job Postings",
-        path: "/dashboard/my-job-postings",
-        isActive: location.pathname.includes("/my-job-postings"),
+        path: "/dashboard/job-postings",
+        isActive: location.pathname.includes("/job-postings"),
       },
       {
         label: "My Job Requests",
-        path: "/dashboard/my-job-requests",
-        isActive: location.pathname.includes("/my-job-requests"),
+        path: "/dashboard/job-requests",
+        isActive: location.pathname.includes("/job-requests"),
       },
     ];
   }, [location]);
   const headlineText = useMemo(() => {
     switch (location.pathname) {
-      case "/dashboard/my-profile":
+      case "/dashboard/profile":
         return "Display your User information form user account and profile from account used to login to admin portal (whoami page)";
-      case "/dashboard/my-job-postings":
+      case "/dashboard/job-postings":
         return "Displays your list of Job Posting by creation date";
-      case "/dashboard/my-job-postings/detail":
+      case "/dashboard/job-postings/detail":
         return "Displays your Job Posting Record in Details";
-      case "/dashboard/my-job-requests":
+      case "/dashboard/job-requests":
         return "";
       default:
         return "";

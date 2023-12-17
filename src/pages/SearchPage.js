@@ -1,13 +1,11 @@
-import { useMemo } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Divider, Select, TextInput, Button, Table } from "@mantine/core";
+import { Button, Select, Table, TextInput } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
+import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeadlineText from "../components/HeadlineText";
-import Footer from "../components/Footer";
-import { IconSearch, IconEdit, IconTrash } from "@tabler/icons-react";
 const SearchPage = ({ children }) => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const data = [
@@ -24,7 +22,7 @@ const SearchPage = ({ children }) => {
     <Table.Tr
       key={index}
       onClick={() =>
-        navigate("/dashboard/my-job-postings/detail", {
+        navigate("/dashboard/job-postings/detail", {
           state: { isFromSearchPage: true },
         })
       }

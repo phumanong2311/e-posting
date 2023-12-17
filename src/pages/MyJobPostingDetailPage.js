@@ -1,4 +1,4 @@
-import { IconTrash, IconPencil, IconChevronLeft } from "@tabler/icons-react";
+import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const MyJobPostingsDetailPage = () => {
@@ -27,9 +27,7 @@ const MyJobPostingsDetailPage = () => {
         <p
           className="flex text-lg items-center w-full justify-end text-purple-500 cursor-pointer "
           onClick={() =>
-            navigate(
-              isFromSearchPage ? "/search" : "/dashboard/my-job-postings"
-            )
+            navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings")
           }
         >
           <IconChevronLeft /> back to list

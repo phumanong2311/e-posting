@@ -7,7 +7,7 @@ const Header = ({ containerClass = "" }) => {
     return [
       {
         label: "Home",
-        path: "/dashboard/my-profile",
+        path: "/dashboard/profile",
         isActive: location.pathname.includes("/dashboard"),
       },
       {
