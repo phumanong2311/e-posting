@@ -5,7 +5,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeadlineText from "../components/HeadlineText";
-const DashboardPage = ({ children }) => {
+const DashboardPage = () => {
   const location = useLocation();
   const dashboardLinks = useMemo(() => {
     return [

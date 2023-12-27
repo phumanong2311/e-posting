@@ -5,7 +5,7 @@ import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeadlineText from "../components/HeadlineText";
-const SearchPage = ({ children }) => {
+const SearchPage = () => {
   const navigate = useNavigate();
 
   const data = [
