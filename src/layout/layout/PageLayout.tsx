@@ -1,9 +1,9 @@
 import { Divider } from "@mantine/core";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 
-export const DashboardPage = () => {
+export const PageLayout = () => {
   const location = useLocation();
   const dashboardLinks = useMemo(() => {
     return [
@@ -46,7 +46,7 @@ export const DashboardPage = () => {
         <Header containerClass="mt-12 px-16" />
         <div className="w-full flex mt-4 px-16">
           {dashboardLinks.map((link, index) => (
-            <>
+            <Fragment key={index}>
               <Link
                 to={link.path}
                 className={
@@ -70,7 +70,7 @@ export const DashboardPage = () => {
               {index !== dashboardLinks.length - 1 && (
                 <Divider orientation="vertical" />
               )}
-            </>
+            </Fragment>
           ))}
         </div>
         <Outlet />

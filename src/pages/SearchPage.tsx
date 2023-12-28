@@ -2,9 +2,7 @@ import { Button, Select, Table, TextInput } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
 import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
-import Footer from "../layout/dashboard/Footer";
-import Header from "../layout/dashboard/Header";
-import HeadlineText from "../layout/dashboard/HeadlineText";
+import { Footer, Header, HeadlineText } from "../layout/layout";
 const SearchPage = () => {
   const navigate = useNavigate();
 

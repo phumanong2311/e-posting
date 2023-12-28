@@ -1,4 +1,4 @@
-export * from './DashboardPage';
+export * from './PageLayout';
 export * from './Footer';
 export * from './Header';
 export * from './HeadlineText';
