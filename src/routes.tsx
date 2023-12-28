@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "react";
 import { RouteObject, createBrowserRouter } from "react-router-dom";
-import DashboardPage from "./pages/DashboardPage";
+import { DashboardPage } from "./pages";
 
-const LoginPage = lazy(() => import("./pages/LoginPage"));
+// const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
 const MyJobPostingsPage = lazy(() => import("./pages/MyJobPostings"));
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
@@ -13,54 +13,46 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const routesConfig = {
   path: "/",
-  name: "home",
-  element: <LoginPage />,
+  name: "dashboard",
+  element: <DashboardPage />,
   children: [
     {
-      path: "/login",
+      path: "profile",
+      name: "profile",
       element: (
         <Suspense>
-          <LoginPage />
+          <MyProfilePage />
         </Suspense>
       ),
     },
     {
-      path: "/dashboard",
-      element: <DashboardPage />,
+      path: "job-postings",
+      name: "job-postings",
+      element: (
+        <Suspense>
+          <MyJobPostingsPage />
+        </Suspense>
+      ),
       children: [
         {
-          path: "profile",
-          element: (
-            <Suspense>
-              <MyProfilePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "job-postings",
-          element: (
-            <Suspense>
-              <MyJobPostingsPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "job-requests",
-          element: (
-            <Suspense>
-              <MyJobRequestsPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "job-postings/detail",
+          path: ":id",
+          name: "job-postings-detail",
           element: (
             <Suspense>
               <MyJobPostingsDetailPage />
             </Suspense>
           ),
         },
-      ],
+      ]
+    },
+    {
+      path: "job-requests",
+      name: "job-requests",
+      element: (
+        <Suspense>
+          <MyJobRequestsPage />
+        </Suspense>
+      ),
     },
     {
       path: "/search",

@@ -15,7 +15,7 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     toast.success("Login Successful !");
     navigate("/dashboard/profile");
   };
@@ -25,7 +25,7 @@ const LoginPage = () => {
         <div className="text-purple-700 font-bold text-3xl mb-[50px]">
           ePosting Admin Portal
         </div>
-        <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
+        <form onSubmit={form.onSubmit(onSubmit)}>
           <TextInput
             label={<p className="text-lg text-black-300 mb-2">Email Address</p>}
             placeholder="william@eposting.com"

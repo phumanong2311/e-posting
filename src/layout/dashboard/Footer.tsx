@@ -1,6 +1,6 @@
 import { Divider } from "@mantine/core";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="w-full flex items-center px-16 py-5">
       <div className="flex mr-4">
@@ -20,5 +20,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

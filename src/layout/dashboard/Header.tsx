@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Divider } from "@mantine/core";
-const Header = ({ containerClass = "" }) => {
+export const Header = ({ containerClass = "" }) => {
   const location = useLocation();
   const headerLinks = useMemo(() => {
     return [
@@ -61,5 +61,3 @@ const Header = ({ containerClass = "" }) => {
     </header>
   );
 };
-
-export default Header;

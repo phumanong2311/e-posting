@@ -1,11 +1,9 @@
 import { Divider } from "@mantine/core";
 import { useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { Footer, Header, HeadlineText } from ".";
 
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import HeadlineText from "../components/HeadlineText";
-const DashboardPage = () => {
+export const DashboardPage = () => {
   const location = useLocation();
   const dashboardLinks = useMemo(() => {
     return [
@@ -81,5 +79,3 @@ const DashboardPage = () => {
     </>
   );
 };
-
-export default DashboardPage;

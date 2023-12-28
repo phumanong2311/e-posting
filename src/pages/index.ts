@@ -1,5 +1,5 @@
 export * from "./LoginPage";
-export * from "./DashboardPage";
+export * from "../layout/dashboard/DashboardPage";
 export * from "./MyProfile";
 export * from "./MyJobPostings";
 export * from "./MyJobRequests";
