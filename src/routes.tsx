@@ -1,7 +1,8 @@
 import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from 'react-router-dom';
+import { RouteObject, createBrowserRouter } from "react-router-dom";
 import { PageLayout } from "./layout/layout";
 import { DefaultPage, NotFoundPage } from "./pages";
+import { DashboardLayout } from "./layout/layout/DashboardLayout";
 
 // const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
@@ -18,47 +19,54 @@ const routesConfig = {
   element: <DefaultPage />,
   children: [
     {
-      path: "/dashboard",
-      name: "dashboard",
+      path: "/",
+      name: "after-login",
       element: <PageLayout />,
       children: [
         {
-          path: "profile",
-          name: "profile",
-          element: (
-            <Suspense>
-              <MyProfilePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "job-postings",
-          name: "job-postings",
-          element: (
-            <Suspense>
-              <MyJobPostingsPage />
-            </Suspense>
-          ),
+          path: "dashboard",
+          name: "dashboard",
+          element: <DashboardLayout />,
           children: [
             {
-              path: ":id",
-              name: "job-postings-detail",
+              path: "profile",
+              name: "profile",
               element: (
                 <Suspense>
-                  <MyJobPostingsDetailPage />
+                  <MyProfilePage />
                 </Suspense>
               ),
             },
-          ]
-        },
-        {
-          path: "job-requests",
-          name: "job-requests",
-          element: (
-            <Suspense>
-              <MyJobRequestsPage />
-            </Suspense>
-          ),
+            {
+              path: "job-postings",
+              name: "job-postings",
+              element: (
+                <Suspense>
+                  <MyJobPostingsPage />
+                </Suspense>
+              ),
+              children: [
+                {
+                  path: ":id",
+                  name: "job-postings-detail",
+                  element: (
+                    <Suspense>
+                      <MyJobPostingsDetailPage />
+                    </Suspense>
+                  ),
+                },
+              ],
+            },
+            {
+              path: "job-requests",
+              name: "job-requests",
+              element: (
+                <Suspense>
+                  <MyJobRequestsPage />
+                </Suspense>
+              ),
+            },
+          ],
         },
         {
           path: "search",
@@ -69,14 +77,13 @@ const routesConfig = {
             </Suspense>
           ),
         },
-        {
-          path: "*",
-          element: <NotFoundPage />,
-        },
       ],
-    }
-  ]
-  
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    },
+  ],
 };
 
 export const router = createBrowserRouter([routesConfig as RouteObject], {
