@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import { PageLayout } from "./layout/layout";
-import { DefaultPage, NotFoundPage } from "./pages";
+import { DefaultPage, LoginPage, NotFoundPage } from "./pages";
 
 // const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));

@@ -5,12 +5,15 @@ import "@mantine/notifications/styles.css";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { router } from "./routes";
+import { AppProvider } from "./app-provider/AppProvider";
 
 function App() {
   return (
     <MantineProvider>
-      <Notifications />
-      <RouterProvider router={router} />
+      <AppProvider>
+        <Notifications />
+        <RouterProvider router={router} />
+      </AppProvider>
     </MantineProvider>
   );
 }
