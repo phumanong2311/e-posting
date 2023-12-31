@@ -1,5 +1,5 @@
 import { IconPencil } from "@tabler/icons-react";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import userService from "../services/user.service";
 import { ResponseWrapper } from "../types/ResponseWrapper";
@@ -10,11 +10,27 @@ const MyProfilePage = () => {
     func: { updateUserProfile },
   } = useAppProviderCtx();
 
-  useEffect(() => {
-    userService.getProfile().then((res: ResponseWrapper) => {
-      if (res.result) updateUserProfile(res.result);
-    });
-  }, []);
+  // useEffect(() => {
+  //   userService.getProfile().then((res: ResponseWrapper) => {
+  //     if (res.result) updateUserProfile(res.result);
+  //   });
+  // }, []);
+
+  // const { data: dataNeeded } = useQuery({
+  //   queryKey: ["userProfile"],
+  //   queryFn: () =>
+  //     userService.getProfile().then((res: ResponseWrapper) => {
+  //       if (res.result) updateUserProfile(res.result);
+  //     }),
+  // });
+
+  useQuery({
+    queryKey: ["userProfile"],
+    queryFn: () =>
+      userService.getProfile().then((res: ResponseWrapper) => {
+        if (res.result) updateUserProfile(res.result);
+      }),
+  });
 
   if (!userProfile || !user) return <></>;
   return (

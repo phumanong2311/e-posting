@@ -6,9 +6,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../app-provider";
-import { ResponseWrapper } from "../app-provider/providerType";
 import { toast } from "../lib/toast";
 import userService from "../services/user.service";
+import { ResponseWrapper } from "../types/ResponseWrapper";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -36,6 +36,7 @@ const LoginPage = () => {
       toast.error(`Login Failed !, ${error.message}`);
     },
   });
+  
   const onSubmit = async () => {
     await getUser.mutateAsync();
   };
