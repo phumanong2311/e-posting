@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import { RouteObject, createBrowserRouter } from "react-router-dom";
+import { AuthenticatedRoute } from "./app-provider/AuthenticatedRoute";
 import { PageLayout } from "./layout/layout";
-import { DefaultPage, NotFoundPage } from "./pages";
 import { DashboardLayout } from "./layout/layout/DashboardLayout";
+import { DefaultPage, NotFoundPage } from "./pages";
 
-// const LoginPage = lazy(() => import("./pages/LoginPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
 const MyJobPostingsPage = lazy(() => import("./pages/MyJobPostings"));
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
@@ -21,7 +22,11 @@ const routesConfig = {
     {
       path: "/",
       name: "after-login",
-      element: <PageLayout />,
+      element: (
+        <AuthenticatedRoute>
+          <PageLayout />
+        </AuthenticatedRoute>
+      ),
       children: [
         {
           path: "dashboard",
@@ -78,6 +83,15 @@ const routesConfig = {
           ),
         },
       ],
+    },
+    {
+      path: "login",
+      name: "login",
+      element: (
+        <Suspense>
+          <LoginPage />
+        </Suspense>
+      ),
     },
     {
       path: "*",

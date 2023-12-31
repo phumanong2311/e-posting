@@ -2,12 +2,19 @@ import { Button, Checkbox, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { IconEye, IconMail } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppProviderCtx } from "../app-provider";
+import { ResponseWrapper } from "../app-provider/providerType";
 import { toast } from "../lib/toast";
+import userService from "../services/user.service";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const {
+    func: { updateUser },
+  } = useAppProviderCtx();
   const [showPass, setShowPass] = useState(false);
   const form = useForm({
     initialValues: {
@@ -15,9 +22,22 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const onSubmit = () => {
-    toast.success("Login Successful !");
-    navigate("/dashboard/profile");
+
+  const getUser = useMutation({
+    mutationFn: () =>
+      userService.getMe().then((res: ResponseWrapper) => {
+        if (res.result) {
+          updateUser(res.result);
+          toast.success("Login Successful !");
+          navigate("/dashboard/profile");
+        }
+      }),
+    onError: async (error: Error) => {
+      toast.error(`Login Failed !, ${error.message}`);
+    },
+  });
+  const onSubmit = async () => {
+    await getUser.mutateAsync();
   };
   return (
     <div className="h-screen w-full flex justify-center items-center">
