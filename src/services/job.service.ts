@@ -251,13 +251,14 @@ class UserService extends API {
     );
   }
 
-  async getJobDetail({ jobId = "" }) {
+  async getJobDetail({ jobId = "" }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job/{jobId}
     return new Promise((resolve, reject) =>
       resolve({
         timestamp: "2023-12-20T17:44:27.455Z",
         status: 200,
         success: true,
+        message: "Job retrieved successfully",
         result: {
           _id: "6564cf10d11083608e90d02e",
           jobOwnerId: "655537b0c50e7f30a07b75fe",

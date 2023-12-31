@@ -30,7 +30,7 @@ const MyJobPostingsPage = () => {
   const rows = jobs.map((element, index) => (
     <Table.Tr
       key={index}
-      onClick={() => navigate("/dashboard/job-postings/detail")}
+      onClick={() => navigate(`/dashboard/job-postings/${element._id}`)}
       className="cursor-pointer "
     >
       <Table.Td>{element.description}</Table.Td>

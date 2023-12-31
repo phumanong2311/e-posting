@@ -1,5 +1,5 @@
 export type ResponseWrapper = {
-  message: string;
+  message?: string;
   result: any;
   status: number;
   success: boolean;
