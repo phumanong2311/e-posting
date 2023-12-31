@@ -1,7 +1,7 @@
 import { ResponseWrapper } from "../types/ResponseWrapper";
 import { API } from "./api";
 
-class UserService extends API {
+class JobService extends API {
   async getJobs({
     page = 1,
     workLocationType = "",
@@ -173,7 +173,7 @@ class UserService extends API {
     yearsOfExperience = "",
     closingDate = "",
     keywords = "",
-  }) {
+  }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job/search
     return new Promise((resolve, reject) =>
       resolve({
@@ -293,6 +293,6 @@ class UserService extends API {
   }
 }
 
-const userService = new UserService();
+const jobService = new JobService();
 
-export default userService;
+export default jobService;
