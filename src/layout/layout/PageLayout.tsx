@@ -2,8 +2,8 @@ import { useEffect, useMemo } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import userService from "../../services/user.service";
-import { ResponseWrapper } from "../../app-provider/providerType";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
+import { ResponseWrapper } from "../../types/ResponseWrapper";
 
 export const PageLayout = () => {
   const location = useLocation();

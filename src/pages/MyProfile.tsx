@@ -1,8 +1,8 @@
 import { IconPencil } from "@tabler/icons-react";
 import { useEffect } from "react";
-import { ResponseWrapper } from "../app-provider/providerType";
 import userService from "../services/user.service";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
+import { ResponseWrapper } from "../types/ResponseWrapper";
 
 const MyProfilePage = () => {
   const {

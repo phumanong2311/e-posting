@@ -46,14 +46,6 @@ export type UserProfile = {
   profileStep4: string;
 };
 
-export type ResponseWrapper = {
-  message: string;
-  result: any;
-  status: number;
-  success: boolean;
-  timestamp: string;
-};
-
 export type MainStateType = {
   user: UserType | null;
   userProfile: UserProfile | null;

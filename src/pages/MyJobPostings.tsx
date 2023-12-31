@@ -1,54 +1,44 @@
+import { useEffect, useState } from "react";
 import { Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
+import { Job } from "../types/Job";
+import jobService from "../services/job.service";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
+
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
-  const data = [
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-  ];
+  const [jobs, setJobs] = useState<Array<Job>>([]);
+  const [jobPagination, setJobPagination] = useState({
+    page: 1,
+  });
+  const {
+    data: { user },
+  } = useAppProviderCtx();
 
-  const rows = data.map((element, index) => (
+  useEffect(() => {
+    jobService.getJobs({}).then((res) => {
+      if (res.result) {
+        const { jobs, ...pagination } = res.result;
+        setJobs(jobs);
+        setJobPagination(pagination);
+      }
+    });
+  }, []);
+
+  const rows = jobs.map((element, index) => (
     <Table.Tr
       key={index}
       onClick={() => navigate("/dashboard/job-postings/detail")}
       className="cursor-pointer "
     >
       <Table.Td>{element.description}</Table.Td>
-      <Table.Td className="text-center">{element.postedDate}</Table.Td>
-      <Table.Td className="text-center">{element.status}</Table.Td>
+      <Table.Td className="text-center">{element.createdAt}</Table.Td>
+      <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">
-        {element.role > 0 && <IconEdit />}
-        {element.role > 1 && <IconTrash />}
+        {user?.accountType! > 0 && <IconEdit />}
+        {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>
   ));

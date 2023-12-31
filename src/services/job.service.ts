@@ -1,7 +1,16 @@
+import { ResponseWrapper } from "../types/ResponseWrapper";
 import { API } from "./api";
 
 class UserService extends API {
-  async getJobs({ page = 1, workLocationType = "", yearOfExperience = "" }) {
+  async getJobs({
+    page = 1,
+    workLocationType = "",
+    yearOfExperience = "",
+  }: {
+    page?: number;
+    workLocationType?: string;
+    yearOfExperience?: string;
+  }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job
     return new Promise((resolve, reject) => {
       resolve({
@@ -75,6 +84,7 @@ class UserService extends API {
           maxPages: 1,
           offset: 0,
         },
+        message: "",
       });
     });
   }
