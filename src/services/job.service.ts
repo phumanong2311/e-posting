@@ -1,7 +1,16 @@
+import { ResponseWrapper } from "../types/ResponseWrapper";
 import { API } from "./api";
 
-class UserService extends API {
-  async getJobs({ page = 1, workLocationType = "", yearOfExperience = "" }) {
+class JobService extends API {
+  async getJobs({
+    page = 1,
+    workLocationType = "",
+    yearOfExperience = "",
+  }: {
+    page?: number;
+    workLocationType?: string;
+    yearOfExperience?: string;
+  }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job
     return new Promise((resolve, reject) => {
       resolve({
@@ -75,6 +84,7 @@ class UserService extends API {
           maxPages: 1,
           offset: 0,
         },
+        message: "",
       });
     });
   }
@@ -163,7 +173,7 @@ class UserService extends API {
     yearsOfExperience = "",
     closingDate = "",
     keywords = "",
-  }) {
+  }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job/search
     return new Promise((resolve, reject) =>
       resolve({
@@ -241,13 +251,14 @@ class UserService extends API {
     );
   }
 
-  async getJobDetail({ jobId = "" }) {
+  async getJobDetail({ jobId = "" }): Promise<ResponseWrapper> {
     //TODO: Call to api GET /job/{jobId}
     return new Promise((resolve, reject) =>
       resolve({
         timestamp: "2023-12-20T17:44:27.455Z",
         status: 200,
         success: true,
+        message: "Job retrieved successfully",
         result: {
           _id: "6564cf10d11083608e90d02e",
           jobOwnerId: "655537b0c50e7f30a07b75fe",
@@ -282,6 +293,6 @@ class UserService extends API {
   }
 }
 
-const userService = new UserService();
+const jobService = new JobService();
 
-export default userService;
+export default jobService;

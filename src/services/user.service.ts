@@ -1,4 +1,4 @@
-import { ResponseWrapper } from "../app-provider/providerType";
+import { ResponseWrapper } from "../types/ResponseWrapper";
 import { API } from "./api";
 
 class UserService extends API {

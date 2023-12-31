@@ -1,27 +1,22 @@
 import { IconPencil } from "@tabler/icons-react";
 import { useEffect } from "react";
-import { ResponseWrapper } from "../app-provider/providerType";
-import { useAppProvider } from "../app-provider/useAppProvider";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
 import userService from "../services/user.service";
+import { ResponseWrapper } from "../types/ResponseWrapper";
 
 const MyProfilePage = () => {
   const {
     data: { userProfile, user },
-    func: { updateUserProfile, updateUser },
-  } = useAppProvider();
+    func: { updateUserProfile },
+  } = useAppProviderCtx();
 
   useEffect(() => {
-    userService.getMe().then((res: ResponseWrapper) => {
-      if (res.result) {
-        updateUser(res.result);
-      }
-    });
     userService.getProfile().then((res: ResponseWrapper) => {
       if (res.result) updateUserProfile(res.result);
     });
   }, []);
 
-  if (!userProfile && !user) return <></>;
+  if (!userProfile || !user) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10">
       <div className="w-full px-16">

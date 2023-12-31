@@ -2,21 +2,30 @@ import { Button, Select, Table, TextInput } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
 import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import jobService from "../services/job.service";
+import { Job } from "../types/Job";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
 
 const SearchPage = () => {
   const navigate = useNavigate();
+  const {
+    data: { user },
+  } = useAppProviderCtx();
+  const [jobs, setJobs] = useState<Array<Job>>([]);
+  const [jobPagination, setJobPagination] = useState({});
 
-  const data = [
-    {
-      description: "Urgent Senior Project Manager with Fortune in 500 client",
-      owner: "William Chun",
-      postedDate: "2/24/2025",
-      status: "0",
-      role: 2,
-    },
-  ];
+  useEffect(() => {
+    jobService.getJobSearch({}).then((res) => {
+      if (res.result) {
+        const { jobs, ...pagination } = res.result;
+        setJobs(jobs);
+        setJobPagination(pagination);
+      }
+    });
+  }, []);
 
-  const rows = data.map((element, index) => (
+  const rows = jobs.map((element, index) => (
     <Table.Tr
       key={index}
       onClick={() =>
@@ -27,12 +36,12 @@ const SearchPage = () => {
       className="cursor-pointer "
     >
       <Table.Td>{element.description}</Table.Td>
-      <Table.Td className="text-center">{element.owner}</Table.Td>
-      <Table.Td className="text-center">{element.postedDate}</Table.Td>
-      <Table.Td className="text-center">{element.status}</Table.Td>
+      <Table.Td className="text-center">{element.jobOwner}</Table.Td>
+      <Table.Td className="text-center">{element.createdAt}</Table.Td>
+      <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">
-        {element.role > 0 && <IconEdit />}
-        {element.role > 1 && <IconTrash />}
+        {user?.accountType! > 0 && <IconEdit />}
+        {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>
   ));

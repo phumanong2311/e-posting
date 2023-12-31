@@ -50,17 +50,15 @@ const routesConfig = {
                   <MyJobPostingsPage />
                 </Suspense>
               ),
-              children: [
-                {
-                  path: ":id",
-                  name: "job-postings-detail",
-                  element: (
-                    <Suspense>
-                      <MyJobPostingsDetailPage />
-                    </Suspense>
-                  ),
-                },
-              ],
+            },
+            {
+              path: "job-postings/:id",
+              name: "job-postings-detail",
+              element: (
+                <Suspense>
+                  <MyJobPostingsDetailPage />
+                </Suspense>
+              ),
             },
             {
               path: "job-requests",

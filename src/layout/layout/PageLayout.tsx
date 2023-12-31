@@ -1,16 +1,16 @@
 import { useEffect, useMemo } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
-import { useAppProvider } from "../../app-provider/useAppProvider";
 import userService from "../../services/user.service";
-import { ResponseWrapper } from "../../app-provider/providerType";
+import { useAppProviderCtx } from "../../app-provider/AppProvider";
+import { ResponseWrapper } from "../../types/ResponseWrapper";
 
 export const PageLayout = () => {
   const location = useLocation();
   const {
     func: { updateUser },
     data: { user },
-  } = useAppProvider();
+  } = useAppProviderCtx();
   const headlineText = useMemo(() => {
     switch (location.pathname) {
       case "/search":
