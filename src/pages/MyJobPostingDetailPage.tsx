@@ -1,5 +1,7 @@
 import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Job } from "../types/Job";
 import jobService from "../services/job.service";
@@ -12,13 +14,17 @@ const MyJobPostingsDetailPage = () => {
 
   const { isFromSearchPage } = locationState || {};
 
-  useEffect(() => {
-    jobService.getJobDetail({ jobId: id }).then((res) => {
-      if (res.result) {
-        setJobDetail(res.result);
-      }
-    });
-  }, [id]);
+  useQuery({
+    queryKey: [id],
+    queryFn: () =>
+      jobService.getJobDetail({ jobId: id }).then((res) => {
+        if (res.result) {
+          setJobDetail(res.result);
+          return res.result;
+        }
+        return null;
+      }),
+  });
 
   if (!jobDetail) return <></>;
   return (

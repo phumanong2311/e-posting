@@ -1,5 +1,6 @@
 import { Button, Select, Table, TextInput } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -15,15 +16,19 @@ const SearchPage = () => {
   const [jobs, setJobs] = useState<Array<Job>>([]);
   const [jobPagination, setJobPagination] = useState({});
 
-  useEffect(() => {
-    jobService.getJobSearch({}).then((res) => {
-      if (res.result) {
-        const { jobs, ...pagination } = res.result;
-        setJobs(jobs);
-        setJobPagination(pagination);
-      }
-    });
-  }, []);
+  useQuery({
+    queryKey: ["jobsSearch"],
+    queryFn: () =>
+      jobService.getJobSearch({}).then((res) => {
+        if (res.result) {
+          const { jobs, ...pagination } = res.result;
+          setJobs(jobs);
+          setJobPagination(pagination);
+          return res.result;
+        }
+        return null;
+      }),
+  });
 
   const rows = jobs.map((element, index) => (
     <Table.Tr

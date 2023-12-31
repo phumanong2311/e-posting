@@ -10,25 +10,12 @@ const MyProfilePage = () => {
     func: { updateUserProfile },
   } = useAppProviderCtx();
 
-  // useEffect(() => {
-  //   userService.getProfile().then((res: ResponseWrapper) => {
-  //     if (res.result) updateUserProfile(res.result);
-  //   });
-  // }, []);
-
-  // const { data: dataNeeded } = useQuery({
-  //   queryKey: ["userProfile"],
-  //   queryFn: () =>
-  //     userService.getProfile().then((res: ResponseWrapper) => {
-  //       if (res.result) updateUserProfile(res.result);
-  //     }),
-  // });
-
   useQuery({
     queryKey: ["userProfile"],
     queryFn: () =>
       userService.getProfile().then((res: ResponseWrapper) => {
         if (res.result) updateUserProfile(res.result);
+        return res.result;
       }),
   });
 

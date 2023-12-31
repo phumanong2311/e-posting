@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import { Job } from "../types/Job";
 import jobService from "../services/job.service";
@@ -17,15 +18,19 @@ const MyJobPostingsPage = () => {
     data: { user },
   } = useAppProviderCtx();
 
-  useEffect(() => {
-    jobService.getJobs({}).then((res) => {
-      if (res.result) {
-        const { jobs, ...pagination } = res.result;
-        setJobs(jobs);
-        setJobPagination(pagination);
-      }
-    });
-  }, []);
+  useQuery({
+    queryKey: ["jobsList"],
+    queryFn: () =>
+      jobService.getJobs({}).then((res) => {
+        if (res.result) {
+          const { jobs, ...pagination } = res.result;
+          setJobs(jobs);
+          setJobPagination(pagination);
+          return res.result;
+        }
+        return null;
+      }),
+  });
 
   const rows = jobs.map((element, index) => (
     <Table.Tr
