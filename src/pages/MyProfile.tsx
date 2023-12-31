@@ -1,17 +1,27 @@
 import { IconPencil } from "@tabler/icons-react";
+import { useAppProvider } from "../app-provider/useAppProvider";
+import { useEffect } from "react";
+import { ResponseWrapper } from "../app-provider/providerType";
+import userService from "../services/user.service";
 
 const MyProfilePage = () => {
-  const userInfo = {
-    firstName: "William",
-    lastName: "Chung",
-    email: "william@eposting.com",
-    title: "Project Manager",
-    signUpMethod: "Google",
-    signUpDate: "2/22/2025",
-    accessLevel: "admin",
-    accountStatus: "active",
-    emailAuthenticated: true,
-  };
+  const {
+    data: { userProfile, user },
+    func: { updateUserProfile, updateUser },
+  } = useAppProvider();
+
+  useEffect(() => {
+    userService.getMe().then((res: ResponseWrapper) => {
+      if (res.result) {
+        updateUser(res.result);
+      }
+    });
+    userService.getProfile().then((res: ResponseWrapper) => {
+      if (res.result) updateUserProfile(res.result);
+    });
+  }, []);
+
+  if (!userProfile && !user) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10">
       <div className="w-full px-16">
@@ -20,7 +30,7 @@ const MyProfilePage = () => {
             <p className="font-bold text-lg text-right w-[200px]">
               First Name:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.firstName}</p>
+            <p className="text-lg ml-3">{userProfile!.firstName}</p>
           </div>
           <div>
             <IconPencil />
@@ -31,21 +41,21 @@ const MyProfilePage = () => {
             <p className="font-bold text-lg text-right w-[200px]">
               Last Name:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.lastName}</p>
+            <p className="text-lg ml-3">{userProfile!.lastName}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
             <p className="font-bold text-lg text-right w-[200px]">Email: </p>
-            <p className="text-lg ml-3">{userInfo.email}</p>
+            <p className="text-lg ml-3">{user!.email}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
             <p className="font-bold text-lg text-right w-[200px]">Title: </p>
-            <p className="text-lg ml-3">{userInfo.title}</p>
+            <p className="text-lg ml-3">{userProfile!.title}</p>
           </div>
           <div>
             <p className="text-lg ml-3 text-gray-400">
@@ -53,25 +63,25 @@ const MyProfilePage = () => {
             </p>
           </div>
         </div>
-        <div className="flex w-full justify-between items-center my-6">
+        {/* <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
             <p className="font-bold text-lg text-right w-[200px]">
               Sign-up Method:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.signUpMethod}</p>
+            <p className="text-lg ml-3">{user.signUpMethod}</p>
           </div>
           <div>
             <p className="text-lg ml-3 text-gray-400">
               (local, google, linkedin)
             </p>
           </div>
-        </div>
+        </div> */}
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
             <p className="font-bold text-lg text-right w-[200px]">
               Sign-up Date:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.signUpDate}</p>
+            <p className="text-lg ml-3">{user!.signupDate.toString()}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -80,7 +90,7 @@ const MyProfilePage = () => {
             <p className="font-bold text-lg text-right w-[200px]">
               Access Level:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.accessLevel}</p>
+            <p className="text-lg ml-3">{user!.accountType}</p>
           </div>
           <div>
             <p className="text-lg ml-3 text-gray-400">
@@ -93,7 +103,7 @@ const MyProfilePage = () => {
             <p className="font-bold text-lg text-right w-[200px]">
               Account Status:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.accountStatus}</p>
+            <p className="text-lg ml-3">{user!.accountStatus}</p>
           </div>
           <div>
             <p className="text-lg ml-3 text-gray-400">(inactive or active)</p>
@@ -105,7 +115,7 @@ const MyProfilePage = () => {
               Email Authenticated:{" "}
             </p>
             <p className="text-lg ml-3">
-              {userInfo.emailAuthenticated.toString().toUpperCase()}
+              {user!.isEmailAuthenticated.toString().toUpperCase()}
             </p>
           </div>
           <div>

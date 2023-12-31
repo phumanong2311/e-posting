@@ -1,19 +1,18 @@
-import { FunctionType, MainStateType, UserType } from "./providerType";
+import {
+  FunctionType,
+  MainStateType,
+  UserProfile,
+  UserType,
+} from "./providerType";
 
 export const mainDataDefault: MainStateType = {
-  user: {
-    id: "",
-    email: "",
-    signupDate: new Date(),
-    isEmailAuthenticated: false,
-    accountType: 0,
-    accountStatus: "",
-    role: "",
-  },
+  user: null,
+  userProfile: null,
 };
 
 export const mainFuncDefault: FunctionType = {
   updateUser: (user: UserType) => {},
+  updateUserProfile: (profile: UserProfile) => {},
 };
 
 export const defaultDataType = {

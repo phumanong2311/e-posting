@@ -5,7 +5,6 @@ const MyJobPostingsDetailPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { isFromSearchPage } = state || {};
-  console.log('123')
 
   const userInfo = {
     jobTitle: "Urgent Senior Project Manager with Fortune in 500 client",

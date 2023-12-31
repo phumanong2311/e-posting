@@ -1,7 +1,8 @@
+import { ResponseWrapper } from "../app-provider/providerType";
 import { API } from "./api";
 
 class UserService extends API {
-  async getMe() {
+  async getMe(): Promise<ResponseWrapper> {
     //TODO: Call to api GET /user/me
     return new Promise((resolve, reject) => {
       resolve({
@@ -29,7 +30,7 @@ class UserService extends API {
   }
 
   //TODO: Call to api GET /user/profile
-  async getProfile() {
+  async getProfile(): Promise<ResponseWrapper> {
     return new Promise((resolve, reject) => {
       resolve({
         timestamp: "2023-12-20T00:24:41.3925923",
