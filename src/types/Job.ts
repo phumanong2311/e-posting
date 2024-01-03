@@ -1,0 +1,28 @@
+export type Job = {
+  jobPostStatus: number;
+  favoritedCount: number;
+  applyCount: number;
+  _id: string;
+  jobOwnerId: string;
+  jobOwner: string;
+  jobTitle: string;
+  description: string;
+  company: string;
+  city: string;
+  state: string;
+  country: string;
+  workLocationType: string;
+  employmentType: string;
+  yearsOfExperience: number;
+  baseSalary: number;
+  skills: string[];
+  totalCompensation: number;
+  visibleTo: string;
+  expireDate: string;
+  createdAt: string;
+  updatedAt: string;
+  closingDate: string;
+  archiveDate: string;
+  viewCount: number;
+  questionnaire: [];
+};

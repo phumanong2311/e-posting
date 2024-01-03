@@ -1,26 +1,32 @@
 import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import jobService from "../services/job.service";
+import { Job } from "../types/Job";
 
 const MyJobPostingsDetailPage = () => {
-  const { state } = useLocation();
+  const { state: locationState } = useLocation();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { isFromSearchPage } = state || {};
+  const [jobDetail, setJobDetail] = useState<Job>();
 
-  const userInfo = {
-    jobTitle: "Urgent Senior Project Manager with Fortune in 500 client",
-    company: "Adobe",
-    city: "San jose",
-    state: "CA",
-    workplaceTYpe: "Hybrid",
-    employmentType: "Fulltime",
-    requireYearOfExperience: "8",
-    salary: "$100.000",
-    totalComp: "$1.250",
-    closingDate: "2/30/2025",
-    jobDescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    requiredSkills: "Java, React, MongoDB, NodeJS",
-  };
+  const { isFromSearchPage } = locationState || {};
+
+  useQuery({
+    queryKey: [id],
+    queryFn: () =>
+      jobService.getJobDetail({ jobId: id }).then((res) => {
+        if (res.result) {
+          setJobDetail(res.result);
+          return res.result;
+        }
+        return null;
+      }),
+  });
+
+  if (!jobDetail) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
       <div className="w-full px-16">
@@ -39,7 +45,7 @@ const MyJobPostingsDetailPage = () => {
               <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
                 Owner:
               </p>
-              <p className="text-lg ml-3 font-bold">William Chung</p>
+              <p className="text-lg ml-3 font-bold">{jobDetail!.jobOwner}</p>
             </div>
             <div className="flex gap-3">
               <IconPencil />
@@ -52,7 +58,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Job Title:
             </p>
-            <p className="text-lg ml-3 font-bold">{userInfo.jobTitle}</p>
+            <p className="text-lg ml-3 font-bold">{jobDetail!.jobTitle}</p>
           </div>
           <div className="flex gap-3">
             {!isFromSearchPage && (
@@ -68,7 +74,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Company:
             </p>
-            <p className="text-lg ml-3">{userInfo.company}</p>
+            <p className="text-lg ml-3">{jobDetail!.company}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -77,7 +83,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               City:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.city}</p>
+            <p className="text-lg ml-3">{jobDetail!.city}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -86,7 +92,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               State:{" "}
             </p>
-            <p className="text-lg ml-3">{userInfo.state}</p>
+            <p className="text-lg ml-3">{jobDetail!.state}</p>
           </div>
           <div>
             {/* <p className="text-lg ml-3 text-gray-400">
@@ -99,7 +105,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Workplace Type:
             </p>
-            <p className="text-lg ml-3">{userInfo.workplaceTYpe}</p>
+            <p className="text-lg ml-3">{jobDetail!.workLocationType}</p>
           </div>
           <div>
             {/* <p className="text-lg ml-3 text-gray-400">
@@ -112,7 +118,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Employment Type:
             </p>
-            <p className="text-lg ml-3">{userInfo.employmentType}</p>
+            <p className="text-lg ml-3">{jobDetail!.employmentType}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -121,7 +127,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Required years of experience:
             </p>
-            <p className="text-lg ml-3">{userInfo.requireYearOfExperience}</p>
+            <p className="text-lg ml-3">{jobDetail!.yearsOfExperience}</p>
           </div>
           <div></div>
         </div>
@@ -130,7 +136,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Salary:
             </p>
-            <p className="text-lg ml-3">{userInfo.salary}</p>
+            <p className="text-lg ml-3">{jobDetail!.baseSalary}</p>
           </div>
           <div></div>
         </div>
@@ -139,7 +145,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Salary:
             </p>
-            <p className="text-lg ml-3">{userInfo.salary}</p>
+            <p className="text-lg ml-3">{jobDetail!.baseSalary}</p>
           </div>
           <div></div>
         </div>
@@ -148,7 +154,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Total Comp:
             </p>
-            <p className="text-lg ml-3">{userInfo.totalComp}</p>
+            <p className="text-lg ml-3">{jobDetail!.totalCompensation}</p>
           </div>
           <div></div>
         </div>
@@ -157,16 +163,16 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Closing Date:
             </p>
-            <p className="text-lg ml-3">{userInfo.closingDate}</p>
+            <p className="text-lg ml-3">{jobDetail!.closingDate}</p>
           </div>
           <div></div>
         </div>
         <div className="flex w-full justify-between items-center my-6">
-          <div className="flex items-center">
+          <div className="flex ">
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Job Description:
             </p>
-            <p className="text-lg ml-3">{userInfo.jobDescription}</p>
+            <p className="text-lg ml-3">{jobDetail!.description}</p>
           </div>
           <div></div>
         </div>
@@ -175,7 +181,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Required Skills
             </p>
-            <p className="text-lg ml-3">{userInfo.requiredSkills}</p>
+            <p className="text-lg ml-3">{jobDetail!.skills}</p>
           </div>
           <div></div>
         </div>

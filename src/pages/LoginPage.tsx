@@ -2,12 +2,21 @@ import { Button, Checkbox, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { IconEye, IconMail } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppProviderCtx } from "../app-provider";
 import { toast } from "../lib/toast";
+import authService from "../services/auth.service";
+import userService from "../services/user.service";
+import { LoginPayload } from "../types/Auth";
+import { ResponseWrapper } from "../types/ResponseWrapper";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const {
+    func: { updateUser },
+  } = useAppProviderCtx();
   const [showPass, setShowPass] = useState(false);
   const form = useForm({
     initialValues: {
@@ -15,9 +24,26 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const onSubmit = (values) => {
-    toast.success("Login Successful !");
-    navigate("/dashboard/profile");
+
+  const getUser = useMutation({
+    mutationFn: () =>
+      userService.getMe().then((res: ResponseWrapper) => {
+        if (res.result) {
+          updateUser(res.result);
+          toast.success("Login Successful !");
+          navigate("/dashboard/profile");
+        }
+      }),
+    onError: async (error: Error) => {
+      toast.error(`Login Failed !, ${error.message}`);
+    },
+  });
+
+  const onSubmit = async (data: LoginPayload) => {
+    await authService.login(data).then((r) => {
+      localStorage.setItem("access-token", "123");
+    });
+    await getUser.mutateAsync();
   };
   return (
     <div className="h-screen w-full flex justify-center items-center">
@@ -25,7 +51,7 @@ const LoginPage = () => {
         <div className="text-purple-700 font-bold text-3xl mb-[50px]">
           ePosting Admin Portal
         </div>
-        <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
+        <form onSubmit={form.onSubmit(onSubmit)}>
           <TextInput
             label={<p className="text-lg text-black-300 mb-2">Email Address</p>}
             placeholder="william@eposting.com"

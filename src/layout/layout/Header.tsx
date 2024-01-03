@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Divider } from "@mantine/core";
-const Header = ({ containerClass = "" }) => {
+export const Header = ({ containerClass = "" }) => {
   const location = useLocation();
   const headerLinks = useMemo(() => {
     return [
@@ -31,7 +31,7 @@ const Header = ({ containerClass = "" }) => {
     <header className={containerClass + " w-full h-12 bg-white"}>
       <div className="w-full flex">
         {headerLinks.map((link, index) => (
-          <>
+          <Fragment key={index}>
             <Link
               to={link.path}
               className={
@@ -54,12 +54,10 @@ const Header = ({ containerClass = "" }) => {
             {index !== headerLinks.length - 1 && (
               <Divider orientation="vertical" />
             )}
-          </>
+          </Fragment>
         ))}
       </div>
       <Divider my="md" />
     </header>
   );
 };
-
-export default Header;
