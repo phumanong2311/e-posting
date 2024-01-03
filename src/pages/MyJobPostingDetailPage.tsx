@@ -1,10 +1,10 @@
 import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Job } from "../types/Job";
 import jobService from "../services/job.service";
+import { Job } from "../types/Job";
 
 const MyJobPostingsDetailPage = () => {
   const { state: locationState } = useLocation();

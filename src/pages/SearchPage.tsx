@@ -1,12 +1,12 @@
 import { Button, Select, Table, TextInput } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
 import jobService from "../services/job.service";
 import { Job } from "../types/Job";
-import { useAppProviderCtx } from "../app-provider/AppProvider";
 
 const SearchPage = () => {
   const navigate = useNavigate();

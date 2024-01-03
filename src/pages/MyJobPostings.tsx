@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import { Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Job } from "../types/Job";
-import jobService from "../services/job.service";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
+import jobService from "../services/job.service";
+import { Job } from "../types/Job";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
