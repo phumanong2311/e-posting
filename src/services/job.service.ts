@@ -291,6 +291,10 @@ class JobService extends API {
       })
     );
   }
+
+  async getListJob(payload: any) {
+    return this.getAPI("/job", { ...payload });
+  }
 }
 
 const jobService = new JobService();

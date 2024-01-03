@@ -13,6 +13,8 @@ const MyJobPostingsPage = () => {
   const [jobs, setJobs] = useState<Array<Job>>([]);
   const [jobPagination, setJobPagination] = useState({
     page: 1,
+    // workLocationType: "Remote",
+    // yearsOfExperience: "Mid-Senior",
   });
   const {
     data: { user },
@@ -21,14 +23,17 @@ const MyJobPostingsPage = () => {
   useQuery({
     queryKey: ["jobsList"],
     queryFn: () =>
-      jobService.getJobs({}).then((res) => {
-        if (res.result) {
-          const { jobs, ...pagination } = res.result;
-          setJobs(jobs);
-          setJobPagination(pagination);
-          return res.result;
-        }
-        return null;
+      // jobService.getJobs({}).then((res) => {
+      //   if (res.result) {
+      //     const { jobs, ...pagination } = res.result;
+      //     setJobs(jobs);
+      //     setJobPagination(pagination);
+      //     return res.result;
+      //   }
+      //   return null;
+      // }),
+      jobService.getListJob(jobPagination).then((res) => {
+        console.log("res", res);
       }),
   });
 

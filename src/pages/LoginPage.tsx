@@ -7,7 +7,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../app-provider";
 import { toast } from "../lib/toast";
+import authService from "../services/auth.service";
 import userService from "../services/user.service";
+import { LoginPayload } from "../types/Auth";
 import { ResponseWrapper } from "../types/ResponseWrapper";
 
 const LoginPage = () => {
@@ -36,8 +38,11 @@ const LoginPage = () => {
       toast.error(`Login Failed !, ${error.message}`);
     },
   });
-  
-  const onSubmit = async () => {
+
+  const onSubmit = async (data: LoginPayload) => {
+    await authService.login(data).then((r) => {
+      localStorage.setItem("access-token", "123");
+    });
     await getUser.mutateAsync();
   };
   return (

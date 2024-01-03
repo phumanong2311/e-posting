@@ -1,12 +1,13 @@
 import { useEffect, useMemo } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
-import userService from "../../services/user.service";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
+import userService from "../../services/user.service";
 import { ResponseWrapper } from "../../types/ResponseWrapper";
 
 export const PageLayout = () => {
   const location = useLocation();
+  const token = localStorage.getItem("access-token");
   const {
     func: { updateUser },
     data: { user },
@@ -35,6 +36,12 @@ export const PageLayout = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, [token]);
 
   if (!user) return <></>;
   return (
