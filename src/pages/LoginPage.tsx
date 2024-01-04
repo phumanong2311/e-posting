@@ -41,7 +41,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginPayload) => {
     await authService.login(data).then((r) => {
-      localStorage.setItem("access-token", "123");
+      localStorage.setItem("accessToken", r.accessToken);
     });
     await getUser.mutateAsync();
   };

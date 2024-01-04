@@ -14,7 +14,7 @@ export class API {
 
   getHeader() {
     return {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
   }
 

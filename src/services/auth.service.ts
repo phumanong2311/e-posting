@@ -1,8 +1,8 @@
-import { LoginPayload } from "../types/Auth";
+import { LoginPayload, LoginResult } from "../types/Auth";
 import { API } from "./api";
 
 class AuthService extends API {
-  async login(payload: LoginPayload) {
+  async login(payload: LoginPayload): Promise<LoginResult> {
     return this.postAPI("/v1/auth/login", { ...payload });
   }
   async get_access_token() {

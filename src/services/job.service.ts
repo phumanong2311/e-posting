@@ -3,13 +3,13 @@ import { API } from "./api";
 
 class JobService extends API {
   async getJobs({ page = 1 }: { page?: number }): Promise<ResponseWrapper> {
-    const url = `/job?page=${page}`;
+    const url = `job?page=${page}`;
     return this.getAPI(url);
   }
 
   async getJobByOwner({ ownerId = "", page = 1, excludeJobPostId = "" }) {
     //TODO: Call to api GET /job/owner/:ownerId
-    const url = `/job/owner/${ownerId}?page=${page}&excludeJobPostId=${excludeJobPostId}`;
+    const url = `job/owner/${ownerId}?page=${page}&excludeJobPostId=${excludeJobPostId}`;
     return this.getAPI(url);
   }
 
@@ -20,17 +20,17 @@ class JobService extends API {
     closingDate = "",
     keywords = "",
   }): Promise<ResponseWrapper> {
-    const url = `/job/search?workLocationType=${workLocationType}&employmentType=${employmentType}&yearsOfExperience=${yearsOfExperience}&closingDate=${closingDate}&keywords=${keywords}`;
+    const url = `job/search?workLocationType=${workLocationType}&employmentType=${employmentType}&yearsOfExperience=${yearsOfExperience}&closingDate=${closingDate}&keywords=${keywords}`;
     return this.getAPI(url);
   }
 
   async getJobDetail({ jobId = "" }): Promise<ResponseWrapper> {
-    const url = `/job/${jobId}`;
+    const url = `job/${jobId}`;
     return this.getAPI(url);
   }
 
   async getListJob(payload: any) {
-    return this.getAPI("/job", { ...payload });
+    return this.getAPI("job", { ...payload });
   }
 }
 
