@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+import { Button, Table } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import jobService from "../services/job.service";
 import { Job } from "../types/Job";
+import { JobPagination } from "../types/JobPagination";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState<Array<Job>>([]);
-  const [jobPagination, setJobPagination] = useState({
+  const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
   });
   const {
@@ -19,9 +20,9 @@ const MyJobPostingsPage = () => {
   } = useAppProviderCtx();
 
   useQuery({
-    queryKey: ["jobsList"],
+    queryKey: ["jobsList", jobPagination.page],
     queryFn: () =>
-      jobService.getJobs({}).then((res) => {
+      jobService.getJobs({ page: jobPagination?.page }).then((res) => {
         if (res.result) {
           const { jobs, ...pagination } = res.result;
           setJobs(jobs);
@@ -31,6 +32,18 @@ const MyJobPostingsPage = () => {
         return null;
       }),
   });
+
+  const onNextPage = () => {
+    if (jobPagination?.maxPages && jobPagination?.page) {
+      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
+    }
+  };
+
+  const onPreviousPage = () => {
+    if (jobPagination?.page! > 1) {
+      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
+    }
+  };
 
   const rows = jobs.map((element, index) => (
     <Table.Tr
@@ -60,9 +73,31 @@ const MyJobPostingsPage = () => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-      <p className="absolute right-16 bottom-16 text-purple-800">
-        next page &gt;{" "}
-      </p>
+      <div className="flex w-full justify-between">
+        {jobPagination.page! > 1 ? (
+          <Button
+            variant="outline"
+            className="w-fit"
+            size="sm"
+            onClick={onPreviousPage}
+          >
+            &lt; previous page
+          </Button>
+        ) : (
+          <div></div>
+        )}
+        {jobPagination.maxPages! > 1 &&
+          jobPagination.page! < jobPagination.maxPages! && (
+            <Button
+              variant="outline"
+              className="w-fit float-right"
+              size="sm"
+              onClick={onNextPage}
+            >
+              next page &gt;
+            </Button>
+          )}
+      </div>
     </div>
   );
 };
