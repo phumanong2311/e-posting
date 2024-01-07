@@ -1,15 +1,17 @@
-import { Button, Select, Table, TextInput } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { Button, Table } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-import { IconEdit, IconSearch, IconTrash } from "@tabler/icons-react";
-import { SyntheticEvent, useState } from "react";
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
+import { Action, Filter } from "../components/SearchComponent";
+import { toast } from "../lib/toast";
 import jobService from "../services/job.service";
 import { Job } from "../types/Job";
-import { SearchParameter, SearchType } from "../types/SearchType";
-import { useDebouncedValue } from "@mantine/hooks";
 import { JobPagination } from "../types/JobPagination";
+import { SearchParameter, SearchType } from "../types/SearchType";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -22,18 +24,36 @@ const SearchPage = () => {
   });
 
   const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs);
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
-  const [searchKeyword, setSearchKeyword] = useState("");
   const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500);
 
-  useQuery({
-    queryKey: [
-      "jobsSearch",
-      searchParameter,
-      jobPagination.page,
-      debouncedSearchKeyword,
-    ],
-    queryFn: () =>
+  useEffect(() => {
+    if (searchKeyword !== "") {
+      getListJobSearch();
+    } else {
+      getListJob();
+    }
+  }, [searchKeyword, searchType, searchParameter]);
+
+  const { mutate: getListJob } = useMutation({
+    mutationFn: () =>
+      jobService.getJobs({ page: jobPagination?.page }).then((res) => {
+        if (res.result) {
+          const { jobs, ...pagination } = res.result;
+          setJobs(jobs);
+          setJobPagination(pagination);
+          return res.result;
+        }
+        return null;
+      }),
+    onError: () => {
+      toast.error("Can not get data!!");
+    },
+  });
+
+  const { mutate: getListJobSearch } = useMutation({
+    mutationFn: () =>
       jobService
         .getJobSearch({
           ...searchParameter,
@@ -49,6 +69,9 @@ const SearchPage = () => {
           }
           return null;
         }),
+    onError: () => {
+      toast.error("Can not get data!!");
+    },
   });
 
   const onChangeSearchType = (e: SyntheticEvent<HTMLInputElement, Event>) => {
@@ -99,16 +122,17 @@ const SearchPage = () => {
   };
 
   const rows = jobs.map((element, index) => (
-    <Table.Tr
-      key={index}
-      onClick={() =>
-        navigate(`/dashboard/job-postings/${element._id}`, {
-          state: { isFromSearchPage: true },
-        })
-      }
-      className="cursor-pointer "
-    >
-      <Table.Td className="text-ellipsis">{element.description}</Table.Td>
+    <Table.Tr key={index}>
+      <Table.Td
+        className="text-ellipsis cursor-pointer"
+        onClick={() =>
+          navigate(`/dashboard/job-postings/${element._id}`, {
+            state: { isFromSearchPage: true },
+          })
+        }
+      >
+        {element.description}
+      </Table.Td>
       <Table.Td className="text-center">{element.jobOwner}</Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
@@ -121,148 +145,18 @@ const SearchPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="max-w-[400px] mt-10 flex items-center">
-        <TextInput
-          leftSection={<IconSearch />}
-          radius={100}
-          classNames={{
-            input: "rounded-tr-none rounded-br-none border-r-0",
-          }}
-          className="w-[70%]"
-          name="keyword"
-          value={searchKeyword}
-          onChange={(e) => onChangeSearchKeyword(e)}
-        />
-        <Select
-          placeholder="Filters"
-          radius={100}
-          classNames={{
-            input: "rounded-tl-none rounded-bl-none",
-          }}
-          className="mt-0 w-[30%]"
-          data={[
-            { value: SearchType.Jobs, label: "Jobs" },
-            { value: SearchType.Companies, label: "Companies" },
-          ]}
-          value={searchType}
-          onSelect={(e) => onChangeSearchType(e)}
-        />
-      </div>
+      <Action
+        searchType={searchType}
+        searchKeyword={searchKeyword}
+        onChangeSearchKeyword={onChangeSearchKeyword}
+        onChangeSearchType={onChangeSearchType}
+      />
 
-      <div className="w-full px-16 flex justify-between items-center gap-4 mt-5">
-        <Select
-          placeholder="Onsite/Remote"
-          data={[
-            {
-              value: "onsite",
-              label: "Onsite",
-            },
-            {
-              value: "remote",
-              label: "Remote",
-            },
-            {
-              value: "hybrid",
-              label: "Hybrid",
-            },
-          ]}
-          radius={100}
-          className="w-full"
-          name="workLocationType"
-          value={searchParameter.workLocationType}
-          onChange={(value) =>
-            onChangeParameter("workLocationType", value as string)
-          }
-        />
-        <Select
-          placeholder="Full Time/Contract"
-          data={[
-            {
-              value: "fulltime",
-              label: "Fulltime",
-            },
-            {
-              value: "parttime",
-              label: "Part Time",
-            },
-            {
-              value: "contract",
-              label: "Contract",
-            },
-          ]}
-          radius={100}
-          className="w-full"
-          name="employmentType"
-          value={searchParameter.employmentType}
-          onChange={(value) =>
-            onChangeParameter("employmentType", value as string)
-          }
-        />
-        <Select
-          placeholder="Experience Level"
-          data={[
-            {
-              value: "entry",
-              label: "Entry",
-            },
-            {
-              value: "entry-mid",
-              label: "Entry-Mid",
-            },
-            {
-              value: "mid-senior",
-              label: "Mid-Senior",
-            },
-            {
-              value: "senior",
-              label: "Senior",
-            },
-          ]}
-          radius={100}
-          className="w-full"
-          name="yearsOfExperience"
-          value={searchParameter.yearsOfExperience}
-          onChange={(value) =>
-            onChangeParameter("yearsOfExperience", value as string)
-          }
-        />
-        <Select
-          placeholder="Closing Date"
-          data={[
-            {
-              value: "24-hour",
-              label: "24 Hours",
-            },
-            {
-              value: "1-week",
-              label: "1 Week",
-            },
-            {
-              value: "2-week",
-              label: "2 Weeks",
-            },
-            {
-              value: "4-week",
-              label: "4 Weeks",
-            },
-          ]}
-          radius={100}
-          className="w-full"
-          name="closingDate"
-          value={searchParameter.closingDate}
-          onChange={(value) =>
-            onChangeParameter("closingDate", value as string)
-          }
-        />
-        <Button
-          variant="outline"
-          className="w-[500px]"
-          size="sm"
-          onClick={() => onResetFilter()}
-        >
-          Reset filters
-        </Button>
-      </div>
+      <Filter
+        searchParameter={searchParameter}
+        onChangeParameter={onChangeParameter}
+        onResetFilter={onResetFilter}
+      />
 
       <div className="w-full px-14 mt-5">
         <Table withRowBorders={false} verticalSpacing="md">

@@ -46,12 +46,13 @@ const MyJobPostingsPage = () => {
   };
 
   const rows = jobs.map((element, index) => (
-    <Table.Tr
-      key={index}
-      onClick={() => navigate(`/dashboard/job-postings/${element._id}`)}
-      className="cursor-pointer "
-    >
-      <Table.Td>{element.description}</Table.Td>
+    <Table.Tr key={index}>
+      <Table.Td
+        className="cursor-pointer "
+        onClick={() => navigate(`/dashboard/job-postings/${element._id}`)}
+      >
+        {element.description}
+      </Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">

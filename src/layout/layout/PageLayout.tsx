@@ -37,12 +37,6 @@ export const PageLayout = () => {
     });
   }, [token]);
 
-  useEffect(() => {
-    if (!token) {
-      window.location.href = "/login";
-    }
-  }, [token]);
-
   if (!user) return <></>;
   return (
     <>

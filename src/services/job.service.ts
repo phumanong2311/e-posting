@@ -1,5 +1,4 @@
 import { ResponseWrapper } from "../types/ResponseWrapper";
-import { SearchType } from "../types/SearchType";
 import { buildQueryParams } from "../utils";
 import { API } from "./api";
 
@@ -22,7 +21,6 @@ class JobService extends API {
     closingDate = "",
     keyword = "",
     page = 1,
-    searchType = SearchType.Jobs,
   }): Promise<ResponseWrapper> {
     const url =
       `job/search?` +
@@ -33,7 +31,6 @@ class JobService extends API {
         closingDate,
         keyword,
         page,
-        searchType,
       });
     return this.getAPI(url);
   }
