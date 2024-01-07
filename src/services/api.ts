@@ -6,15 +6,12 @@ import { toast } from "../lib/toast";
 export class API {
   basePath = instance.defaults.baseURL;
   getUrl(target: string) {
-    if (target.startsWith("http")) {
-      return target;
-    }
     return `${this.basePath}${target}`;
   }
 
   getHeader() {
     return {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
   }
 
@@ -28,13 +25,7 @@ export class API {
         headers: { ...this.getHeader(), ...(options?.headers || {}) },
       })
       .then((resp) => {
-        const isResponseError = this.isResponseError(resp);
-
-        if (isResponseError) {
-          this.handleError(resp.data);
-        } else {
-          return resp.data;
-        }
+        return resp.data;
       })
       .catch((err) => this.handleError(err));
   }
@@ -46,16 +37,12 @@ export class API {
         params: params,
       })
       .then((resp) => {
-        if (this.isResponseError(resp)) {
-          this.handleError(resp.data);
-        } else {
-          return resp.data;
-        }
+        return resp.data;
       })
       .catch((err) => this.handleError(err));
   }
 
-  handleError(error: AxiosResponse | any) {
+  async handleError(error: AxiosResponse | any) {
     if (error.response) {
       if (error.response.data) {
         const message =
@@ -80,16 +67,5 @@ export class API {
 
     // Something happened in setting up the request that triggered an Error
     return Promise.reject(error.message);
-  }
-
-  _isAuthenticated() {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      return false;
-    }
-  }
-
-  clearData() {
-    localStorage.removeItem("access_token");
   }
 }

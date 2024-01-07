@@ -7,7 +7,7 @@ import { ResponseWrapper } from "../../types/ResponseWrapper";
 
 export const PageLayout = () => {
   const location = useLocation();
-  const token = localStorage.getItem("access-token");
+  const token = localStorage.getItem("accessToken");
   const {
     func: { updateUser },
     data: { user },
@@ -35,12 +35,6 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
-  }, []);
-
-  useEffect(() => {
-    if (!token) {
-      window.location.href = "/login";
-    }
   }, [token]);
 
   if (!user) return <></>;

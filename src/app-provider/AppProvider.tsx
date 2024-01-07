@@ -21,8 +21,8 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
     <AppContext.Provider value={{ data, func }}>
       <QueryClientProvider client={queryClient}>
         <MantineProvider>
-            <Notifications />
-            {children}
+          <Notifications />
+          {children}
         </MantineProvider>
       </QueryClientProvider>
     </AppContext.Provider>
