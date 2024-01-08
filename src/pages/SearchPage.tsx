@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import { Action, Filter } from "../components/SearchComponent";
-import { toast } from "../lib/toast";
 import jobService from "../services/job.service";
 import { Job } from "../types/Job";
 import { JobPagination } from "../types/JobPagination";
@@ -27,53 +26,6 @@ const SearchPage = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
   const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500);
-
-  // useEffect(() => {
-  //   if (searchKeyword !== "") {
-  //     getListJobSearch();
-  //   } else {
-  //     getListJob();
-  //   }
-  // }, [searchKeyword, searchType, searchParameter]);
-
-  // const { mutate: getListJob } = useMutation({
-  //   mutationFn: () =>
-  //     jobService.getJobs({ page: jobPagination?.page }).then((res) => {
-  //       if (res.result) {
-  //         const { jobs, ...pagination } = res.result;
-  //         setJobs(jobs);
-  //         setJobPagination(pagination);
-  //         return res.result;
-  //       }
-  //       return null;
-  //     }),
-  //   onError: () => {
-  //     toast.error("Can not get data!!");
-  //   },
-  // });
-
-  // const { mutate: getListJobSearch } = useMutation({
-  //   mutationFn: () =>
-  //     jobService
-  //       .getJobSearch({
-  //         ...searchParameter,
-  //         page: jobPagination?.page,
-  //         keyword: searchKeyword,
-  //       })
-  //       .then((res) => {
-  //         if (res.result) {
-  //           const { jobs, ...pagination } = res.result;
-  //           setJobs(jobs);
-  //           setJobPagination(pagination);
-  //           return res.result;
-  //         }
-  //         return null;
-  //       }),
-  //   onError: () => {
-  //     toast.error("Can not get data!!");
-  //   },
-  // });
-
 
   useQuery({
     queryKey: [
