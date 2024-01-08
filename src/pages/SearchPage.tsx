@@ -1,5 +1,5 @@
 import { Button, Table } from "@mantine/core";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { useDebouncedValue } from "@mantine/hooks";
@@ -28,51 +28,86 @@ const SearchPage = () => {
   const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
   const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500);
 
-  useEffect(() => {
-    if (searchKeyword !== "") {
-      getListJobSearch();
-    } else {
-      getListJob();
-    }
-  }, [searchKeyword, searchType, searchParameter]);
+  // useEffect(() => {
+  //   if (searchKeyword !== "") {
+  //     getListJobSearch();
+  //   } else {
+  //     getListJob();
+  //   }
+  // }, [searchKeyword, searchType, searchParameter]);
 
-  const { mutate: getListJob } = useMutation({
-    mutationFn: () =>
-      jobService.getJobs({ page: jobPagination?.page }).then((res) => {
+  // const { mutate: getListJob } = useMutation({
+  //   mutationFn: () =>
+  //     jobService.getJobs({ page: jobPagination?.page }).then((res) => {
+  //       if (res.result) {
+  //         const { jobs, ...pagination } = res.result;
+  //         setJobs(jobs);
+  //         setJobPagination(pagination);
+  //         return res.result;
+  //       }
+  //       return null;
+  //     }),
+  //   onError: () => {
+  //     toast.error("Can not get data!!");
+  //   },
+  // });
+
+  // const { mutate: getListJobSearch } = useMutation({
+  //   mutationFn: () =>
+  //     jobService
+  //       .getJobSearch({
+  //         ...searchParameter,
+  //         page: jobPagination?.page,
+  //         keyword: searchKeyword,
+  //       })
+  //       .then((res) => {
+  //         if (res.result) {
+  //           const { jobs, ...pagination } = res.result;
+  //           setJobs(jobs);
+  //           setJobPagination(pagination);
+  //           return res.result;
+  //         }
+  //         return null;
+  //       }),
+  //   onError: () => {
+  //     toast.error("Can not get data!!");
+  //   },
+  // });
+
+
+  useQuery({
+    queryKey: [
+      'jobsSearch',
+      searchParameter,
+      jobPagination.page,
+      debouncedSearchKeyword,
+    ],
+    queryFn: () =>
+      searchKeyword ? 
+      jobService.getJobSearch({
+        ...searchParameter,
+        page: jobPagination?.page,
+        keyword: searchKeyword,
+      }).then((res) => {
         if (res.result) {
-          const { jobs, ...pagination } = res.result;
-          setJobs(jobs);
-          setJobPagination(pagination);
-          return res.result;
+          const { jobs, ...pagination } = res.result
+          setJobs(jobs)
+          setJobPagination(pagination)
+          return res.result
         }
-        return null;
+        return null
+      }) : jobService.getJobs({
+        page: jobPagination?.page,
+      }).then((res) => {
+        if (res.result) {
+          const { jobs, ...pagination } = res.result
+          setJobs(jobs)
+          setJobPagination(pagination)
+          return res.result
+        }
+        return null
       }),
-    onError: () => {
-      toast.error("Can not get data!!");
-    },
-  });
-
-  const { mutate: getListJobSearch } = useMutation({
-    mutationFn: () =>
-      jobService
-        .getJobSearch({
-          ...searchParameter,
-          page: jobPagination?.page,
-          keyword: searchKeyword,
-        })
-        .then((res) => {
-          if (res.result) {
-            const { jobs, ...pagination } = res.result;
-            setJobs(jobs);
-            setJobPagination(pagination);
-            return res.result;
-          }
-          return null;
-        }),
-    onError: () => {
-      toast.error("Can not get data!!");
-    },
-  });
+  })
 
   const onChangeSearchType = (e: SyntheticEvent<HTMLInputElement, Event>) => {
     if (!e.target) return;
