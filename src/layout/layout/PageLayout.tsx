@@ -30,6 +30,9 @@ export const PageLayout = () => {
   }, [location]);
 
   useEffect(() => {
+    if (!token) {
+      window.location.href = "/login";
+    }
     userService.getMe().then((res: ResponseWrapper) => {
       if (res.result) {
         updateUser(res.result);

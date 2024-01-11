@@ -1,74 +1,77 @@
 import { Suspense, lazy } from "react";
 import { RouteObject, createBrowserRouter } from "react-router-dom";
+import { EditJobPosting } from "./components/JobPosting";
 import { PageLayout } from "./layout/layout";
 import { DashboardLayout } from "./layout/layout/DashboardLayout";
-import { DefaultPage, NotFoundPage } from "./pages";
+import { NotFoundPage } from "./pages";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
-const MyJobPostingsPage = lazy(() => import("./pages/MyJobPostings"));
+const MyJobPostingsPage = lazy(() => import("./components/JobPosting/MyJobPostings"));
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(
-  () => import("./pages/MyJobPostingDetailPage")
+  () => import("./components/JobPosting/MyJobPostingDetailPage")
 );
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const routesConfig: RouteObject[] = [
   {
     path: "/",
-    element: <DefaultPage />,
+    element: <PageLayout />,
     children: [
       {
-        path: "/",
-        element: <PageLayout />,
+        path: "dashboard",
+        element: <DashboardLayout />,
         children: [
           {
-            path: "dashboard",
-            element: <DashboardLayout />,
-            children: [
-              {
-                path: "profile",
-                element: (
-                  <Suspense>
-                    <MyProfilePage />
-                  </Suspense>
-                ),
-              },
-              {
-                path: "job-postings",
-                element: (
-                  <Suspense>
-                    <MyJobPostingsPage />
-                  </Suspense>
-                ),
-              },
-              {
-                path: "job-postings/:id",
-                element: (
-                  <Suspense>
-                    <MyJobPostingsDetailPage />
-                  </Suspense>
-                ),
-              },
-              {
-                path: "job-requests",
-                element: (
-                  <Suspense>
-                    <MyJobRequestsPage />
-                  </Suspense>
-                ),
-              },
-            ],
-          },
-          {
-            path: "search",
+            path: "profile",
             element: (
               <Suspense>
-                <SearchPage />
+                <MyProfilePage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "job-postings",
+            element: (
+              <Suspense>
+                <MyJobPostingsPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "job-postings/:id",
+            element: (
+              <Suspense>
+                <MyJobPostingsDetailPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "edit-job-postings/:id",
+            element: (
+              <Suspense>
+                <EditJobPosting />
+              </Suspense>
+            ),
+          },
+          {
+            path: "job-requests",
+            element: (
+              <Suspense>
+                <MyJobRequestsPage />
               </Suspense>
             ),
           },
         ],
+      },
+      {
+        path: "search",
+        element: (
+          <Suspense>
+            <SearchPage />
+          </Suspense>
+        ),
       },
     ],
   },

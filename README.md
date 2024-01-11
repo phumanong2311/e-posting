@@ -9,110 +9,108 @@ e-posting
 | ------------------------------------- | ------------------------------------ |
 | Work Location Type = workLocationType | Onsite, Remote, Hybrid               |
 | Employment Type = employmentType      | Full Time, Part Time, Contract       |
-| Experience Level = yearsOfExperience  | Entry, Entry-Mid, Mid-Senior, Senior |
+| Experience Level = yearsOfExperience  | Entry, Entry-Mid, Mid-Senior, Senior | 
 | Date = closingDate                    | 24-hour, 1 week, 2 week, 4 weeks     |
 
 ### User Account Model
 
-| Field                       | Type    |
-| --------------------------- | ------- |
-| id                          | str     |
-| email                       | str     |
-| password                    | str     |
-| signupDate                  | date    |
-| isEmailAuthenticated        | boolean |
-| accountType                 | int     |
-| accountStatus               | str     |
-| role                        | str     |
-| accountSettings             | str     |
-| lastActive                  | date    |
-| provider                    | str     |
-| profile                     | str     |
-| favorites                   | str     |
-| following                   | str     |
-| verificationToken           | str     |
-| passwordResetToken          | str     |
-| tokenExpirationDate         | instant |
-| failedLoginAttempts         | instant |
-| lastFailedLoginAttempt      | instant |
-| passwordRecoveryAttempts    | int     |
-| lastPasswordRecoveryAttempt | instant |
+| Field                          | Type     |
+| ------------------------------ | -------- |
+| id                             | str      |
+| email                          | str      |
+| password                       | str      |
+| signupDate                     | date     |
+| isEmailAuthenticated           | boolean  |
+| accountType                    | int      |
+| accountStatus                  | str      |
+| role                           | str      |
+| accountSettings                | str      |
+| lastActive                     | date     |
+| provider                       | str      |
+| profile                        | str      |
+| favorites                      | str      |
+| following                      | str      |
+| verificationToken              | str      |
+| passwordResetToken             | str      |
+| tokenExpirationDate            | instant  |
+| failedLoginAttempts            | instant  |
+| lastFailedLoginAttempt         | instant  |
+| passwordRecoveryAttempts       | int      |
+| lastPasswordRecoveryAttempt    | instant  |
 
 ### Profile Account Model
 
-| Field           | Type |
-| --------------- | ---- |
-| id              | str  |
-| profilePicture  | str  |
-| firstName       | str  |
-| lastName        | str  |
-| title           | str  |
-| phone           | str  |
-| country         | str  |
-| stateOrProvince | str  |
-| city            | str  |
-| userSummary     | str  |
-| userUrls        | str  |
-| workExperience  | str  |
-| skills          | str  |
-| resume          | str  |
-| profileStep1    | str  |
-| profileStep2    | str  |
-| profileStep3    | str  |
-| profileStep4    | str  |
+| Field           | Type     |
+| --------------- | -------- |
+| id              | str      |
+| profilePicture  | str      |
+| firstName       | str      |
+| lastName        | str      |
+| title           | str      |
+| phone           | str      |
+| country         | str      |
+| stateOrProvince | str      |
+| city            | str      |
+| userSummary     | str      |
+| userUrls        | str      |
+| workExperience  | str      |
+| skills          | str      |
+| resume          | str      |
+| profileStep1    | str      |
+| profileStep2    | str      |
+| profileStep3    | str      |
+| profileStep4    | str      |
 
 ### Job Model
 
-| Field               | Type   |
-| ------------------- | ------ |
-| jobOwnerId          | str    |
-| jobOwner            | str    |
-| jobTitle            | str    |
-| description         | str    |
-| company             | str    |
-| companyId           | str    |
-| city                | str    |
-| state               | str    |
-| country             | str    |
-| workLocationType    | str    |
-| employmentType      | str    |
-| workExperience      | number |
-| yearsOfExperience   | number |
-| totalCompensation   | number |
-| skills              | str    |
-| questionnaire       | str    |
-| endSubmissionReason | str    |
-| visibleTo           | str    |
-| closingDate         | date   |
-| jobPostStatus       | number |
-| favoritedCount      | number |
-| applyCount          | number |
-| viewCount           | number |
-| archiveDate         | date   |
+| Field               | Type     |
+| ------------------- | -------- |
+| jobOwnerId          | str      |
+| jobOwner            | str      |
+| jobTitle            | str      |
+| description         | str      |
+| company             | str      |
+| companyId           | str      |
+| city                | str      |
+| state               | str      |
+| country             | str      |
+| workLocationType    | str      |
+| employmentType      | str      |
+| workExperience      | number   |
+| yearsOfExperience   | number   |
+| totalCompensation   | number   |
+| skills              | str      |
+| questionnaire       | str      |
+| endSubmissionReason | str      |
+| visibleTo           | str      |
+| closingDate         | date     |
+| jobPostStatus       | number   |
+| favoritedCount      | number   |
+| applyCount          | number   |
+| viewCount           | number   |
+| archiveDate         | date     |
 
 ### Job Model
 
-| Field         | Type   |
-| ------------- | ------ |
-| id            | str    |
-| companyName   | str    |
-| ticker        | str    |
-| address       | str    |
-| city          | str    |
-| state         | str    |
-| postalCode    | Number |
-| country       | str    |
-| website       | str    |
-| sector        | str    |
-| industry      | str    |
-| companyCeo    | number |
-| companyStatus | number |
-| logo          | str    |
+| Field         | Type     |
+| ------------- | -------- |
+| id            | str      |
+| companyName   | str      |
+| ticker        | str      |
+| address       | str      |
+| city          | str      |
+| state         | str      |
+| postalCode    | Number   |
+| country       | str      |
+| website       | str      |
+| sector        | str      |
+| industry      | str      |
+| companyCeo    | number   |
+| companyStatus | number   |
+| logo          | str      |
 
 ## My Profile Tab
-
 ---
-
 - Method: GET
 - Route: `/user/me`
 - Gets the users account information
@@ -204,16 +202,13 @@ Expected Response:
     }
 }
 ```
-
 </details>
 
 ## My Job Postings Tab
-
 ---
-
 - Method: GET
 - Route: `/job/owner/{userId}`
-- Gets the user's posted jobs by jobOwnerId(\_id)
+- Gets the user's posted jobs by jobOwnerId(_id)
 - Display only the jobTitle text
 - There is pagination involved
 
@@ -297,13 +292,10 @@ Expected Response:
     }
 }
 ```
-
 </details>
 
 ## Search Tab
-
 ---
-
 - Method: GET
 - Category: Jobs
 - Route: `/job/search`
@@ -464,13 +456,10 @@ Expected Results:
     }
 }
 ```
-
 </details>
 
 ### Company by Company Id
-
 ---
-
 - Method: GET
 - Route: `/company/{id}`
 - Gets company by it's id
@@ -502,13 +491,10 @@ Example of expected result:
     }
 }
 ```
-
 </details>
 
 ### Edit/Put company by id
-
 ---
-
 - Method: PUT
 - Route: `/company/{id}`
 - Updates company by it's id
@@ -551,13 +537,10 @@ Expected results:
     }
 }
 ```
-
 </details>
 
 ### Delete company by id
-
 ---
-
 - Method: DELETE
 - Route: `/company/{id}`
 - Deletes a company by it's id
@@ -574,13 +557,10 @@ Expected results:
     "message": "Successfully removed company"
 }
 ```
-
 </details>
 
-### Job Post details by Job Post id(\_id)
-
+### Job Post details by Job Post id(_id)
 ---
-
 - Method: GET
 - Route: `/job/{id}`
 - Gets the user's posted jobs
@@ -626,13 +606,10 @@ Expected Response:
     }
 }
 ```
-
 </details>
 
-### Edit/Put Job Post by Job Post id(\_id)
-
+### Edit/Put Job Post by Job Post id(_id)
 ---
-
 - Method: PUT
 - Route: `/job/{id}`
 - Updates the user's posted jobs
@@ -685,13 +662,10 @@ Expected Response:
     }
 }
 ```
-
 </details>
 
-### Delete Job Post by Job Post id(\_id)
-
+### Delete Job Post by Job Post id(_id)
 ---
-
 - Method: DELETE
 - Route: `/job/{id}`
 - Deletes post by id

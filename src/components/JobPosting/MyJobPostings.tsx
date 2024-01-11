@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppProviderCtx } from "../app-provider/AppProvider";
-import jobService from "../services/job.service";
-import { Job } from "../types/Job";
-import { JobPagination } from "../types/JobPagination";
+import { useAppProviderCtx } from "../../app-provider/AppProvider";
+import jobService from "../../services/job.service";
+import { Job } from "../../types/Job";
+import { JobPagination } from "../../types/JobPagination";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const MyJobPostingsPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">
-        {user?.accountType! > 0 && <IconEdit />}
+        {user?.accountType! > 0 && <IconEdit className="cursor-pointer" onClick={() => navigate(`/dashboard/edit-job-postings/${element._id}`)}/>}
         {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>
