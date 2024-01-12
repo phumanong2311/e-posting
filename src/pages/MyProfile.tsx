@@ -2,7 +2,7 @@ import { IconPencil } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import userService from "../services/user.service";
-import { ResponseWrapper } from "../types/ResponseWrapper";
+import { ResponseWrapper } from "../types";
 
 const MyProfilePage = () => {
   const {

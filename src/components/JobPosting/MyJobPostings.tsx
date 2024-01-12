@@ -5,9 +5,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
-import jobService from "../../services/job.service";
-import { Job } from "../../types/Job";
-import { JobPagination } from "../../types/JobPagination";
+import { jobService } from "../../services";
+import { Job, JobPagination } from "../../types";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();

@@ -8,9 +8,7 @@ import { SyntheticEvent, useState } from "react";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import { Action, Filter } from "../components/SearchComponent";
 import jobService from "../services/job.service";
-import { Job } from "../types/Job";
-import { JobPagination } from "../types/JobPagination";
-import { SearchParameter, SearchType } from "../types/SearchType";
+import { Job, JobPagination, SearchParameter, SearchType } from "../types";
 
 const SearchPage = () => {
   const navigate = useNavigate();

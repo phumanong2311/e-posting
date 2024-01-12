@@ -7,10 +7,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../app-provider";
 import { toast } from "../lib/toast";
-import authService from "../services/auth.service";
-import userService from "../services/user.service";
-import { LoginPayload } from "../types/Auth";
-import { ResponseWrapper } from "../types/ResponseWrapper";
+import { authService, userService } from "../services";
+import { LoginPayload, ResponseWrapper } from "../types";
 
 const LoginPage = () => {
   const navigate = useNavigate();

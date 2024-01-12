@@ -1,7 +1,7 @@
 import { Select, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { SearchType } from "../../types/SearchType";
 import { SyntheticEvent } from "react";
+import { SearchType } from "../../types";
 
 interface ActionProps {
   searchType: SearchType;

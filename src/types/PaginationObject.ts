@@ -1,4 +1,4 @@
-import { Job } from "./Job";
+import { Job } from ".";
 
 export type PaginationObject = {
   maxPages?: number;

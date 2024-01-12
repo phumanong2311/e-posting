@@ -1,4 +1,4 @@
-import { ResponseWrapper } from "../types/ResponseWrapper";
+import { ResponseWrapper } from "../types";
 import { buildQueryParams } from "../utils";
 import { API } from "./api";
 

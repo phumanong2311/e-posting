@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import jobService from "../../services/job.service";
-import { Job } from "../../types/Job";
+import { Job } from "../../types";
 
 const MyJobPostingsDetailPage = () => {
   const { state: locationState } = useLocation();

@@ -1,4 +1,5 @@
-import { LoginPayload, LoginResult } from "../types/Auth";
+
+import { LoginPayload, LoginResult } from "../types";
 import { API } from "./api";
 
 class AuthService extends API {

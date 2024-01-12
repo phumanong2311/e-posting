@@ -1,5 +1,5 @@
 import { Button, Select } from "@mantine/core";
-import { SearchParameter } from "../../types/SearchType";
+import { SearchParameter } from "../../types";
 interface FilterProps {
   searchParameter: SearchParameter;
   onChangeParameter: (name: string, value: string) => void;
