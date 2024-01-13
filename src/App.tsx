@@ -1,5 +1,8 @@
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/tiptap/styles.css";
+
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { AppProvider } from "./app-provider/AppProvider";

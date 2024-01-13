@@ -48,7 +48,13 @@ const MyJobPostingsDetailPage = () => {
               <p className="text-lg ml-3 font-bold">{jobDetail!.jobOwner}</p>
             </div>
             <div className="flex gap-3">
-              <IconPencil />
+              <IconPencil
+                onClick={() =>
+                  navigate(`/dashboard/edit-job-postings/${jobDetail._id}`, {
+                    state: { job: jobDetail },
+                  })
+                }
+              />
               <IconTrash />
             </div>
           </div>

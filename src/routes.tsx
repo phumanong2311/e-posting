@@ -7,7 +7,9 @@ import { NotFoundPage } from "./pages";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
-const MyJobPostingsPage = lazy(() => import("./components/JobPosting/MyJobPostings"));
+const MyJobPostingsPage = lazy(
+  () => import("./components/JobPosting/MyJobPostings")
+);
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(
   () => import("./components/JobPosting/MyJobPostingDetailPage")
