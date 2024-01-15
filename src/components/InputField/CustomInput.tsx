@@ -1,5 +1,5 @@
 // CustomInput.tsx
-import { InputWrapper, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { CustomInputProps } from "../../types";

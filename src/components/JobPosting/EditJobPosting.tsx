@@ -1,13 +1,13 @@
 import { IconChevronLeft } from "@tabler/icons-react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomInput from "../InputField/CustomInput";
-import CustomDateTimePicker from "../InputField/CustomDateTimePicker";
-import RichEditor from "../InputField/RichEditor";
 import { Button } from "@mantine/core";
-import { jobService } from "../../services";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "../../lib/toast";
+import { jobService } from "../../services";
+import CustomDateTimePicker from "../InputField/CustomDateTimePicker";
+import CustomInput from "../InputField/CustomInput";
+import RichEditor from "../InputField/RichEditor";
 
 const EditJobPosting = () => {
   const { state } = useLocation();
