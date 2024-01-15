@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
 import userService from "../../services/user.service";
@@ -8,6 +8,7 @@ import { ResponseWrapper } from "../../types";
 export const PageLayout = () => {
   const location = useLocation();
   const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
   const {
     func: { updateUser },
     data: { user },
@@ -38,6 +39,7 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
+    if ((location.pathname = "/")) navigate("/dashboard/profile");
   }, [token]);
 
   if (!user) return <></>;

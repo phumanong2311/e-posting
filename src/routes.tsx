@@ -7,7 +7,9 @@ import { NotFoundPage } from "./pages";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
-const MyJobPostingsPage = lazy(() => import("./components/JobPosting/MyJobPostings"));
+const MyJobPostingsPage = lazy(
+  () => import("./components/JobPosting/MyJobPostings")
+);
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(
   () => import("./components/JobPosting/MyJobPostingDetailPage")
@@ -25,6 +27,7 @@ const routesConfig: RouteObject[] = [
         children: [
           {
             path: "profile",
+            index: true,
             element: (
               <Suspense>
                 <MyProfilePage />
@@ -48,7 +51,7 @@ const routesConfig: RouteObject[] = [
             ),
           },
           {
-            path: "edit-job-postings/:id",
+            path: "edit-job-posting/:id",
             element: (
               <Suspense>
                 <EditJobPosting />
