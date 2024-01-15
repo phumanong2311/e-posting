@@ -42,6 +42,17 @@ export class API {
       .catch((err) => this.handleError(err));
   }
 
+  async putAPI(target: string, data: Object, options = { headers: {} }) {
+    return instance
+      .put(target, data, {
+        headers: { ...this.getHeader(), ...(options?.headers || {}) },
+      })
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch((err) => this.handleError(err));
+  }
+
   async handleError(error: AxiosResponse | any) {
     if (error.response) {
       if (error.response.data) {

@@ -4,6 +4,7 @@ import { EditJobPosting } from "./components/JobPosting";
 import { PageLayout } from "./layout/layout";
 import { DashboardLayout } from "./layout/layout/DashboardLayout";
 import { NotFoundPage } from "./pages";
+import { paths } from "./types";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
@@ -80,6 +81,7 @@ const routesConfig: RouteObject[] = [
   },
   {
     path: "login",
+    index: true,
     element: (
       <Suspense>
         <LoginPage />

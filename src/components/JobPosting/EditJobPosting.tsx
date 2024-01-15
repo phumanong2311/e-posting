@@ -6,6 +6,8 @@ import CustomInput from "../InputField/CustomInput";
 import CustomDateTimePicker from "../InputField/CustomDateTimePicker";
 import RichEditor from "../InputField/RichEditor";
 import { Button } from "@mantine/core";
+import { jobService } from "../../services";
+import { toast } from "../../lib/toast";
 
 const EditJobPosting = () => {
   const { state } = useLocation();
@@ -21,7 +23,14 @@ const EditJobPosting = () => {
 
   const { isFromSearchPage } = locationState || {};
 
-  const onSubmit = (value: any) => console.log(value);
+  const onSubmit =  async (value: any) => {
+    await jobService.editJob(id!, value).then((result) => {
+      result && toast.success("Job posting updated successfully");
+      navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings")
+    }).catch((error) => {
+      toast.error(error.message)
+    })
+  };
 
   if (!jobDetail) return <></>;
   return (

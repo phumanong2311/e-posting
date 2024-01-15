@@ -12,7 +12,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
 }) => {
   const { register, getValues, control, setValue } = useFormContext(); // retrieve all hook methods
 
-  console.log(getValues(name));
   const handleChange = (value: DateValue) => {
     setValue(name, value);
   };

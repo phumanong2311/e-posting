@@ -59,7 +59,7 @@ const MyJobPostingsPage = () => {
           <IconEdit
             className="cursor-pointer"
             onClick={() =>
-              navigate(`/dashboard/edit-job-postings/${element._id}`, {
+              navigate(`/dashboard/edit-job-posting/${element._id}`, {
                 state: { job: element },
               })
             }

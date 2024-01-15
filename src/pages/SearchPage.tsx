@@ -27,37 +27,42 @@ const SearchPage = () => {
 
   useQuery({
     queryKey: [
-      'jobsSearch',
+      "jobsSearch",
       searchParameter,
       jobPagination.page,
       debouncedSearchKeyword,
     ],
     queryFn: () =>
-      searchKeyword ? 
-      jobService.getJobSearch({
-        ...searchParameter,
-        page: jobPagination?.page,
-        keyword: searchKeyword,
-      }).then((res) => {
-        if (res.result) {
-          const { jobs, ...pagination } = res.result
-          setJobs(jobs)
-          setJobPagination(pagination)
-          return res.result
-        }
-        return null
-      }) : jobService.getJobs({
-        page: jobPagination?.page,
-      }).then((res) => {
-        if (res.result) {
-          const { jobs, ...pagination } = res.result
-          setJobs(jobs)
-          setJobPagination(pagination)
-          return res.result
-        }
-        return null
-      }),
-  })
+      searchKeyword
+        ? jobService
+            .getJobSearch({
+              ...searchParameter,
+              page: jobPagination?.page,
+              keyword: searchKeyword,
+            })
+            .then((res) => {
+              if (res.result) {
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                return res.result;
+              }
+              return null;
+            })
+        : jobService
+            .getJobs({
+              page: jobPagination?.page,
+            })
+            .then((res) => {
+              if (res.result) {
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                return res.result;
+              }
+              return null;
+            }),
+  });
 
   const onChangeSearchType = (e: SyntheticEvent<HTMLInputElement, Event>) => {
     if (!e.target) return;
@@ -121,8 +126,16 @@ const SearchPage = () => {
       <Table.Td className="text-center">{element.jobOwner}</Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
-      <Table.Td className="flex gap-2 justify-center items-center">
-        {user?.accountType! > 0 && <IconEdit />}
+      <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
+        {user?.accountType! > 0 && (
+          <IconEdit
+            onClick={() =>
+              navigate(`/dashboard/edit-job-posting/${element._id}`, {
+                state: { job: element },
+              })
+            }
+          />
+        )}
         {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>

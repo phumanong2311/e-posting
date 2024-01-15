@@ -43,6 +43,11 @@ class JobService extends API {
   async getListJob(payload: any) {
     return this.getAPI("job", { ...payload });
   }
+
+  async editJob(id: string, payload: any) {
+    const url = `job/${id}`;
+    return this.putAPI(url, { ...payload });
+  }
 }
 
 const jobService = new JobService();
