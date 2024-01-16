@@ -1,35 +1,51 @@
 import { IconChevronLeft } from "@tabler/icons-react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { toast } from "../../lib/toast";
 import { jobService } from "../../services";
+import { LabelInput } from "../../ui";
 import CustomDateTimePicker from "../InputField/CustomDateTimePicker";
-import CustomInput from "../InputField/CustomInput";
-import RichEditor from "../InputField/RichEditor";
 
 const EditJobPosting = () => {
   const { state } = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [jobDetail, setJobDetail] = useState();
 
-  const { job: jobDetail, ...locationState } = state || {};
-  const methods = useForm({
-    defaultValues: {
-      ...jobDetail,
-    },
+  const { ...locationState } = state || {};
+
+  useQuery({
+    queryKey: [id],
+    queryFn: () =>
+      jobService.getJobDetail({ jobId: id }).then((res) => {
+        if (res.result) {
+          setJobDetail(res.result);
+        }
+        return null;
+      }),
   });
+  const methods = useForm({
+    defaultValues: jobDetail,
+  });
+  const { register, handleSubmit } = methods;
+  console.log("jobDetail", jobDetail);
 
   const { isFromSearchPage } = locationState || {};
 
-  const onSubmit =  async (value: any) => {
-    await jobService.editJob(id!, value).then((result) => {
-      result && toast.success("Job posting updated successfully");
-      navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings")
-    }).catch((error) => {
-      toast.error(error.message)
-    })
+  const onSubmit = async (value: any) => {
+    console.log(value);
+    // await jobService
+    //   .editJob(id!, value)
+    //   .then((result) => {
+    //     result && toast.success("Job posting updated successfully");
+    //     navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings");
+    //   })
+    //   .catch((error) => {
+    //     toast.error(error.message);
+    //   });
   };
 
   if (!jobDetail) return <></>;
@@ -44,136 +60,74 @@ const EditJobPosting = () => {
         >
           <IconChevronLeft /> back to list
         </p>
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="jobTitle"
-                label="Role: "
+        {/* <FormProvider {...methods}> */}
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="w-full p-6 max-w-screen-lg space-y-4">
+            <LabelInput label="Role" name="jobTitle" register={register} />
+            <LabelInput label="Company" name="company" register={register} />
+            <LabelInput label="City" name="city" register={register} />
+            <LabelInput label="State" name="state" register={register} />
+            <LabelInput label="Workplace type" name="workLocationType" register={register} />
+            <LabelInput label="Employment type" name="employmentType" register={register} />
+            <LabelInput label="Required year of experience" name="yearsOfExperience" register={register} />
+            <LabelInput label="Salary" name="baseSalary" register={register} />
+            <LabelInput label="Total Compensation" name="totalCompensation" register={register} />
+            <CustomDateTimePicker
+                name="closingDate"
+                label="Closing Date: "
                 labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
                 containerClass="max-w-[1000px]"
               />
-            </div>
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="company"
-                label="Company: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="city"
-                label="City: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="state"
-                label="State: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
+          </div>
 
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="workLocationType"
-                label="Workplace type: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
-
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="employmentType"
-                label="Employment type: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
-
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="yearsOfExperience"
-                label="Required year of experience: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
-
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="baseSalary"
-                label="Salary: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-                isNumber
-              />
-            </div>
-
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="totalCompensation"
-                label="Total Compensation: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-                isNumber
-              />
-            </div>
-
-            <div className="flex w-full my-6">
+          {/* <div className="flex w-full my-6">
               <CustomDateTimePicker
                 name="closingDate"
                 label="Closing Date: "
                 labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
                 containerClass="max-w-[1000px]"
               />
-            </div>
+            </div> */}
 
-            <div className="flex w-full my-6">
-              <RichEditor
-                name="description"
-                label="Job Description: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
+          {/* <div className="flex w-full my-6">
+            <RichEditor
+              name="description"
+              label="Job Description: "
+              labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
+              containerClass="max-w-[1000px]"
+            />
+          </div>
 
-            <div className="flex w-full my-6">
-              <CustomInput
-                name="skills"
-                label="Required Skills: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
-              />
-            </div>
+          <div className="flex w-full my-6">
+            <CustomInput
+              name="skills"
+              label="Required Skills: "
+              labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
+              containerClass="max-w-[1000px]"
+            />
+          </div> */}
 
-            <div className="flex justify-center gap-5 items-center">
-              <Button
-                type="submit"
-                className="rounded-lg border-1"
-                title="Save"
-                variant="outline"
-                size="sm"
-              >
-                Save
-              </Button>
-              <Button
-                className="rounded-lg border-1"
-                title="Remove"
-                variant="outline"
-                size="sm"
-              >
-                Remove
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
+          <div className="flex justify-center gap-5 items-center">
+            <Button
+              type="submit"
+              className="rounded-lg border-1"
+              title="Save"
+              variant="outline"
+              size="sm"
+            >
+              Save
+            </Button>
+            <Button
+              className="rounded-lg border-1"
+              title="Remove"
+              variant="outline"
+              size="sm"
+            >
+              Remove
+            </Button>
+          </div>
+        </form>
+        {/* </FormProvider> */}
       </div>
     </div>
   );

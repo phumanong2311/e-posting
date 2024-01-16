@@ -4,7 +4,7 @@ import React, { ReactEventHandler } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { CustomInputProps } from "../../types";
 
-const CustomInput: React.FC<CustomInputProps> = ({
+const CustomDateTimePicker: React.FC<CustomInputProps> = ({
   name,
   label,
   labelClass = "",
@@ -36,4 +36,4 @@ const CustomInput: React.FC<CustomInputProps> = ({
   );
 };
 
-export default CustomInput;
+export default CustomDateTimePicker;
