@@ -55,7 +55,16 @@ const MyJobPostingsPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">
-        {user?.accountType! > 0 && <IconEdit className="cursor-pointer" onClick={() => navigate(`/dashboard/edit-job-postings/${element._id}`)}/>}
+        {user?.accountType! > 0 && (
+          <IconEdit
+            className="cursor-pointer"
+            onClick={() =>
+              navigate(`/dashboard/edit-job-posting/${element._id}`, {
+                state: { job: element },
+              })
+            }
+          />
+        )}
         {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>

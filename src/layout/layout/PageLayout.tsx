@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
 import userService from "../../services/user.service";
-import { ResponseWrapper } from "../../types";
+import { ResponseWrapper, paths } from "../../types";
 
 export const PageLayout = () => {
   const location = useLocation();
@@ -39,7 +39,7 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
-    if ((location.pathname = "/")) navigate("/dashboard/profile");
+    if ((location.pathname = paths.ROOT)) navigate("/dashboard/profile");
   }, [token]);
 
   if (!user) return <></>;
