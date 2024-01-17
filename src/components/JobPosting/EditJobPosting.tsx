@@ -85,23 +85,23 @@ const EditJobPosting = () => {
             <LabelInput label="City:" name="city" register={register} />
             <LabelInput label="State:" name="state" register={register} />
             <LabelInput
-              label="Workplace type:"
+              label="Workplace type: "
               name="workLocationType"
               register={register}
             />
             <LabelInput
-              label="Employment type:"
+              label="Employment type: "
               name="employmentType"
               register={register}
             />
             <LabelInput
-              label="Required year of experience:"
+              label="Required year of experience: "
               name="yearsOfExperience"
               register={register}
             />
             <LabelInput label="Salary:" name="baseSalary" register={register} />
             <LabelInput
-              label="Total Compensation:"
+              label="Total Compensation: "
               name="totalCompensation"
               register={register}
             />
@@ -136,7 +136,7 @@ const EditJobPosting = () => {
               />
             </div>
             <LabelInput
-              label="Required Skills:"
+              label="Required Skills: "
               name="skills"
               register={register}
             />
