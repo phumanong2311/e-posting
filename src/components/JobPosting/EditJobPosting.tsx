@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "../../lib/toast";
 import { jobService } from "../../services";
-import { DatePickerUI, LabelInput } from "../../ui";
+import { DatePickerUI, LabelInput, RichEditor } from "../../ui";
 
 const EditJobPosting = () => {
   const { state } = useLocation();
@@ -118,14 +118,23 @@ const EditJobPosting = () => {
                 />
               )}
             />
-            {/* <div className="flex w-full my-6">
-              <RichEditor
+            <div className="flex w-full my-6">
+              <Controller
                 name="description"
-                label="Job Description: "
-                labelClass="font-bold text-lg text-right min-w-[300px] max-w-[300px]"
-                containerClass="max-w-[1000px]"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <RichEditor
+                    name="description"
+                    label="Job Description: "
+                    labelClass="font-bold text-lg text-right max-w-[300px]"
+                    className="w-full rounded-md"
+                    wrapperClass="w-full"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
               />
-            </div> */}
+            </div>
             <LabelInput
               label="Required Skills:"
               name="skills"
