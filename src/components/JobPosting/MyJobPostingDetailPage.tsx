@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import jobService from "../../services/job.service";
 import { Job } from "../../types";
+import { toast } from "../../lib/toast";
 
 const MyJobPostingsDetailPage = () => {
   const { state: locationState } = useLocation();
@@ -25,6 +26,20 @@ const MyJobPostingsDetailPage = () => {
         return null;
       }),
   });
+
+  const deletePost = async () => {
+    await jobService
+      .deleteJob(id!)
+      .then((res) => {
+        if (res) {
+          toast.success("Job posting deleted successfully");
+          navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
 
   if (!jobDetail) return <></>;
   return (
@@ -56,7 +71,7 @@ const MyJobPostingsDetailPage = () => {
                   })
                 }
               />
-              <IconTrash />
+              <IconTrash className="cursor-pointer" onClick={deletePost}/>
             </div>
           </div>
         )}
@@ -78,7 +93,7 @@ const MyJobPostingsDetailPage = () => {
                     })
                   }
                 />
-                <IconTrash />
+                <IconTrash className="cursor-pointer" onClick={deletePost}/>
               </>
             )}
           </div>

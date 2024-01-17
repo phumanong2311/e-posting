@@ -54,7 +54,7 @@ const EditJobPosting = () => {
 
   const deletePost = async () => {
     await jobService
-      .deleteAPI(id!)
+      .deleteJob(id!)
       .then((res) => {
         if (res) {
           toast.success("Job posting deleted successfully");
