@@ -48,6 +48,11 @@ class JobService extends API {
     const url = `job/${id}`;
     return this.putAPI(url, { ...payload });
   }
+
+  async deleteJob(id: string) {
+    const url = `job/${id}`;
+    return this.deleteAPI(url);
+  }
 }
 
 const jobService = new JobService();

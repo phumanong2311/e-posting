@@ -49,8 +49,9 @@ const MyJobPostingsDetailPage = () => {
             </div>
             <div className="flex gap-3">
               <IconPencil
+                className="cursor-pointer"
                 onClick={() =>
-                  navigate(`/dashboard/edit-job-postings/${jobDetail._id}`, {
+                  navigate(`/dashboard/edit-job-posting/${jobDetail._id}`, {
                     state: { job: jobDetail },
                   })
                 }
@@ -69,7 +70,14 @@ const MyJobPostingsDetailPage = () => {
           <div className="flex gap-3">
             {!isFromSearchPage && (
               <>
-                <IconPencil />
+                <IconPencil
+                  className="cursor-pointer"
+                  onClick={() =>
+                    navigate(`/dashboard/edit-job-posting/${jobDetail._id}`, {
+                      state: { job: jobDetail },
+                    })
+                  }
+                />
                 <IconTrash />
               </>
             )}

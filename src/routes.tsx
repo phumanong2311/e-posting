@@ -1,10 +1,11 @@
+import { LoadingOverlay } from "@mantine/core";
 import { Suspense, lazy } from "react";
 import { RouteObject, createBrowserRouter } from "react-router-dom";
 import { EditJobPosting } from "./components/JobPosting";
 import { PageLayout } from "./layout/layout";
 import { DashboardLayout } from "./layout/layout/DashboardLayout";
 import { NotFoundPage } from "./pages";
-import { paths } from "./types";
+import ErrorBoundary from "./pages/ErrorBoundary ";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
@@ -20,7 +21,11 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const routesConfig: RouteObject[] = [
   {
     path: "/",
-    element: <PageLayout />,
+    element: (
+      <Suspense fallback={<LoadingOverlay visible variant="dots" />}>
+        <PageLayout />
+      </Suspense>
+    ),
     children: [
       {
         path: "dashboard",
@@ -34,6 +39,7 @@ const routesConfig: RouteObject[] = [
                 <MyProfilePage />
               </Suspense>
             ),
+            errorElement: <ErrorBoundary />,
           },
           {
             path: "job-postings",
@@ -42,6 +48,7 @@ const routesConfig: RouteObject[] = [
                 <MyJobPostingsPage />
               </Suspense>
             ),
+            errorElement: <ErrorBoundary />,
           },
           {
             path: "job-postings/:id",
@@ -50,14 +57,16 @@ const routesConfig: RouteObject[] = [
                 <MyJobPostingsDetailPage />
               </Suspense>
             ),
+            errorElement: <ErrorBoundary />,
           },
           {
             path: "edit-job-posting/:id",
             element: (
-              <Suspense>
+              <Suspense fallback={<p>Loading package location...</p>}>
                 <EditJobPosting />
               </Suspense>
             ),
+            errorElement: <ErrorBoundary />,
           },
           {
             path: "job-requests",
@@ -66,6 +75,7 @@ const routesConfig: RouteObject[] = [
                 <MyJobRequestsPage />
               </Suspense>
             ),
+            errorElement: <ErrorBoundary />,
           },
         ],
       },
@@ -76,6 +86,7 @@ const routesConfig: RouteObject[] = [
             <SearchPage />
           </Suspense>
         ),
+        errorElement: <ErrorBoundary />,
       },
     ],
   },
@@ -87,6 +98,7 @@ const routesConfig: RouteObject[] = [
         <LoginPage />
       </Suspense>
     ),
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "*",
