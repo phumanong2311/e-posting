@@ -4,36 +4,23 @@ import instance from "../http";
 import { toast } from "../lib/toast";
 
 export class API {
-  basePath = instance.defaults.baseURL;
+  basePath = instance.instance.defaults.baseURL;
   getUrl(target: string) {
     return `${this.basePath}${target}`;
   }
 
-  getHeader() {
-    return {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    };
-  }
-
-  isResponseError(resp: AxiosResponse) {
-    return ![200, 201, 204, 206].includes(resp.status);
-  }
-
-  async postAPI(target: string, data: Object, options = { headers: {} }) {
-    return instance
-      .post(target, data, {
-        headers: { ...this.getHeader(), ...(options?.headers || {}) },
-      })
+  async postAPI(target: string, data: Object) {
+    return instance.instance
+      .post(target, data)
       .then((resp) => {
         return resp.data;
       })
       .catch((err) => this.handleError(err));
   }
 
-  async getAPI(target: string, params = {}, options = { headers: {} }) {
-    return instance
+  async getAPI(target: string, params = {}) {
+    return instance.instance
       .get(this.getUrl(target), {
-        headers: { ...this.getHeader(), ...(options?.headers || {}) },
         params: params,
       })
       .then((resp) => {
@@ -42,22 +29,18 @@ export class API {
       .catch((err) => this.handleError(err));
   }
 
-  async putAPI(target: string, data: Object, options = { headers: {} }) {
-    return instance
-      .put(target, data, {
-        headers: { ...this.getHeader(), ...(options?.headers || {}) },
-      })
+  async putAPI(target: string, data: Object) {
+    return instance.instance
+      .put(target, data)
       .then((resp) => {
         return resp.data;
       })
       .catch((err) => this.handleError(err));
   }
 
-  async deleteAPI(target: string, options = { headers: {} }) {
-    return instance
-      .delete(target, {
-        headers: { ...this.getHeader(), ...(options?.headers || {}) },
-      })
+  async deleteAPI(target: string) {
+    return instance.instance
+      .delete(target)
       .then((resp) => {
         return resp.data;
       })
