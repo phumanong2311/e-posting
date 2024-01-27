@@ -21,7 +21,7 @@ const MyJobPostingsPage = () => {
   useQuery({
     queryKey: ["jobsList", jobPagination.page],
     queryFn: () =>
-      jobService.getJobs({ page: jobPagination?.page }).then((res) => {
+      jobService.getMyJobs({ page: jobPagination?.page }).then((res) => {
         if (res.result) {
           const { jobs, ...pagination } = res.result;
           setJobs(jobs);
@@ -44,13 +44,21 @@ const MyJobPostingsPage = () => {
     }
   };
 
+  const onViewDetail = (id: string) => {
+    navigate(`/admin/dashboard/job-postings/${id}`);
+  };
+
+  const onEdit = (id: string) => {
+    navigate(`/admin/dashboard/edit-job-posting/${id}`);
+  };
+
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
         className="cursor-pointer "
-        onClick={() => navigate(`/dashboard/job-postings/${element._id}`)}
+        onClick={() => onViewDetail(element._id)}
       >
-        {element.description}
+        {element.jobTitle}
       </Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
@@ -58,11 +66,7 @@ const MyJobPostingsPage = () => {
         {user?.accountType! > 0 && (
           <IconEdit
             className="cursor-pointer"
-            onClick={() =>
-              navigate(`/dashboard/edit-job-posting/${element._id}`, {
-                state: { job: element },
-              })
-            }
+            onClick={() => onEdit(element._id!)}
           />
         )}
         {user?.accountType! > 1 && <IconTrash />}

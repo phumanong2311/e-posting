@@ -55,25 +55,8 @@ const MyProfilePage = () => {
             <p className="font-bold text-lg text-right w-[200px]">Title: </p>
             <p className="text-lg ml-3">{userProfile!.title}</p>
           </div>
-          <div>
-            <p className="text-lg ml-3 text-gray-400">
-              (Job Title from profile)
-            </p>
-          </div>
         </div>
-        {/* <div className="flex w-full justify-between items-center my-6">
-          <div className="flex">
-            <p className="font-bold text-lg text-right w-[200px]">
-              Sign-up Method:{" "}
-            </p>
-            <p className="text-lg ml-3">{user.signUpMethod}</p>
-          </div>
-          <div>
-            <p className="text-lg ml-3 text-gray-400">
-              (local, google, linkedin)
-            </p>
-          </div>
-        </div> */}
+
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
             <p className="font-bold text-lg text-right w-[200px]">
@@ -90,11 +73,6 @@ const MyProfilePage = () => {
             </p>
             <p className="text-lg ml-3">{user!.accountType}</p>
           </div>
-          <div>
-            <p className="text-lg ml-3 text-gray-400">
-              (role: general, editor, admin)
-            </p>
-          </div>
         </div>
         <div className="flex w-full justify-between items-center my-6">
           <div className="flex">
@@ -102,9 +80,6 @@ const MyProfilePage = () => {
               Account Status:{" "}
             </p>
             <p className="text-lg ml-3">{user!.accountStatus}</p>
-          </div>
-          <div>
-            <p className="text-lg ml-3 text-gray-400">(inactive or active)</p>
           </div>
         </div>
         <div className="flex w-full justify-between items-center my-6">
@@ -114,11 +89,6 @@ const MyProfilePage = () => {
             </p>
             <p className="text-lg ml-3">
               {user!.isEmailAuthenticated.toString().toUpperCase()}
-            </p>
-          </div>
-          <div>
-            <p className="text-lg ml-3 text-gray-400">
-              (false = not authenticated, true = authenticated)
             </p>
           </div>
         </div>

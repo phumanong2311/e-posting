@@ -7,17 +7,17 @@ export const Header = ({ containerClass = "" }) => {
     return [
       {
         label: "Home",
-        path: "/dashboard/profile",
+        path: "/admin/dashboard/profile",
         isActive: location.pathname.includes("/dashboard"),
       },
       {
         label: "Search",
-        path: "/search",
+        path: "/admin/search",
         isActive: location.pathname.includes("/search"),
       },
       {
         label: "Reporting",
-        path: "/reporting",
+        path: "/admin/reporting",
         isActive: location.pathname.includes("/reporting"),
       },
       {
@@ -27,30 +27,49 @@ export const Header = ({ containerClass = "" }) => {
       },
     ];
   }, [location]);
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    window.location.href = "/login";
+  };
   return (
     <header className={containerClass + " w-full h-12 bg-white"}>
       <div className="w-full flex">
         {headerLinks.map((link, index) => (
           <Fragment key={index}>
-            <Link
-              to={link.path}
-              className={
-                index === 0
-                  ? "mr-4"
-                  : index === headerLinks.length - 1
-                  ? "ml-4"
-                  : "mx-4"
-              }
-            >
+            {index !== headerLinks.length - 1 ? (
+              <Link
+                to={link.path}
+                className={
+                  index === 0
+                    ? "mr-4"
+                    : index === headerLinks.length - 1
+                    ? "ml-4"
+                    : "mx-4"
+                }
+              >
+                <p
+                  className={
+                    "text-lg text-black " +
+                    (link.isActive ? "font-bold" : "text-purple-800")
+                  }
+                >
+                  {link.label}
+                </p>
+              </Link>
+            ) : (
               <p
                 className={
-                  "text-lg text-black " +
+                  "text-lg text-black ml-4 " +
                   (link.isActive ? "font-bold" : "text-purple-800")
                 }
+                onClick={() => {
+                  logout();
+                }}
               >
                 {link.label}
               </p>
-            </Link>
+            )}
             {index !== headerLinks.length - 1 && (
               <Divider orientation="vertical" />
             )}

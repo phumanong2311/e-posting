@@ -8,17 +8,17 @@ export const DashboardLayout = () => {
     return [
       {
         label: "My Profile",
-        path: "/dashboard/profile",
+        path: "/admin/dashboard/profile",
         isActive: location.pathname.includes("/profile"),
       },
       {
         label: "My Job Postings",
-        path: "/dashboard/job-postings",
+        path: "/admin/dashboard/job-postings",
         isActive: location.pathname.includes("/job-postings"),
       },
       {
         label: "My Job Requests",
-        path: "/dashboard/job-requests",
+        path: "/admin/dashboard/job-requests",
         isActive: location.pathname.includes("/job-requests"),
       },
     ];

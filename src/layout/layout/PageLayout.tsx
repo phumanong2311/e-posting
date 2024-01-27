@@ -15,15 +15,15 @@ export const PageLayout = () => {
   } = useAppProviderCtx();
   const headlineText = useMemo(() => {
     switch (location.pathname) {
-      case "/search":
+      case "/admin/search":
         return "Display your list of Job Request Results by creation date";
-      case "/dashboard/profile":
+      case "/admin/dashboard/profile":
         return "Display your User information form user account and profile from account used to login to admin portal (whoami page)";
-      case "/dashboard/job-postings":
+      case "/admin/dashboard/job-postings":
         return "Displays your list of Job Posting by creation date";
-      case "/dashboard/job-postings/detail":
+      case "/admin/dashboard/job-postings/detail":
         return "Displays your Job Posting Record in Details";
-      case "/dashboard/job-requests":
+      case "/admin/dashboard/job-requests":
         return "";
       default:
         return "";
@@ -39,7 +39,7 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
-    if ((location.pathname = paths.ROOT)) navigate("/dashboard/profile");
+    if ((location.pathname = paths.ROOT)) navigate("/admin/dashboard/profile");
   }, [token]);
 
   if (!user) return <></>;

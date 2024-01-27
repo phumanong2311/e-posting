@@ -10,7 +10,7 @@ const NotFoundPage = () => {
         changed, or is temporarily unavailable.
       </p>
       <Link
-        to="/dashboard/profile"
+        to="/admin/dashboard/profile"
         className="text-white bg-blue-500 border-blue-500 py-1 px-2 no-underline"
       >
         Go To Homepage

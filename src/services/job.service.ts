@@ -8,6 +8,11 @@ class JobService extends API {
     return this.getAPI(url);
   }
 
+  async getMyJobs({ page = 1 }: { page?: number }): Promise<ResponseWrapper> {
+    const url = `/job/user/my-jobs?page=${page}`;
+    return this.getAPI(url);
+  }
+
   async getJobByOwner({ ownerId = "", page = 1, excludeJobPostId = "" }) {
     //TODO: Call to api GET /job/owner/:ownerId
     const url = `job/owner/${ownerId}?page=${page}&excludeJobPostId=${excludeJobPostId}`;

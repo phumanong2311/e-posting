@@ -20,7 +20,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const routesConfig: RouteObject[] = [
   {
-    path: "/",
+    path: "/admin",
     element: (
       <Suspense fallback={<LoadingOverlay visible variant="dots" />}>
         <PageLayout />
@@ -100,6 +100,7 @@ const routesConfig: RouteObject[] = [
     ),
     errorElement: <ErrorBoundary />,
   },
+
   {
     path: "*",
     element: <NotFoundPage />,

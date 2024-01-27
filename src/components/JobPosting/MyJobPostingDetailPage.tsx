@@ -27,13 +27,23 @@ const MyJobPostingsDetailPage = () => {
       }),
   });
 
+  const onBack = () => {
+    navigate(
+      isFromSearchPage ? "/admin/search" : "/admin/dashboard/job-postings"
+    );
+  };
+
+  const onEdit = () => {
+    navigate(`/admin/dashboard/edit-job-posting/${jobDetail!._id}`);
+  };
+
   const deletePost = async () => {
     await jobService
       .deleteJob(id!)
       .then((res) => {
         if (res) {
           toast.success("Job posting deleted successfully");
-          navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings");
+          onBack();
         }
       })
       .catch((error) => {
@@ -47,9 +57,7 @@ const MyJobPostingsDetailPage = () => {
       <div className="w-full px-16">
         <p
           className="flex text-lg items-center w-full justify-end text-purple-500 cursor-pointer "
-          onClick={() =>
-            navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings")
-          }
+          onClick={() => onBack()}
         >
           <IconChevronLeft /> back to list
         </p>
@@ -63,15 +71,8 @@ const MyJobPostingsDetailPage = () => {
               <p className="text-lg ml-3 font-bold">{jobDetail!.jobOwner}</p>
             </div>
             <div className="flex gap-3">
-              <IconPencil
-                className="cursor-pointer"
-                onClick={() =>
-                  navigate(`/dashboard/edit-job-posting/${jobDetail._id}`, {
-                    state: { job: jobDetail },
-                  })
-                }
-              />
-              <IconTrash className="cursor-pointer" onClick={deletePost}/>
+              <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
+              <IconTrash className="cursor-pointer" onClick={deletePost} />
             </div>
           </div>
         )}
@@ -87,13 +88,9 @@ const MyJobPostingsDetailPage = () => {
               <>
                 <IconPencil
                   className="cursor-pointer"
-                  onClick={() =>
-                    navigate(`/dashboard/edit-job-posting/${jobDetail._id}`, {
-                      state: { job: jobDetail },
-                    })
-                  }
+                  onClick={() => onEdit()}
                 />
-                <IconTrash className="cursor-pointer" onClick={deletePost}/>
+                <IconTrash className="cursor-pointer" onClick={deletePost} />
               </>
             )}
           </div>

@@ -29,7 +29,7 @@ const LoginPage = () => {
         if (res.result) {
           updateUser(res.result);
           toast.success("Login Successful !");
-          navigate("/dashboard/profile");
+          navigate("/admin/dashboard/profile");
         }
       }),
     onError: async (error: Error) => {

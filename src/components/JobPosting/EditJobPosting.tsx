@@ -37,14 +37,19 @@ const EditJobPosting = () => {
 
   const { isFromSearchPage } = locationState || {};
 
+  const onBack = () => {
+    navigate(
+      isFromSearchPage ? "/admin/search" : "/admin/dashboard/job-postings"
+    );
+  };
+
   const onSubmit = async (value: any) => {
-    console.log(value);
     if (isDirty) {
       await jobService
         .editJob(id!, value)
         .then((result) => {
           result && toast.success("Job posting updated successfully");
-          navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings");
+          onBack();
         })
         .catch((error) => {
           toast.error(error.message);
@@ -58,7 +63,7 @@ const EditJobPosting = () => {
       .then((res) => {
         if (res) {
           toast.success("Job posting deleted successfully");
-          navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings");
+          onBack();
         }
       })
       .catch((error) => {
@@ -72,9 +77,7 @@ const EditJobPosting = () => {
       <div className="w-full px-16">
         <p
           className="flex text-lg items-center w-full justify-end text-purple-500 cursor-pointer "
-          onClick={() =>
-            navigate(isFromSearchPage ? "/search" : "/dashboard/job-postings")
-          }
+          onClick={() => onBack()}
         >
           <IconChevronLeft /> back to list
         </p>

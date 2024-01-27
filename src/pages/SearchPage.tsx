@@ -111,30 +111,28 @@ const SearchPage = () => {
     }
   };
 
+  const onViewDetail = (id: string) => {
+    navigate(`/admin/dashboard/job-postings/${id}`);
+  };
+
+  const onEdit = (id: string) => {
+    navigate(`/admin/dashboard/edit-job-posting/${id}`);
+  };
+
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"
-        onClick={() =>
-          navigate(`/dashboard/job-postings/${element._id}`, {
-            state: { isFromSearchPage: true },
-          })
-        }
+        onClick={() => onViewDetail(element._id)}
       >
-        {element.description}
+        {element.jobTitle}
       </Table.Td>
       <Table.Td className="text-center">{element.jobOwner}</Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (
-          <IconEdit
-            onClick={() =>
-              navigate(`/dashboard/edit-job-posting/${element._id}`, {
-                state: { job: element },
-              })
-            }
-          />
+          <IconEdit onClick={() => onEdit(element._id)} />
         )}
         {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
