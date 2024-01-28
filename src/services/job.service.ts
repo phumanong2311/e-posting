@@ -9,7 +9,7 @@ class JobService extends API {
   }
 
   async getMyJobs({ page = 1 }: { page?: number }): Promise<ResponseWrapper> {
-    const url = `/job/user/my-jobs?page=${page}`;
+    const url = `job/user/my-jobs?page=${page}`;
     return this.getAPI(url);
   }
 

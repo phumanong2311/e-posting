@@ -85,15 +85,15 @@ const SearchPage = () => {
     resetPage();
   };
 
-  const onResetFilter = () => {
-    setSearchParameter({
-      workLocationType: "",
-      employmentType: "",
-      yearsOfExperience: "",
-      closingDate: "",
-    });
-    resetPage();
-  };
+  // const onResetFilter = () => {
+  //   setSearchParameter({
+  //     workLocationType: "",
+  //     employmentType: "",
+  //     yearsOfExperience: "",
+  //     closingDate: "",
+  //   });
+  //   resetPage();
+  // };
 
   const resetPage = () => {
     setJobPagination((prev) => ({ ...prev, page: 1 }));
@@ -151,7 +151,7 @@ const SearchPage = () => {
       <Filter
         searchParameter={searchParameter}
         onChangeParameter={onChangeParameter}
-        onResetFilter={onResetFilter}
+        // onResetFilter={onResetFilter}
       />
 
       <div className="w-full px-14 mt-5">

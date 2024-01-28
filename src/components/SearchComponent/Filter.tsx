@@ -1,40 +1,35 @@
 import { Button, Select } from "@mantine/core";
-import { SearchParameter } from "../../types";
-import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { SearchParameter } from "../../types";
 interface FilterProps {
   searchParameter: SearchParameter;
-  onChangeParameter: (name: string, value: string) => void;
+  onChangeParameter?: (name: string, value: string) => void;
   onResetFilter?: () => void;
 }
 
 export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
-  const { control, getValues, reset, setValue } = useForm({});
+  const { control, reset, setValue } = useForm({});
 
   const onReset = () => {
-    if (onResetFilter) {
-      onResetFilter();
-      // Set null to the value to make sure the UI will clear the selected value
-      reset({
-        workLocationType: null,
-        employmentType: null,
-        yearsOfExperience: null,
-        closingDate: null,
-      });
-    }
+    reset({
+      workLocationType: null,
+      employmentType: null,
+      yearsOfExperience: null,
+      closingDate: null,
+    });
   };
 
-  const onChange = (name: keyof SearchParameter, value: string) => {
-    setValue(name, value);
-    onChangeParameter(name, value);
-  };
+  // const onChange = (name: keyof SearchParameter, value: string) => {
+  //   setValue(name, value);
+  //   onChangeParameter(name, value);
+  // };
 
   return (
     <form className="w-full px-16 flex justify-between items-center gap-4 mt-5">
       <Controller
         name="workLocationType"
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <Select
             placeholder="Onsite/Remote"
             data={[
@@ -53,15 +48,15 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             ]}
             radius={100}
             className="w-full"
-            {...field}
-            onChange={(value) => onChange("workLocationType", value as string)}
+            onChange={onChange}
+            value={value}
           />
         )}
       />
       <Controller
         name="employmentType"
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <Select
             placeholder="Full Time/Contract"
             data={[
@@ -80,15 +75,15 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             ]}
             radius={100}
             className="w-full"
-            {...field}
-            onChange={(value) => onChange("employmentType", value as string)}
+            onChange={onChange}
+            value={value}
           />
         )}
       />
       <Controller
         name="yearsOfExperience"
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <Select
             placeholder="Experience Level"
             data={[
@@ -111,15 +106,15 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             ]}
             radius={100}
             className="w-full"
-            {...field}
-            onChange={(value) => onChange("yearsOfExperience", value as string)}
+            value={value}
+            onChange={onChange}
           />
         )}
       />
       <Controller
         name="closingDate"
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <Select
             placeholder="Closing Date"
             data={[
@@ -142,8 +137,8 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             ]}
             radius={100}
             className="w-full"
-            {...field}
-            onChange={(value) => onChange("closingDate", value as string)}
+            value={value}
+            onChange={onChange}
           />
         )}
       />
