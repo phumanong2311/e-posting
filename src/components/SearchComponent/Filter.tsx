@@ -3,14 +3,14 @@ import { Controller, useForm } from "react-hook-form";
 import { SearchParameter } from "../../types";
 interface FilterProps {
   searchParameter: SearchParameter;
-  onChangeParameter?: (name: string, value: string) => void;
-  onResetFilter?: () => void;
+  onChangeParameter: (name: string, value: string) => void;
 }
 
-export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
-  const { control, reset, setValue } = useForm({});
+export const Filter = ({ onChangeParameter }: FilterProps) => {
+  const { control, reset } = useForm({});
 
   const onReset = () => {
+    console.log('asdasdas')
     reset({
       workLocationType: null,
       employmentType: null,
@@ -19,17 +19,12 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
     });
   };
 
-  // const onChange = (name: keyof SearchParameter, value: string) => {
-  //   setValue(name, value);
-  //   onChangeParameter(name, value);
-  // };
-
   return (
     <form className="w-full px-16 flex justify-between items-center gap-4 mt-5">
       <Controller
         name="workLocationType"
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { name, value, onChange } }) => (
           <Select
             placeholder="Onsite/Remote"
             data={[
@@ -41,14 +36,18 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
                 value: "Remote",
                 label: "Remote",
               },
-              {
+              { 
                 value: "Hybrid",
                 label: "Hybrid",
               },
             ]}
             radius={100}
             className="w-full"
-            onChange={onChange}
+            onChange={(value) => {
+              console.log('value', value)
+              onChange(value)
+              onChangeParameter(name, value ? value : "")
+            }}
             value={value}
           />
         )}
@@ -56,7 +55,7 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
       <Controller
         name="employmentType"
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { name, value, onChange } }) => (
           <Select
             placeholder="Full Time/Contract"
             data={[
@@ -75,7 +74,10 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             ]}
             radius={100}
             className="w-full"
-            onChange={onChange}
+            onChange={(value) => {
+              onChange(value)
+              onChangeParameter(name, value ? value : "")
+            }}
             value={value}
           />
         )}
@@ -83,7 +85,7 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
       <Controller
         name="yearsOfExperience"
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { name, value, onChange } }) => (
           <Select
             placeholder="Experience Level"
             data={[
@@ -107,14 +109,17 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             radius={100}
             className="w-full"
             value={value}
-            onChange={onChange}
+            onChange={(value) => {
+              onChange(value)
+              onChangeParameter(name, value ? value : "")
+            }}
           />
         )}
       />
       <Controller
         name="closingDate"
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { name, value, onChange } }) => (
           <Select
             placeholder="Closing Date"
             data={[
@@ -138,7 +143,10 @@ export const Filter = ({ onChangeParameter, onResetFilter }: FilterProps) => {
             radius={100}
             className="w-full"
             value={value}
-            onChange={onChange}
+            onChange={(value) => {
+              onChange(value)
+              onChangeParameter(name, value ? value : "")
+            }}
           />
         )}
       />

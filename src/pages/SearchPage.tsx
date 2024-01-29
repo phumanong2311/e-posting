@@ -51,6 +51,7 @@ const SearchPage = () => {
             })
         : jobService
             .getJobs({
+              ...searchParameter,
               page: jobPagination?.page,
             })
             .then((res) => {
@@ -72,7 +73,9 @@ const SearchPage = () => {
   };
 
   const onChangeParameter = (name: string, value: string) => {
-    setSearchParameter({ ...searchParameter, [name]: value });
+    setSearchParameter((prev) => {
+      return { ...prev, [name]: value }
+    });
     resetPage();
   };
 

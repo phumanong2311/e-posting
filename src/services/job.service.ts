@@ -1,10 +1,10 @@
-import { ResponseWrapper } from "../types";
+import { ResponseWrapper, SearchParameter } from "../types";
 import { buildQueryParams } from "../utils";
 import { API } from "./api";
 
 class JobService extends API {
-  async getJobs({ page = 1 }: { page?: number }): Promise<ResponseWrapper> {
-    const url = `job?page=${page}`;
+  async getJobs({ searchParameter, page = 1 }: { searchParameter: SearchParameter, page?: number }): Promise<ResponseWrapper> {
+    const url = `job?page=${page}` + buildQueryParams(searchParameter);
     return this.getAPI(url);
   }
 
