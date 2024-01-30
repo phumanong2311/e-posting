@@ -36,7 +36,7 @@ const SearchPage = () => {
       searchKeyword
         ? jobService
             .getJobSearch({
-              ...searchParameter,
+              searchParameter,
               page: jobPagination?.page,
               keyword: searchKeyword,
             })

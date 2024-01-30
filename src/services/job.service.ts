@@ -35,20 +35,18 @@ class JobService extends API {
   }
 
   async getJobSearch({
-    workLocationType = '',
-    employmentType = '',
-    yearsOfExperience = '',
-    closingDate = '',
-    keyword = '',
+    searchParameter,
     page = 1,
+    keyword = '',
+  }: {
+    searchParameter: SearchParameter
+    page?: number
+    keyword: string
   }): Promise<ResponseWrapper> {
     const url =
       `job/search?` +
       buildQueryParams({
-        workLocationType,
-        employmentType,
-        yearsOfExperience,
-        closingDate,
+        ...searchParameter,
         keyword,
         page,
       })
