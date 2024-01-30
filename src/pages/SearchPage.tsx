@@ -1,33 +1,33 @@
-import { Button, Table } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { Button, Table } from '@mantine/core'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
-import { useDebouncedValue } from "@mantine/hooks";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { SyntheticEvent, useState } from "react";
-import { useAppProviderCtx } from "../app-provider/AppProvider";
-import { Action, Filter } from "../components/SearchComponent";
-import jobService from "../services/job.service";
-import { Job, JobPagination, SearchParameter, SearchType } from "../types";
+import { useDebouncedValue } from '@mantine/hooks'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { SyntheticEvent, useState } from 'react'
+import { useAppProviderCtx } from '../app-provider/AppProvider'
+import { Action, Filter } from '../components/SearchComponent'
+import jobService from '../services/job.service'
+import { Job, JobPagination, SearchParameter, SearchType } from '../types'
 
 const SearchPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     data: { user },
-  } = useAppProviderCtx();
-  const [jobs, setJobs] = useState<Array<Job>>([]);
+  } = useAppProviderCtx()
+  const [jobs, setJobs] = useState<Array<Job>>([])
   const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
-  });
+  })
 
-  const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs);
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
-  const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500);
+  const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs)
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
+  const [searchParameter, setSearchParameter] = useState<SearchParameter>({})
+  const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500)
 
   useQuery({
     queryKey: [
-      "jobsSearch",
+      'jobsSearch',
       searchParameter,
       jobPagination.page,
       debouncedSearchKeyword,
@@ -42,85 +42,85 @@ const SearchPage = () => {
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result;
-                setJobs(jobs);
-                setJobPagination(pagination);
-                return res.result;
+                const { jobs, ...pagination } = res.result
+                setJobs(jobs)
+                setJobPagination(pagination)
+                return res.result
               }
-              return null;
+              return null
             })
         : jobService
             .getJobs({
-              ...searchParameter,
+              searchParameter,
               page: jobPagination?.page,
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result;
-                setJobs(jobs);
-                setJobPagination(pagination);
-                return res.result;
+                const { jobs, ...pagination } = res.result
+                setJobs(jobs)
+                setJobPagination(pagination)
+                return res.result
               }
-              return null;
+              return null
             }),
-  });
+  })
 
   const onChangeSearchType = (e: SyntheticEvent<HTMLInputElement, Event>) => {
-    if (!e.target) return;
-    const value = (e.target as HTMLInputElement).value as SearchType;
-    setSearchType(value);
-    resetPage();
-  };
+    if (!e.target) return
+    const value = (e.target as HTMLInputElement).value as SearchType
+    setSearchType(value)
+    resetPage()
+  }
 
   const onChangeParameter = (name: string, value: string) => {
     setSearchParameter((prev) => {
       return { ...prev, [name]: value }
-    });
-    resetPage();
-  };
+    })
+    resetPage()
+  }
 
   const onChangeSearchKeyword = (
     e: SyntheticEvent<HTMLInputElement, Event>
   ) => {
-    if (!e?.target) return;
-    const { value } = e.target as HTMLInputElement;
-    setSearchKeyword(value);
-    resetPage();
-  };
+    if (!e?.target) return
+    const { value } = e.target as HTMLInputElement
+    setSearchKeyword(value)
+    resetPage()
+  }
 
-  // const onResetFilter = () => {
-  //   setSearchParameter({
-  //     workLocationType: "",
-  //     employmentType: "",
-  //     yearsOfExperience: "",
-  //     closingDate: "",
-  //   });
-  //   resetPage();
-  // };
+  const onResetFilter = () => {
+    setSearchParameter({
+      workLocationType: '',
+      employmentType: '',
+      yearsOfExperience: '',
+      closingDate: '',
+    })
+    resetPage()
+  }
 
   const resetPage = () => {
-    setJobPagination((prev) => ({ ...prev, page: 1 }));
-  };
+    setJobPagination((prev) => ({ ...prev, page: 1 }))
+  }
 
   const onNextPage = () => {
     if (jobPagination?.maxPages && jobPagination?.page) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
+      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
     }
-  };
+  }
 
   const onPreviousPage = () => {
     if (jobPagination?.page! > 1) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
+      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
     }
-  };
+  }
 
   const onViewDetail = (id: string) => {
-    navigate(`/admin/dashboard/job-postings/${id}`);
-  };
+    navigate(`/admin/dashboard/job-postings/${id}`)
+  }
 
   const onEdit = (id: string) => {
-    navigate(`/admin/dashboard/edit-job-posting/${id}`);
-  };
+    navigate(`/admin/dashboard/edit-job-posting/${id}`)
+  }
 
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
@@ -140,7 +140,7 @@ const SearchPage = () => {
         {user?.accountType! > 1 && <IconTrash />}
       </Table.Td>
     </Table.Tr>
-  ));
+  ))
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -154,7 +154,7 @@ const SearchPage = () => {
       <Filter
         searchParameter={searchParameter}
         onChangeParameter={onChangeParameter}
-        // onResetFilter={onResetFilter}
+        onResetFilter={onResetFilter}
       />
 
       <div className="w-full px-14 mt-5">
@@ -197,7 +197,7 @@ const SearchPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SearchPage;
+export default SearchPage
