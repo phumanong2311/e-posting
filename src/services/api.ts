@@ -31,6 +31,7 @@ export class API {
   }
 
   async getAPI(target: string, params = {}, options = { headers: {} }) {
+    console.log('params', params)
     return instance
       .get(this.getUrl(target), {
         headers: { ...this.getHeader(), ...(options?.headers || {}) },
