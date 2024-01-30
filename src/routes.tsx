@@ -14,7 +14,7 @@ const MyJobPostingsPage = lazy(
 );
 const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(
-  () => import("./components/JobPosting/MyJobPostingDetailPage")
+  () => import("./pages/MyJobPostingDetailPage")
 );
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 

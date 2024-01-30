@@ -119,7 +119,9 @@ const SearchPage = () => {
   }
 
   const onEdit = (id: string) => {
-    navigate(`/admin/dashboard/edit-job-posting/${id}`)
+    navigate(`/admin/dashboard/edit-job-posting/${id}`, {
+      state: { isFromSearchPage: true },
+    })
   }
 
   const rows = jobs.map((element, index) => (

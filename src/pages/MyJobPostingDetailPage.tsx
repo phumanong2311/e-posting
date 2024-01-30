@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import jobService from "../../services/job.service";
-import { Job } from "../../types";
-import { toast } from "../../lib/toast";
+import jobService from "../services/job.service";
+import { Job } from "../types";
+import { toast } from "../lib/toast";
 
 const MyJobPostingsDetailPage = () => {
   const { state: locationState } = useLocation();

@@ -1,5 +1,4 @@
 import { Button, Table } from '@mantine/core'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -34,13 +33,13 @@ const MyJobRequestsPage = () => {
 
   const onNextPage = () => {
     if (requestPagination?.maxPages && requestPagination?.page) {
-      setRequestPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }))
     }
   }
 
   const onPreviousPage = () => {
     if (requestPagination?.page! > 1) {
-      setRequestPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }))
     }
   }
 

@@ -60,7 +60,7 @@ export const Header = ({ containerClass = "" }) => {
             ) : (
               <p
                 className={
-                  "text-lg text-black ml-4 " +
+                  "text-lg text-black ml-4 cursor-pointer " +
                   (link.isActive ? "font-bold" : "text-purple-800")
                 }
                 onClick={() => {
