@@ -1,19 +1,25 @@
 import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import jobService from "../services/job.service";
 import { Job } from "../types";
 import { toast } from "../lib/toast";
+import { useAppProviderCtx } from "../app-provider";
 
 const MyJobPostingsDetailPage = () => {
-  const { state: locationState } = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
+  const {
+    data: { user },
+  } = useAppProviderCtx();
   const [jobDetail, setJobDetail] = useState<Job>();
 
-  const { isFromSearchPage } = locationState || {};
+  const isMyJobPosting = useMemo(
+    () => user?.id === jobDetail?.jobOwnerId,
+    [user, jobDetail?.jobOwnerId]
+  );
 
   useQuery({
     queryKey: [id],
@@ -28,9 +34,7 @@ const MyJobPostingsDetailPage = () => {
   });
 
   const onBack = () => {
-    navigate(
-      isFromSearchPage ? "/admin/search" : "/admin/dashboard/job-postings"
-    );
+    navigate(-1);
   };
 
   const onEdit = () => {
@@ -62,7 +66,7 @@ const MyJobPostingsDetailPage = () => {
           <IconChevronLeft /> back to list
         </p>
 
-        {isFromSearchPage && (
+        {!isMyJobPosting && (
           <div className="flex w-full justify-between items-center my-6">
             <div className="flex items-center">
               <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
@@ -84,7 +88,7 @@ const MyJobPostingsDetailPage = () => {
             <p className="text-lg ml-3 font-bold">{jobDetail!.jobTitle}</p>
           </div>
           <div className="flex gap-3">
-            {!isFromSearchPage && (
+            {isMyJobPosting && (
               <>
                 <IconPencil
                   className="cursor-pointer"
