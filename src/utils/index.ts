@@ -19,3 +19,19 @@ export function getRoleName(role: string) {
       return "read";
   }
 }
+
+export function getUserCountry() {
+  // Get the user's locale
+  const userLocale = navigator.language;
+
+  // Use Intl.DateTimeFormat to get country information
+  const intl = new Intl.DateTimeFormat(userLocale, {
+    timeZoneName: "shortGeneric",
+  });
+  const countryTime =
+    intl?.formatToParts()?.find((part: any) => part.type === "timeZoneName")
+      ?.value || "Unknown";
+
+  const country = countryTime.replace("Time", "").trim();
+  return country;
+}
