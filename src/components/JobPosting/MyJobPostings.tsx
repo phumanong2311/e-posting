@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
 import { jobService } from "../../services";
-import { Job, JobPagination } from "../../types";
+import { Job, JobPagination, paths } from "../../types";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
@@ -45,11 +45,13 @@ const MyJobPostingsPage = () => {
   };
 
   const onViewDetail = (id: string) => {
-    navigate(`/admin/dashboard/job-postings/${id}`);
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
   };
 
   const onEdit = (id: string) => {
-    navigate(`/admin/dashboard/edit-job-posting/${id}`);
+    navigate(
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${id}`
+    );
   };
 
   const rows = jobs.map((element, index) => (

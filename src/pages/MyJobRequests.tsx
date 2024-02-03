@@ -1,51 +1,51 @@
-import { Button, Table } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Button, Table } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { jobService } from '../services'
-import { Job, RequestPagination } from '../types'
+import { jobService } from "../services";
+import { Job, RequestPagination, paths } from "../types";
 
 const MyJobRequestsPage = () => {
-  const navigate = useNavigate()
-  const [requests, setRequests] = useState<Array<Job>>([])
+  const navigate = useNavigate();
+  const [requests, setRequests] = useState<Array<Job>>([]);
   const [requestPagination, setRequestPagination] = useState<RequestPagination>(
     {
       page: 1,
     }
-  )
+  );
 
   useQuery({
-    queryKey: ['jobsRequestList', requestPagination.page],
+    queryKey: ["jobsRequestList", requestPagination.page],
     queryFn: () =>
       jobService
         .getMyJobsRequest({ page: requestPagination?.page })
         .then((res) => {
           if (res.result) {
-            const { requests, ...pagination } = res.result
-            setRequests(requests)
-            setRequestPagination(pagination)
-            return res.result
+            const { requests, ...pagination } = res.result;
+            setRequests(requests);
+            setRequestPagination(pagination);
+            return res.result;
           }
-          return null
+          return null;
         }),
-  })
+  });
 
   const onNextPage = () => {
     if (requestPagination?.maxPages && requestPagination?.page) {
-      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }))
+      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (requestPagination?.page! > 1) {
-      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }))
+      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   const onViewDetail = (id: string) => {
-    navigate(`/admin/dashboard/job-postings/${id}`)
-  }
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
+  };
 
   const rows = requests.map((element, index) => (
     <Table.Tr key={index}>
@@ -58,7 +58,7 @@ const MyJobRequestsPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
     </Table.Tr>
-  ))
+  ));
   return (
     <div className="w-full px-14 mt-5">
       <Table withRowBorders={false} verticalSpacing="md">
@@ -97,7 +97,7 @@ const MyJobRequestsPage = () => {
           )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MyJobRequestsPage
+export default MyJobRequestsPage;

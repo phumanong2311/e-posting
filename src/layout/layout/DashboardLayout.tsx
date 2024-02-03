@@ -1,6 +1,7 @@
 import { Divider } from "@mantine/core";
 import { Fragment, useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { paths } from "../../types";
 
 export const DashboardLayout = () => {
   const location = useLocation();
@@ -8,18 +9,18 @@ export const DashboardLayout = () => {
     return [
       {
         label: "My Profile",
-        path: "/admin/dashboard/profile",
-        isActive: location.pathname.includes("/profile"),
+        path: `/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`,
+        isActive: location.pathname.includes(paths.PROFILE),
       },
       {
         label: "My Job Postings",
-        path: "/admin/dashboard/job-postings",
-        isActive: location.pathname.includes("/job-postings"),
+        path: `/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}`,
+        isActive: location.pathname.includes(paths.JOB_POSTING),
       },
       {
         label: "My Job Requests",
-        path: "/admin/dashboard/job-requests",
-        isActive: location.pathname.includes("/job-requests"),
+        path: `/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_REQUEST}`,
+        isActive: location.pathname.includes(paths.JOB_REQUEST),
       },
     ];
   }, [location]);

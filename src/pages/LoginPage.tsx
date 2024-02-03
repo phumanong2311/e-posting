@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../app-provider";
 import { toast } from "../lib/toast";
 import { authService, userService } from "../services";
-import { LoginPayload, ResponseWrapper } from "../types";
+import { LoginPayload, ResponseWrapper, paths } from "../types";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const LoginPage = () => {
         if (res.result) {
           updateUser(res.result);
           toast.success("Login Successful !");
-          navigate("/admin/dashboard/profile");
+          navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`);
         }
       }),
     onError: async (error: Error) => {
