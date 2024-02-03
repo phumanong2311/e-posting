@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
 import { jobService } from "../../services";
 import { Job, JobPagination, paths } from "../../types";
+import { ROLE } from "../../types/enums/role";
 
 const MyJobPostingsPage = () => {
   const navigate = useNavigate();
@@ -65,13 +66,11 @@ const MyJobPostingsPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center">
-        {user?.accountType! > 0 && (
-          <IconEdit
-            className="cursor-pointer"
-            onClick={() => onEdit(element._id!)}
-          />
-        )}
-        {user?.accountType! > 1 && <IconTrash />}
+        <IconEdit
+          className="cursor-pointer"
+          onClick={() => onEdit(element._id!)}
+        />
+        <IconTrash />
       </Table.Td>
     </Table.Tr>
   ));

@@ -15,6 +15,7 @@ import {
   SearchType,
   paths,
 } from "../types";
+import { ROLE } from "../types/enums/role";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -75,14 +76,14 @@ const SearchPage = () => {
     if (!e.target) return;
     const value = (e.target as HTMLInputElement).value as SearchType;
     setSearchType(value);
-    resetPage();
+    resetPageNumber();
   };
 
   const onChangeParameter = (name: string, value: string) => {
     setSearchParameter((prev) => {
       return { ...prev, [name]: value };
     });
-    resetPage();
+    resetPageNumber();
   };
 
   const onChangeSearchKeyword = (
@@ -91,7 +92,7 @@ const SearchPage = () => {
     if (!e?.target) return;
     const { value } = e.target as HTMLInputElement;
     setSearchKeyword(value);
-    resetPage();
+    resetPageNumber();
   };
 
   const onResetFilter = () => {
@@ -101,10 +102,10 @@ const SearchPage = () => {
       yearsOfExperience: "",
       closingDate: "",
     });
-    resetPage();
+    resetPageNumber();
   };
 
-  const resetPage = () => {
+  const resetPageNumber = () => {
     setJobPagination((prev) => ({ ...prev, page: 1 }));
   };
 
@@ -121,7 +122,7 @@ const SearchPage = () => {
   };
 
   const onViewDetail = (id: string) => {
-    navigate(`${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
   };
 
   const onEdit = (id: string) => {
@@ -142,10 +143,12 @@ const SearchPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.accountType! > 0 && (
+        {user?.role === ROLE.EDITOR && (
           <IconEdit onClick={() => onEdit(element._id)} />
         )}
-        {user?.accountType! > 1 && <IconTrash />}
+        {(user?.role === ROLE.EDITOR || user?.role === ROLE.ADMIN) && (
+          <IconTrash />
+        )}
       </Table.Td>
     </Table.Tr>
   ));
@@ -173,7 +176,9 @@ const SearchPage = () => {
               <Table.Th className="text-center">Owner</Table.Th>
               <Table.Th className="text-center">Posted date</Table.Th>
               <Table.Th className="text-center">Status</Table.Th>
-              <Table.Th className="text-center">Admin</Table.Th>
+              {user?.role !== ROLE.USER && (
+                <Table.Th className="text-center">Admin</Table.Th>
+              )}
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
