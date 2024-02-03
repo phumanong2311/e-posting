@@ -16,6 +16,7 @@ import {
   paths,
 } from "../types";
 import { ROLE } from "../types/enums/role";
+import { JobList } from "../components/JobList";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -168,7 +169,7 @@ const SearchPage = () => {
         onResetFilter={onResetFilter}
       />
 
-      <div className="w-full px-14 mt-5">
+      {/* <div className="w-full px-14 mt-5">
         <Table withRowBorders={false} verticalSpacing="md">
           <Table.Thead>
             <Table.Tr>
@@ -208,7 +209,15 @@ const SearchPage = () => {
               </Button>
             )}
         </div>
-      </div>
+      </div> */}
+
+      <JobList
+        jobs={jobs}
+        page={jobPagination.page!}
+        maxPage={jobPagination.maxPages!}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
     </div>
   );
 };
