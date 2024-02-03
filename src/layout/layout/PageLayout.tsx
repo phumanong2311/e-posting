@@ -22,7 +22,7 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
-    if ((location.pathname = paths.ROOT))
+    if (location.pathname === paths.ROOT)
       navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`);
   }, [token]);
 
