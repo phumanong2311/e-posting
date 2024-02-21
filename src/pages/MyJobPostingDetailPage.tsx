@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import jobService from "../services/job.service";
-import { Job } from "../types";
+import { Job, paths } from "../types";
 import { toast } from "../lib/toast";
 import { useAppProviderCtx } from "../app-provider";
 
@@ -38,7 +38,11 @@ const MyJobPostingsDetailPage = () => {
   };
 
   const onEdit = () => {
-    navigate(`/admin/dashboard/edit-job-posting/${jobDetail!._id}`);
+    navigate(
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${
+        jobDetail!._id
+      }`
+    );
   };
 
   const deletePost = async () => {

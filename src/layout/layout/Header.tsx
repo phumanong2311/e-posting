@@ -1,28 +1,29 @@
 import { Fragment, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Divider } from "@mantine/core";
+import { paths } from "../../types";
 export const Header = ({ containerClass = "" }) => {
   const location = useLocation();
   const headerLinks = useMemo(() => {
     return [
       {
         label: "Home",
-        path: "/admin/dashboard/profile",
-        isActive: location.pathname.includes("/dashboard"),
+        path: `/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`,
+        isActive: location.pathname.includes(paths.DASHBOARD),
       },
       {
         label: "Search",
-        path: "/admin/search",
-        isActive: location.pathname.includes("/search"),
+        path: `/${paths.ROOT}/${paths.SEARCH}`,
+        isActive: location.pathname.includes(paths.SEARCH),
       },
       {
         label: "Reporting",
-        path: "/admin/reporting",
-        isActive: location.pathname.includes("/reporting"),
+        path: `/${paths.ROOT}/${paths.REPORTING}`,
+        isActive: location.pathname.includes(paths.REPORTING),
       },
       {
         label: "Logout",
-        path: "/logout",
+        path: `/${paths.LOGOUT}`,
         isActive: false,
       },
     ];
@@ -30,7 +31,7 @@ export const Header = ({ containerClass = "" }) => {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    window.location.href = "/login";
+    window.location.href = `/${paths.LOGIN}`;
   };
   return (
     <header className={containerClass + " w-full h-12 bg-white"}>

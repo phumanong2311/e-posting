@@ -6,6 +6,7 @@ import { PageLayout } from "./layout/layout";
 import { DashboardLayout } from "./layout/layout/DashboardLayout";
 import { NotFoundPage } from "./pages";
 import ErrorBoundary from "./pages/ErrorBoundary ";
+import { paths } from "./types";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
@@ -20,7 +21,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const routesConfig: RouteObject[] = [
   {
-    path: "/admin",
+    path: paths.ROOT,
     element: (
       <Suspense fallback={<LoadingOverlay visible variant="dots" />}>
         <PageLayout />
@@ -28,11 +29,11 @@ const routesConfig: RouteObject[] = [
     ),
     children: [
       {
-        path: "dashboard",
+        path: paths.DASHBOARD,
         element: <DashboardLayout />,
         children: [
           {
-            path: "profile",
+            path: paths.PROFILE,
             index: true,
             element: (
               <Suspense>
@@ -42,7 +43,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "job-postings",
+            path: paths.JOB_POSTING,
             element: (
               <Suspense>
                 <MyJobPostingsPage />
@@ -51,7 +52,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "job-postings/:id",
+            path: `${paths.JOB_POSTING}/:id`,
             element: (
               <Suspense>
                 <MyJobPostingsDetailPage />
@@ -60,7 +61,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "edit-job-posting/:id",
+            path: `${paths.EDIT_JOB_POSTING}/:id`,
             element: (
               <Suspense fallback={<p>Loading package location...</p>}>
                 <EditJobPosting />
@@ -69,7 +70,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "job-requests",
+            path: paths.JOB_REQUEST,
             element: (
               <Suspense>
                 <MyJobRequestsPage />
@@ -80,7 +81,7 @@ const routesConfig: RouteObject[] = [
         ],
       },
       {
-        path: "search",
+        path: paths.SEARCH,
         element: (
           <Suspense>
             <SearchPage />
@@ -91,7 +92,7 @@ const routesConfig: RouteObject[] = [
     ],
   },
   {
-    path: "login",
+    path: paths.LOGIN,
     index: true,
     element: (
       <Suspense>

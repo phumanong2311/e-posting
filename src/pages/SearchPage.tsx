@@ -1,33 +1,41 @@
-import { Button, Table } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { Button, Table } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-import { useDebouncedValue } from '@mantine/hooks'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { SyntheticEvent, useState } from 'react'
-import { useAppProviderCtx } from '../app-provider/AppProvider'
-import { Action, Filter } from '../components/SearchComponent'
-import jobService from '../services/job.service'
-import { Job, JobPagination, SearchParameter, SearchType } from '../types'
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { SyntheticEvent, useState } from "react";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
+import { Action, Filter } from "../components/SearchComponent";
+import jobService from "../services/job.service";
+import {
+  Job,
+  JobPagination,
+  SearchParameter,
+  SearchType,
+  paths,
+} from "../types";
+import { ROLE } from "../types/enums/role";
+import { JobList } from "../components/JobList";
 
 const SearchPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     data: { user },
-  } = useAppProviderCtx()
-  const [jobs, setJobs] = useState<Array<Job>>([])
+  } = useAppProviderCtx();
+  const [jobs, setJobs] = useState<Array<Job>>([]);
   const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
-  })
+  });
 
-  const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs)
-  const [searchKeyword, setSearchKeyword] = useState<string>('')
-  const [searchParameter, setSearchParameter] = useState<SearchParameter>({})
-  const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500)
+  const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs);
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
+  const debouncedSearchKeyword = useDebouncedValue(searchKeyword, 500);
 
   useQuery({
     queryKey: [
-      'jobsSearch',
+      "jobsSearch",
       searchParameter,
       jobPagination.page,
       debouncedSearchKeyword,
@@ -42,12 +50,12 @@ const SearchPage = () => {
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result
-                setJobs(jobs)
-                setJobPagination(pagination)
-                return res.result
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                return res.result;
               }
-              return null
+              return null;
             })
         : jobService
             .getJobs({
@@ -56,73 +64,73 @@ const SearchPage = () => {
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result
-                setJobs(jobs)
-                setJobPagination(pagination)
-                return res.result
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                return res.result;
               }
-              return null
+              return null;
             }),
-  })
+  });
 
   const onChangeSearchType = (e: SyntheticEvent<HTMLInputElement, Event>) => {
-    if (!e.target) return
-    const value = (e.target as HTMLInputElement).value as SearchType
-    setSearchType(value)
-    resetPage()
-  }
+    if (!e.target) return;
+    const value = (e.target as HTMLInputElement).value as SearchType;
+    setSearchType(value);
+    resetPageNumber();
+  };
 
   const onChangeParameter = (name: string, value: string) => {
     setSearchParameter((prev) => {
-      return { ...prev, [name]: value }
-    })
-    resetPage()
-  }
+      return { ...prev, [name]: value };
+    });
+    resetPageNumber();
+  };
 
   const onChangeSearchKeyword = (
     e: SyntheticEvent<HTMLInputElement, Event>
   ) => {
-    if (!e?.target) return
-    const { value } = e.target as HTMLInputElement
-    setSearchKeyword(value)
-    resetPage()
-  }
+    if (!e?.target) return;
+    const { value } = e.target as HTMLInputElement;
+    setSearchKeyword(value);
+    resetPageNumber();
+  };
 
   const onResetFilter = () => {
     setSearchParameter({
-      workLocationType: '',
-      employmentType: '',
-      yearsOfExperience: '',
-      closingDate: '',
-    })
-    resetPage()
-  }
+      workLocationType: "",
+      employmentType: "",
+      yearsOfExperience: "",
+      closingDate: "",
+    });
+    resetPageNumber();
+  };
 
-  const resetPage = () => {
-    setJobPagination((prev) => ({ ...prev, page: 1 }))
-  }
+  const resetPageNumber = () => {
+    setJobPagination((prev) => ({ ...prev, page: 1 }));
+  };
 
   const onNextPage = () => {
     if (jobPagination?.maxPages && jobPagination?.page) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (jobPagination?.page! > 1) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   const onViewDetail = (id: string) => {
-    navigate(`/admin/dashboard/job-postings/${id}`)
-  }
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
+  };
 
   const onEdit = (id: string) => {
-    navigate(`/admin/dashboard/edit-job-posting/${id}`, {
-      state: { isFromSearchPage: true },
-    })
-  }
+    navigate(
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${id}`
+    );
+  };
 
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
@@ -136,13 +144,15 @@ const SearchPage = () => {
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.accountType! > 0 && (
+        {user?.role === ROLE.EDITOR && (
           <IconEdit onClick={() => onEdit(element._id)} />
         )}
-        {user?.accountType! > 1 && <IconTrash />}
+        {(user?.role === ROLE.EDITOR || user?.role === ROLE.ADMIN) && (
+          <IconTrash />
+        )}
       </Table.Td>
     </Table.Tr>
-  ))
+  ));
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -159,7 +169,7 @@ const SearchPage = () => {
         onResetFilter={onResetFilter}
       />
 
-      <div className="w-full px-14 mt-5">
+      {/* <div className="w-full px-14 mt-5">
         <Table withRowBorders={false} verticalSpacing="md">
           <Table.Thead>
             <Table.Tr>
@@ -167,7 +177,9 @@ const SearchPage = () => {
               <Table.Th className="text-center">Owner</Table.Th>
               <Table.Th className="text-center">Posted date</Table.Th>
               <Table.Th className="text-center">Status</Table.Th>
-              <Table.Th className="text-center">Admin</Table.Th>
+              {user?.role !== ROLE.USER && (
+                <Table.Th className="text-center">Admin</Table.Th>
+              )}
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
@@ -197,9 +209,17 @@ const SearchPage = () => {
               </Button>
             )}
         </div>
-      </div>
-    </div>
-  )
-}
+      </div> */}
 
-export default SearchPage
+      <JobList
+        jobs={jobs}
+        page={jobPagination.page!}
+        maxPage={jobPagination.maxPages!}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
+    </div>
+  );
+};
+
+export default SearchPage;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { paths } from "../types";
 
 const NotFoundPage = () => {
   return (
@@ -10,7 +11,7 @@ const NotFoundPage = () => {
         changed, or is temporarily unavailable.
       </p>
       <Link
-        to="/admin/dashboard/profile"
+        to={`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`}
         className="text-white bg-blue-500 border-blue-500 py-1 px-2 no-underline"
       >
         Go To Homepage
