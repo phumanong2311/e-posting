@@ -1,23 +1,23 @@
-import { LoadingOverlay } from "@mantine/core";
-import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
-import { EditJobPosting } from "./components/JobPosting";
-import { PageLayout } from "./layout/layout";
-import { DashboardLayout } from "./layout/layout/DashboardLayout";
-import { NotFoundPage } from "./pages";
-import ErrorBoundary from "./pages/ErrorBoundary ";
-import { paths } from "./types";
+import { LoadingOverlay } from '@mantine/core'
+import { Suspense, lazy } from 'react'
+import { RouteObject, createBrowserRouter } from 'react-router-dom'
+import { EditJobPosting } from './components/JobPosting'
+import { PageLayout } from './layout/layout'
+import { DashboardLayout } from './layout/layout/DashboardLayout'
+import { CreateCompanyPage, NotFoundPage } from './pages'
+import ErrorBoundary from './pages/ErrorBoundary '
+import { paths } from './types'
 
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const MyProfilePage = lazy(() => import("./pages/MyProfile"));
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const MyProfilePage = lazy(() => import('./pages/MyProfile'))
 const MyJobPostingsPage = lazy(
-  () => import("./components/JobPosting/MyJobPostings")
-);
-const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
+  () => import('./components/JobPosting/MyJobPostings')
+)
+const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
 const MyJobPostingsDetailPage = lazy(
-  () => import("./pages/MyJobPostingDetailPage")
-);
-const SearchPage = lazy(() => import("./pages/SearchPage"));
+  () => import('./pages/MyJobPostingDetailPage')
+)
+const SearchPage = lazy(() => import('./pages/SearchPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -89,6 +89,15 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
+      {
+        path: paths.CREATE_COMPANY,
+        element: (
+          <Suspense>
+            <CreateCompanyPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
     ],
   },
   {
@@ -103,9 +112,9 @@ const routesConfig: RouteObject[] = [
   },
 
   {
-    path: "*",
+    path: '*',
     element: <NotFoundPage />,
   },
-];
+]
 
-export const router = createBrowserRouter(routesConfig);
+export const router = createBrowserRouter(routesConfig)

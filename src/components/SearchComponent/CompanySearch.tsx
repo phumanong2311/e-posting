@@ -6,7 +6,7 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAppProviderCtx } from '../../app-provider'
-import { Company, CompanyPagination } from '../../types'
+import { Company, CompanyPagination, paths } from '../../types'
 import { companyService } from '../../services'
 
 const CompanySearch = ({ keyword }: { keyword: string }) => {
@@ -73,6 +73,10 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
     // })
   }
 
+  const onAddCompany = () => {
+    navigate(`/${paths.ROOT}/${paths.CREATE_COMPANY}`)
+  }
+
   const rows = companies.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
@@ -94,7 +98,18 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="w-full px-14 mt-5">
+      <div className="w-full h-fit mt-5 px-14">
+        <Button
+          variant="outline"
+          className="w-fit float-right"
+          size="sm"
+          onClick={onAddCompany}
+        >
+          Add Company
+        </Button>
+      </div>
+
+      <div className="w-full px-14 mt-2">
         <Table withRowBorders={false} verticalSpacing="md">
           <Table.Thead>
             <Table.Tr>
