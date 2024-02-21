@@ -3,6 +3,7 @@ import { Action } from '../components/SearchComponent'
 import JobSearch from '../components/SearchComponent/JobSearch'
 import { SearchType } from '../types'
 import CompanySearch from '../components/SearchComponent/CompanySearch'
+import UserSearch from '../components/SearchComponent/UserSearch'
 
 const SearchPage = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs)
@@ -26,6 +27,8 @@ const SearchPage = () => {
         return <JobSearch keyword={searchKeyword} />
       case SearchType.Companies:
         return <CompanySearch keyword={searchKeyword} />
+      case SearchType.Users:
+        return <UserSearch keyword={searchKeyword} />
     }
   }
 
