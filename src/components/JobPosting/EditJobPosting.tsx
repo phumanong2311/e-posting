@@ -4,18 +4,15 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "../../lib/toast";
 import { jobService } from "../../services";
 import { DatePickerUI, LabelInput, RichEditor } from "../../ui";
 
 const EditJobPosting = () => {
-  const { state } = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
   const [jobDetail, setJobDetail] = useState();
-
-  const { ...locationState } = state || {};
 
   useQuery({
     queryKey: [id],
@@ -35,12 +32,8 @@ const EditJobPosting = () => {
 
   const { isDirty } = formState;
 
-  const { isFromSearchPage } = locationState || {};
-
   const onBack = () => {
-    navigate(
-      isFromSearchPage ? "/admin/search" : "/admin/dashboard/job-postings"
-    );
+    navigate(-1);
   };
 
   const onSubmit = async (value: any) => {
