@@ -4,7 +4,7 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom'
 import { EditJobPosting } from './components/JobPosting'
 import { PageLayout } from './layout/layout'
 import { DashboardLayout } from './layout/layout/DashboardLayout'
-import { CreateCompanyPage, NotFoundPage } from './pages'
+import { NotFoundPage } from './pages'
 import ErrorBoundary from './pages/ErrorBoundary '
 import { paths } from './types'
 
@@ -18,6 +18,8 @@ const MyJobPostingsDetailPage = lazy(
   () => import('./pages/MyJobPostingDetailPage')
 )
 const SearchPage = lazy(() => import('./pages/SearchPage'))
+const CreateCompanyPage = lazy(() => import('./pages/CreateCompanyPage'))
+const CompanyDetailPage = lazy(() => import('./pages/CompanyDetailPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -94,6 +96,15 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <CreateCompanyPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.COMPANY_DETAIL}/:id`,
+        element: (
+          <Suspense>
+            <CompanyDetailPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,

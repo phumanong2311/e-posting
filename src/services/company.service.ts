@@ -14,6 +14,11 @@ class CompanyService extends API {
     return this.getAPI(url)
   }
 
+  async getCompanyDetail(id: string): Promise<ResponseWrapper> {
+    const url = `company/${id}`
+    return this.getAPI(url)
+  }
+
   async getImageLogoUrl(file: File) {
     const url = `v2/files/company-upload`
     const formData = new FormData()

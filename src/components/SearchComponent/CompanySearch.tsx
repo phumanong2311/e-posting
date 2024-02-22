@@ -62,8 +62,7 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
   }
 
   const onViewDetail = (id: string) => {
-    //TODO: Implement onViewDetail
-    // navigate(`/admin/dashboard/job-postings/${id}`)
+    navigate(`/admin/company-detail/${id}`)
   }
 
   const onEdit = (id: string) => {
