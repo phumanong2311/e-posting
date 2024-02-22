@@ -1,7 +1,7 @@
 import { Button, Table } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-
+import moment from 'moment'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
@@ -79,8 +79,12 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
       >
         {element.email}
       </Table.Td>
-      <Table.Td className="text-center">{element.signupDate}</Table.Td>
-      <Table.Td className="text-center">{element.updatedAt}</Table.Td>
+      <Table.Td className="text-center">
+        {moment(element.signupDate).format('MM/DD/YYYY')}
+      </Table.Td>
+      <Table.Td className="text-center">
+        {moment(element.updatedAt).format('MM/DD/YYYY')}
+      </Table.Td>
       <Table.Td className="text-center">{element.accountStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (

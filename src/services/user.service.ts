@@ -21,7 +21,7 @@ class UserService extends API {
     keyword?: string
     page?: number
   }): Promise<ResponseWrapper> {
-    const url = `admin/user?` + buildQueryParams({ keyword, page })
+    const url = `v1/admin/user?` + buildQueryParams({ keyword, page })
     return this.getAPI(url)
   }
 }

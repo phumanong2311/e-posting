@@ -1,4 +1,12 @@
-import { FileInput, Input, TextInput } from '@mantine/core'
+import { useState } from 'react'
+import {
+  FileButton,
+  Input,
+  TextInput,
+  UnstyledButton,
+  Image,
+} from '@mantine/core'
+import { IconPhoto } from '@tabler/icons-react'
 
 interface ImageInputProps {
   label: string
@@ -7,6 +15,8 @@ interface ImageInputProps {
   wrapperClass?: string
   labelClass?: string
   className?: string
+  onChange: (file: File) => void
+  value: string | null
 }
 
 export const ImageInput = ({
@@ -15,17 +25,40 @@ export const ImageInput = ({
   name,
   wrapperClass,
   labelClass,
+  value = null,
+  onChange,
   className,
 }: ImageInputProps) => {
+  const [file, setFile] = useState<File | null>(value)
+  const [previewFile, setPreviewFile] = useState(value)
+  const onUploadFile = (e) => {
+    setFile(e)
+    const src = URL.createObjectURL(e)
+    setPreviewFile(src)
+    onChange(e)
+  }
+
   return (
     <Input.Wrapper className={`flex items-center ${wrapperClass}`}>
-      <span className={`mr-2 w-1/3 text-right font-semibold ${labelClass}`}>
+      <div
+        className={`mr-2 w-1/3 text-right font-semibold ${labelClass} flex flex-col items-end`}
+      >
         {label}
-      </span>
-      <FileInput
-        {...register(name)}
-        className={`w-full rounded-md ${className}`}
-      />
+        <FileButton
+          accept="image/*"
+          {...register(name)}
+          onChange={onUploadFile}
+        >
+          {(props) => (
+            <p {...props} className="text-xs text-cyan-700">
+              Upload
+            </p>
+          )}
+        </FileButton>
+      </div>
+      <div className="w-full">
+        <Image src={previewFile} alt="Company Logo" w={80} h={80} />
+      </div>
     </Input.Wrapper>
   )
 }

@@ -1,9 +1,10 @@
-import { Button, Table } from "@mantine/core";
-import { useAppProviderCtx } from "../../app-provider";
-import { ROLE } from "../../types/enums/role";
-import { useNavigate } from "react-router-dom";
-import { Job, paths } from "../../types";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { Button, Table } from '@mantine/core'
+import { useAppProviderCtx } from '../../app-provider'
+import { ROLE } from '../../types/enums/role'
+import { useNavigate } from 'react-router-dom'
+import { Job, paths } from '../../types'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
+import moment from 'moment'
 
 const JobList = ({
   jobs = [],
@@ -13,27 +14,27 @@ const JobList = ({
   onPreviousPage,
   isMyJobList = false,
 }: {
-  jobs: Array<Job>;
-  page: number;
-  maxPage: number;
-  onNextPage: () => void;
-  onPreviousPage: () => void;
-  isMyJobList?: boolean;
+  jobs: Array<Job>
+  page: number
+  maxPage: number
+  onNextPage: () => void
+  onPreviousPage: () => void
+  isMyJobList?: boolean
 }) => {
   const {
     data: { user },
-  } = useAppProviderCtx();
-  const navigate = useNavigate();
+  } = useAppProviderCtx()
+  const navigate = useNavigate()
 
   const onViewDetail = (id: string) => {
-    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
-  };
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`)
+  }
 
   const onEdit = (id: string) => {
     navigate(
       `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${id}`
-    );
-  };
+    )
+  }
 
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
@@ -46,7 +47,9 @@ const JobList = ({
       {!isMyJobList && (
         <Table.Td className="text-center">{element.jobOwner}</Table.Td>
       )}
-      <Table.Td className="text-center">{element.createdAt}</Table.Td>
+      <Table.Td className="text-center">
+        {moment(element.createdAt).format('MM/DD/YYYY')}
+      </Table.Td>
       <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.role === ROLE.EDITOR && (
@@ -57,7 +60,7 @@ const JobList = ({
         )}
       </Table.Td>
     </Table.Tr>
-  ));
+  ))
   return (
     <div className="w-full px-14 mt-5">
       <Table withRowBorders={false} verticalSpacing="md">
@@ -99,7 +102,7 @@ const JobList = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default JobList;
+export default JobList

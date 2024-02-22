@@ -14,6 +14,18 @@ class CompanyService extends API {
     return this.getAPI(url)
   }
 
+  async getImageLogoUrl(file: File) {
+    const url = `v2/files/company-upload`
+    const formData = new FormData()
+    formData.append('file', file)
+    return this.postAPI(url, formData)
+  }
+
+  async createCompany(company: Company) {
+    const url = `company`
+    return this.postAPI(url, company)
+  }
+
   async editCompany(id: string, payload: any) {
     //TODO: implement edit company
     // const url = `job/${id}`
