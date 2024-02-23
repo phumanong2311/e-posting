@@ -18,9 +18,13 @@ const MyJobPostingsDetailPage = lazy(
   () => import('./pages/MyJobPostingDetailPage')
 )
 const SearchPage = lazy(() => import('./pages/SearchPage'))
-const CreateCompanyPage = lazy(() => import('./pages/CreateCompanyPage'))
-const CompanyDetailPage = lazy(() => import('./pages/CompanyDetailPage'))
-const EditCompanyPage = lazy(() => import('./pages/EditCompanyPage'))
+const CreateCompanyPage = lazy(
+  () => import('./pages/Company/CreateCompanyPage')
+)
+const CompanyDetailPage = lazy(
+  () => import('./pages/Company/CompanyDetailPage')
+)
+const EditCompanyPage = lazy(() => import('./pages/Company/EditCompanyPage'))
 
 const routesConfig: RouteObject[] = [
   {

@@ -1,4 +1,6 @@
 import { SyntheticEvent, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import { Action } from '../components/SearchComponent'
 import JobSearch from '../components/SearchComponent/JobSearch'
 import { SearchType } from '../types'
@@ -6,11 +8,17 @@ import CompanySearch from '../components/SearchComponent/CompanySearch'
 import UserSearch from '../components/SearchComponent/UserSearch'
 
 const SearchPage = () => {
-  const [searchType, setSearchType] = useState<SearchType>(SearchType.Jobs)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initSearchType = searchParams.get('searchType') || SearchType.Jobs
+
+  const [searchType, setSearchType] = useState<SearchType>(initSearchType)
   const [searchKeyword, setSearchKeyword] = useState<string>('')
 
   const onChangeSearchType = (value: string) => {
     setSearchType(value as SearchType)
+    setSearchParams({
+      searchType: value,
+    })
   }
 
   const onChangeSearchKeyword = (

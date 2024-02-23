@@ -4,10 +4,10 @@ import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import { companyService } from '../services'
-import { toast } from '../lib/toast'
-import { CompanyForm } from '../components/CompanyForm'
-import { Company, paths } from '../types'
+import { companyService } from '../../services'
+import { toast } from '../../lib/toast'
+import { CompanyForm } from '../../components/CompanyForm'
+import { Company, paths } from '../../types'
 
 const EditCompanyPage = () => {
   const { id } = useParams()

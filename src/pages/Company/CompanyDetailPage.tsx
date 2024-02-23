@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { Image } from '@mantine/core'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import { companyService } from '../services'
-import { Company, paths } from '../types'
-import { toast } from '../lib/toast'
-import { useAppProviderCtx } from '../app-provider'
+import { companyService } from '../../services'
+import { Company, paths } from '../../types'
+import { toast } from '../../lib/toast'
+import { useAppProviderCtx } from '../../app-provider'
 
 const CompanyDetailPage = () => {
   const { id } = useParams()
