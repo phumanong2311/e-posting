@@ -1,48 +1,55 @@
-import { Button, Checkbox, Group, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Button, Checkbox, Group, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
 
-import { IconEye, IconMail } from "@tabler/icons-react";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppProviderCtx } from "../app-provider";
-import { toast } from "../lib/toast";
-import { authService, userService } from "../services";
-import { LoginPayload, ResponseWrapper, paths } from "../types";
+import { IconEye, IconMail } from '@tabler/icons-react'
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAppProviderCtx } from '../app-provider'
+import { toast } from '../lib/toast'
+import { authService, userService } from '../services'
+import { LoginPayload, ResponseWrapper, paths } from '../types'
 
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     func: { updateUser },
-  } = useAppProviderCtx();
-  const [showPass, setShowPass] = useState(false);
+  } = useAppProviderCtx()
+  const [showPass, setShowPass] = useState(false)
+  const [loading, setLoading] = useState(false)
   const form = useForm({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-  });
+  })
 
   const getUser = useMutation({
     mutationFn: () =>
       userService.getMe().then((res: ResponseWrapper) => {
         if (res.result) {
-          updateUser(res.result);
-          toast.success("Login Successful !");
-          navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`);
+          updateUser(res.result)
+          toast.success('Login Successful !')
+          navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`)
         }
       }),
     onError: async (error: Error) => {
-      toast.error(`Login Failed !, ${error.message}`);
+      toast.error(`Login Failed !, ${error.message}`)
     },
-  });
+  })
 
   const onSubmit = async (data: LoginPayload) => {
-    await authService.login(data).then((r) => {
-      localStorage.setItem("accessToken", r.accessToken);
-    });
-    await getUser.mutateAsync();
-  };
+    setLoading(true)
+    await authService
+      .login(data)
+      .then((r) => {
+        localStorage.setItem('accessToken', r.accessToken)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+    await getUser.mutateAsync()
+  }
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <div className="min-w-[800px]">
@@ -57,7 +64,7 @@ const LoginPage = () => {
             size="lg"
             radius={10}
             leftSection={<IconMail className="text-black" color="black" />}
-            {...form.getInputProps("email")}
+            {...form.getInputProps('email')}
           />
           <p className="text-sm text-gray-300 mt-2">
             must use an email under the domain "@eposting.com"
@@ -65,7 +72,7 @@ const LoginPage = () => {
           <TextInput
             label={<p className="text-lg text-black-300 mb-2">Password</p>}
             placeholder="Password"
-            type={!showPass ? "password" : "text"}
+            type={!showPass ? 'password' : 'text'}
             className="w-full mt-5"
             size="lg"
             radius={10}
@@ -76,7 +83,7 @@ const LoginPage = () => {
                 color="black"
               />
             }
-            {...form.getInputProps("password")}
+            {...form.getInputProps('password')}
           />
           <p className="text-sm text-gray-300 mt-2">
             this is a different email password than your ePosting google account
@@ -88,6 +95,7 @@ const LoginPage = () => {
               className="w-full bg-[#7167e8]"
               size="lg"
               radius={10}
+              loading={loading}
             >
               Sign in
             </Button>
@@ -110,6 +118,6 @@ const LoginPage = () => {
         </form>
       </div>
     </div>
-  );
-};
-export default LoginPage;
+  )
+}
+export default LoginPage
