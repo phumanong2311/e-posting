@@ -27,6 +27,7 @@ const CompanyDetailPage = lazy(
 const EditCompanyPage = lazy(() => import('./pages/Company/EditCompanyPage'))
 
 const UserDetailPage = lazy(() => import('./pages/User/UserDetailPage'))
+const EditUserPage = lazy(() => import('./pages/User/EditUserPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -130,6 +131,15 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <UserDetailPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.EDIT_USER}/:id`,
+        element: (
+          <Suspense>
+            <EditUserPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,

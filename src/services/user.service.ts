@@ -27,7 +27,13 @@ class UserService extends API {
 
   async getUserDetail(id: string): Promise<ResponseWrapper> {
     const url = `v1/admin/user/${id}`
+    console.log(url)
     return this.getAPI(url)
+  }
+
+  async editUser(id: string, payload: any) {
+    const url = `v1/admin/user/${id}`
+    return this.putAPI(url, { ...payload })
   }
 }
 

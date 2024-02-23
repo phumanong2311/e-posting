@@ -64,10 +64,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
   }
 
   const onEdit = (id: string) => {
-    //TODO: Implement Edit company
-    // navigate(`/admin/dashboard/edit-job-posting/${id}`, {
-    //   state: { isFromSearchPage: true },
-    // })
+    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`)
   }
 
   const rows = users.map((element, index) => (
@@ -87,7 +84,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
       <Table.Td className="text-center">{element.accountStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (
-          <IconEdit onClick={() => onEdit(element.id)} />
+          <IconEdit onClick={() => onEdit(element._id)} />
         )}
         {/* {user?.accountType! > 1 && <IconTrash />} */}
       </Table.Td>

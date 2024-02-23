@@ -32,7 +32,7 @@ const UserDetailPage = () => {
   }
 
   const onEdit = () => {
-    // navigate(`/${paths.ROOT}/${paths.EDIT_COMPANY}/${userDetail!._id}`)
+    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${userDetail!._id}`)
   }
 
   const deletePost = async () => {
