@@ -7,7 +7,7 @@ import { IconEdit } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAppProviderCtx } from '../../app-provider'
 import { userService } from '../../services'
-import { User, UserPagination } from '../../types'
+import { User, UserPagination, paths } from '../../types'
 
 const UserSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
@@ -60,8 +60,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
   }
 
   const onViewDetail = (id: string) => {
-    //TODO: Implement onViewDetail
-    // navigate(`/admin/dashboard/job-postings/${id}`)
+    navigate(`/${paths.ROOT}/${paths.USER_DETAIL}/${id}`)
   }
 
   const onEdit = (id: string) => {
@@ -75,7 +74,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element.id)}
+        onClick={() => onViewDetail(element._id)}
       >
         {element.email}
       </Table.Td>

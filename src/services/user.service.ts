@@ -24,6 +24,11 @@ class UserService extends API {
     const url = `v1/admin/user?` + buildQueryParams({ keyword, page })
     return this.getAPI(url)
   }
+
+  async getUserDetail(id: string): Promise<ResponseWrapper> {
+    const url = `v1/admin/user/${id}`
+    return this.getAPI(url)
+  }
 }
 
 const userService = new UserService()

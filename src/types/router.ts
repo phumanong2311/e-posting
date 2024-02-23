@@ -4,11 +4,16 @@ export enum paths {
   PROFILE = 'profile',
   JOB_POSTING = 'job-postings',
   EDIT_JOB_POSTING = 'edit-job-posting',
+  JOB_REQUEST = 'job-requests',
+  SEARCH = 'search',
+
   CREATE_COMPANY = 'create-company',
   COMPANY_DETAIL = 'company-detail',
   EDIT_COMPANY = 'edit-company',
-  JOB_REQUEST = 'job-requests',
-  SEARCH = 'search',
+
+  USER_DETAIL = 'user-detail',
+  EDIT_USER = 'edit-user',
+
   LOGIN = 'login',
   REPORTING = 'reporting',
   LOGOUT = 'logout',
