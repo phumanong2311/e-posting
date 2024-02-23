@@ -4,6 +4,7 @@ import { ROLE } from '../../types/enums/role'
 import { useNavigate } from 'react-router-dom'
 import { Job, paths } from '../../types'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { EmptyBoxMessage } from '../../ui'
 import moment from 'moment'
 
 const JobList = ({
@@ -77,6 +78,13 @@ const JobList = ({
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
+      {!jobs ||
+        (jobs.length === 0 && (
+          <div className="w-full flex items-center justify-center mt-8">
+            <EmptyBoxMessage />
+          </div>
+        ))}
+
       <div className="flex w-full justify-between">
         {page > 1 ? (
           <Button
