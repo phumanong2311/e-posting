@@ -33,8 +33,8 @@ class CompanyService extends API {
 
   async editCompany(id: string, payload: any) {
     //TODO: implement edit company
-    // const url = `job/${id}`
-    // return this.putAPI(url, { ...payload })
+    const url = `company/${id}`
+    return this.putAPI(url, { ...payload })
   }
 
   async deleteCompany(id: string) {

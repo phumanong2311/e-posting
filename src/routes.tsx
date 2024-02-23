@@ -20,6 +20,7 @@ const MyJobPostingsDetailPage = lazy(
 const SearchPage = lazy(() => import('./pages/SearchPage'))
 const CreateCompanyPage = lazy(() => import('./pages/CreateCompanyPage'))
 const CompanyDetailPage = lazy(() => import('./pages/CompanyDetailPage'))
+const EditCompanyPage = lazy(() => import('./pages/EditCompanyPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -105,6 +106,15 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <CompanyDetailPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.EDIT_COMPANY}/:id`,
+        element: (
+          <Suspense>
+            <EditCompanyPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,

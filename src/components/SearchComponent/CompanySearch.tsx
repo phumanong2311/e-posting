@@ -66,10 +66,7 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
   }
 
   const onEdit = (id: string) => {
-    //TODO: Implement Edit company
-    // navigate(`/admin/dashboard/edit-job-posting/${id}`, {
-    //   state: { isFromSearchPage: true },
-    // })
+    navigate(`/${paths.ROOT}/${paths.EDIT_COMPANY}/${id}`)
   }
 
   const onAddCompany = () => {

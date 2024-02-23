@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   FileButton,
   Input,
@@ -29,7 +29,7 @@ export const ImageInput = ({
   onChange,
   className,
 }: ImageInputProps) => {
-  const [file, setFile] = useState<File | null>(value)
+  const [file, setFile] = useState<File | string | null>(value)
   const [previewFile, setPreviewFile] = useState(value)
   const onUploadFile = (e) => {
     setFile(e)
@@ -37,6 +37,15 @@ export const ImageInput = ({
     setPreviewFile(src)
     onChange(e)
   }
+
+  useEffect(() => {
+    if (value) {
+      setFile(value)
+      if (typeof value === 'string') {
+        setPreviewFile(value)
+      }
+    }
+  }, [value])
 
   return (
     <Input.Wrapper className={`flex items-center ${wrapperClass}`}>
@@ -57,7 +66,13 @@ export const ImageInput = ({
         </FileButton>
       </div>
       <div className="w-full">
-        <Image src={previewFile} alt="Company Logo" w={80} h={80} />
+        <Image
+          src={previewFile}
+          alt="Company Logo"
+          w={80}
+          h={80}
+          fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+        />
       </div>
     </Input.Wrapper>
   )

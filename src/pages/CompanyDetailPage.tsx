@@ -1,6 +1,6 @@
 import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Image } from '@mantine/core'
 
 import { useNavigate, useParams } from 'react-router-dom'
@@ -31,12 +31,7 @@ const CompanyDetailPage = () => {
   }
 
   const onEdit = () => {
-    //TODO: navigate to edit company details
-    // navigate(
-    //   `/${paths.ROOT}/${paths.EDIT_JOB_POSTING}/${
-    //     companyDetail!._id
-    //   }`
-    // )
+    navigate(`/${paths.ROOT}/${paths.EDIT_COMPANY}/${companyDetail!._id}`)
   }
 
   const deletePost = async () => {
@@ -69,7 +64,13 @@ const CompanyDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Company Logo:
             </p>
-            <Image src={companyDetail!.logo} w={80} h={80} className="ml-3" />
+            <Image
+              src={companyDetail!.logo}
+              w={80}
+              h={80}
+              className="ml-3"
+              fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+            />
           </div>
           <div className="flex gap-3">
             <>

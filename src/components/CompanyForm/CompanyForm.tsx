@@ -1,16 +1,27 @@
 import { useForm, Controller } from 'react-hook-form'
-
+import { useEffect } from 'react'
 import { Button } from '@mantine/core'
 import { LabelInput, ImageInput } from '../../ui'
 type CompanyFormProps = {
   onSubmit: (value: any) => void
+  company?: Company
 }
 
-const CompanyForm = ({ onSubmit }: CompanyFormProps) => {
+const CompanyForm = ({ onSubmit, company }: CompanyFormProps) => {
   const methods = useForm({})
   const { register, handleSubmit, reset, formState, control } = methods
 
   const { isDirty } = formState
+
+  useEffect(() => {
+    if (company) {
+      reset({
+        ...company,
+        companyLogo: company.logo,
+      })
+    }
+  }, [company])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="w-full p-6 max-w-screen-lg space-y-4">
