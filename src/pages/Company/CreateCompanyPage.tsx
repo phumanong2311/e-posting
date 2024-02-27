@@ -12,31 +12,35 @@ const CreateCompanyPage = () => {
   }
 
   const onSubmit = async (value: any) => {
-    const file = value.companyLogo
-    const imageLogoUrl = await companyService.getImageLogoUrl(file)
-    const company = {
-      companyName: value.companyName,
-      ticker: value.ticker,
-      address: value.address,
-      city: value.city,
-      state: value.state,
-      postalCode: value.postalCode,
-      country: value.country,
-      website: value.website,
-      sector: value.sector,
-      industry: value.industry,
-      ceo: value.ceo,
-      logo: imageLogoUrl,
+    try {
+      const file = value.companyLogo
+      const imageLogoUrl = await companyService.getImageLogoUrl(file)
+      const company = {
+        companyName: value.companyName,
+        ticker: value.ticker,
+        address: value.address,
+        city: value.city,
+        state: value.state,
+        postalCode: value.postalCode,
+        country: value.country,
+        website: value.website,
+        sector: value.sector,
+        industry: value.industry,
+        ceo: value.ceo,
+        logo: imageLogoUrl,
+      }
+      await companyService
+        .createCompany(company)
+        .then((result) => {
+          result && toast.success('Company is created successfully')
+          onBack()
+        })
+        .catch((error) => {
+          toast.error(error.message)
+        })
+    } catch (e: any) {
+      toast.error(e.message)
     }
-    await companyService
-      .createCompany(value)
-      .then((result) => {
-        result && toast.success('Company is created successfully')
-        onBack()
-      })
-      .catch((error) => {
-        toast.error(error.message)
-      })
   }
 
   return (
