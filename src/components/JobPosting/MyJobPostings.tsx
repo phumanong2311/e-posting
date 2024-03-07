@@ -1,59 +1,60 @@
-import { Button, Table } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Button, Table } from '@mantine/core'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useAppProviderCtx } from "../../app-provider/AppProvider";
-import { jobService } from "../../services";
-import { Job, JobPagination, paths } from "../../types";
-import { ROLE } from "../../types/enums/role";
+import { useAppProviderCtx } from '../../app-provider/AppProvider'
+import { jobService } from '../../services'
+import { Job, JobPagination, paths } from '../../types'
+import { ROLE } from '../../types/enums/role'
+import { JobList } from '../JobList'
 
 const MyJobPostingsPage = () => {
-  const navigate = useNavigate();
-  const [jobs, setJobs] = useState<Array<Job>>([]);
+  const navigate = useNavigate()
+  const [jobs, setJobs] = useState<Array<Job>>([])
   const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
-  });
+  })
   const {
     data: { user },
-  } = useAppProviderCtx();
+  } = useAppProviderCtx()
 
   useQuery({
-    queryKey: ["jobsList", jobPagination.page],
+    queryKey: ['jobsList', jobPagination.page],
     queryFn: () =>
       jobService.getMyJobs({ page: jobPagination?.page }).then((res) => {
         if (res.result) {
-          const { jobs, ...pagination } = res.result;
-          setJobs(jobs);
-          setJobPagination(pagination);
-          return res.result;
+          const { jobs, ...pagination } = res.result
+          setJobs(jobs)
+          setJobPagination(pagination)
+          return res.result
         }
-        return null;
+        return null
       }),
-  });
+  })
 
   const onNextPage = () => {
     if (jobPagination?.maxPages && jobPagination?.page) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
+      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
     }
-  };
+  }
 
   const onPreviousPage = () => {
     if (jobPagination?.page! > 1) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
+      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
     }
-  };
+  }
 
   const onViewDetail = (id: string) => {
-    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
-  };
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`)
+  }
 
   const onEdit = (id: string) => {
     navigate(
       `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${id}`
-    );
-  };
+    )
+  }
 
   const rows = jobs.map((element, index) => (
     <Table.Tr key={index}>
@@ -73,10 +74,10 @@ const MyJobPostingsPage = () => {
         <IconTrash />
       </Table.Td>
     </Table.Tr>
-  ));
+  ))
   return (
-    <div className="w-full px-14 mt-5">
-      <Table withRowBorders={false} verticalSpacing="md">
+    <div className="w-full">
+      {/* <Table withRowBorders={false} verticalSpacing="md">
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Description/Job Title</Table.Th>
@@ -111,9 +112,17 @@ const MyJobPostingsPage = () => {
               next page &gt;
             </Button>
           )}
-      </div>
-    </div>
-  );
-};
+      </div> */}
 
-export default MyJobPostingsPage;
+      <JobList
+        jobs={jobs}
+        page={jobPagination.page!}
+        maxPage={jobPagination.maxPages!}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
+    </div>
+  )
+}
+
+export default MyJobPostingsPage

@@ -1,23 +1,33 @@
-import { LoadingOverlay } from "@mantine/core";
-import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
-import { EditJobPosting } from "./components/JobPosting";
-import { PageLayout } from "./layout/layout";
-import { DashboardLayout } from "./layout/layout/DashboardLayout";
-import { NotFoundPage } from "./pages";
-import ErrorBoundary from "./pages/ErrorBoundary ";
-import { paths } from "./types";
+import { LoadingOverlay } from '@mantine/core'
+import { Suspense, lazy } from 'react'
+import { RouteObject, createBrowserRouter } from 'react-router-dom'
+import { EditJobPosting } from './components/JobPosting'
+import { PageLayout } from './layout/layout'
+import { DashboardLayout } from './layout/layout/DashboardLayout'
+import { NotFoundPage } from './pages'
+import ErrorBoundary from './pages/ErrorBoundary '
+import { paths } from './types'
 
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const MyProfilePage = lazy(() => import("./pages/MyProfile"));
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const MyProfilePage = lazy(() => import('./pages/MyProfile'))
 const MyJobPostingsPage = lazy(
-  () => import("./components/JobPosting/MyJobPostings")
-);
-const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
+  () => import('./components/JobPosting/MyJobPostings')
+)
+const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
 const MyJobPostingsDetailPage = lazy(
-  () => import("./pages/MyJobPostingDetailPage")
-);
-const SearchPage = lazy(() => import("./pages/SearchPage"));
+  () => import('./pages/MyJobPostingDetailPage')
+)
+const SearchPage = lazy(() => import('./pages/SearchPage'))
+const CreateCompanyPage = lazy(
+  () => import('./pages/Company/CreateCompanyPage')
+)
+const CompanyDetailPage = lazy(
+  () => import('./pages/Company/CompanyDetailPage')
+)
+const EditCompanyPage = lazy(() => import('./pages/Company/EditCompanyPage'))
+
+const UserDetailPage = lazy(() => import('./pages/User/UserDetailPage'))
+const EditUserPage = lazy(() => import('./pages/User/EditUserPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -89,6 +99,51 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
+      {
+        path: paths.CREATE_COMPANY,
+        element: (
+          <Suspense>
+            <CreateCompanyPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.COMPANY_DETAIL}/:id`,
+        element: (
+          <Suspense>
+            <CompanyDetailPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.EDIT_COMPANY}/:id`,
+        element: (
+          <Suspense>
+            <EditCompanyPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.USER_DETAIL}/:id`,
+        element: (
+          <Suspense>
+            <UserDetailPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.EDIT_USER}/:id`,
+        element: (
+          <Suspense>
+            <EditUserPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
     ],
   },
   {
@@ -103,9 +158,9 @@ const routesConfig: RouteObject[] = [
   },
 
   {
-    path: "*",
+    path: '*',
     element: <NotFoundPage />,
   },
-];
+]
 
-export const router = createBrowserRouter(routesConfig);
+export const router = createBrowserRouter(routesConfig)

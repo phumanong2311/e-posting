@@ -1,13 +1,13 @@
-import { Select, TextInput } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
-import { SyntheticEvent } from "react";
-import { SearchType } from "../../types";
+import { Select, TextInput } from '@mantine/core'
+import { IconSearch } from '@tabler/icons-react'
+import { SyntheticEvent } from 'react'
+import { SearchType } from '../../types'
 
 interface ActionProps {
-  searchType: SearchType;
-  searchKeyword: string;
-  onChangeSearchKeyword: (e: SyntheticEvent<HTMLInputElement, Event>) => void;
-  onChangeSearchType: (e: SyntheticEvent<HTMLInputElement, Event>) => void;
+  searchType: SearchType
+  searchKeyword: string
+  onChangeSearchKeyword: (e: SyntheticEvent<HTMLInputElement, Event>) => void
+  onChangeSearchType: (value: string) => void
 }
 
 export const Action = ({
@@ -22,7 +22,7 @@ export const Action = ({
         leftSection={<IconSearch />}
         radius={100}
         classNames={{
-          input: "rounded-tr-none rounded-br-none border-r-0",
+          input: 'rounded-tr-none rounded-br-none border-r-0',
         }}
         className="w-[70%]"
         name="keyword"
@@ -33,16 +33,17 @@ export const Action = ({
         placeholder="Filters"
         radius={100}
         classNames={{
-          input: "rounded-tl-none rounded-bl-none",
+          input: 'rounded-tl-none rounded-bl-none',
         }}
         className="mt-0 w-[30%]"
         data={[
-          { value: SearchType.Jobs, label: "Jobs" },
-          { value: SearchType.Companies, label: "Companies" },
+          { value: SearchType.Jobs, label: 'Jobs' },
+          { value: SearchType.Companies, label: 'Companies' },
+          { value: SearchType.Users, label: 'Users' },
         ]}
         value={searchType}
-        onSelect={(e) => onChangeSearchType(e)}
+        onChange={(value) => onChangeSearchType(value!)}
       />
     </div>
-  );
-};
+  )
+}
