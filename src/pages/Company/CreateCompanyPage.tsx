@@ -27,7 +27,7 @@ const CreateCompanyPage = () => {
         sector: value.sector,
         industry: value.industry,
         ceo: value.ceo,
-        logo: imageLogoUrl,
+        logo: imageLogoUrl.url ? imageLogoUrl.url : '',
       }
       await companyService
         .createCompany(company)

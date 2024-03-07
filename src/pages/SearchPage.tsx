@@ -11,7 +11,9 @@ const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const initSearchType = searchParams.get('searchType') || SearchType.Jobs
 
-  const [searchType, setSearchType] = useState<SearchType>(initSearchType)
+  const [searchType, setSearchType] = useState<SearchType>(
+    initSearchType as SearchType
+  )
   const [searchKeyword, setSearchKeyword] = useState<string>('')
 
   const onChangeSearchType = (value: string) => {

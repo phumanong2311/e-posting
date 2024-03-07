@@ -3,7 +3,7 @@ export type Company = {
   ceo: string
   city: string
   companyName: string
-  companyStatus: number
+  companyStatus?: number
   country: string
   industry: string
   logo: string
@@ -12,5 +12,5 @@ export type Company = {
   state: string
   ticker: string
   website: string
-  _id: string
+  _id?: string
 }

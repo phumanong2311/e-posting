@@ -2,6 +2,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { useEffect } from 'react'
 import { Button } from '@mantine/core'
 import { LabelInput, ImageInput } from '../../ui'
+import { Company } from '../../types'
+
 type CompanyFormProps = {
   onSubmit: (value: any) => void
   company?: Company

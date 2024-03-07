@@ -1,12 +1,5 @@
 import { useState, useEffect } from 'react'
-import {
-  FileButton,
-  Input,
-  TextInput,
-  UnstyledButton,
-  Image,
-} from '@mantine/core'
-import { IconPhoto } from '@tabler/icons-react'
+import { FileButton, Input, Image } from '@mantine/core'
 
 interface ImageInputProps {
   label: string
@@ -27,12 +20,9 @@ export const ImageInput = ({
   labelClass,
   value = null,
   onChange,
-  className,
 }: ImageInputProps) => {
-  const [file, setFile] = useState<File | string | null>(value)
   const [previewFile, setPreviewFile] = useState(value)
-  const onUploadFile = (e) => {
-    setFile(e)
+  const onUploadFile = (e: any) => {
     const src = URL.createObjectURL(e)
     setPreviewFile(src)
     onChange(e)
@@ -40,7 +30,6 @@ export const ImageInput = ({
 
   useEffect(() => {
     if (value) {
-      setFile(value)
       if (typeof value === 'string') {
         setPreviewFile(value)
       }
@@ -59,7 +48,7 @@ export const ImageInput = ({
           onChange={onUploadFile}
         >
           {(props) => (
-            <p {...props} className="text-xs text-cyan-700">
+            <p {...props} className="text-xs text-cyan-700 cursor-pointer">
               Upload
             </p>
           )}

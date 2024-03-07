@@ -59,11 +59,13 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
     }
   }
 
-  const onViewDetail = (id: string) => {
+  const onViewDetail = (id: string | null) => {
+    if (!id) return
     navigate(`/${paths.ROOT}/${paths.USER_DETAIL}/${id}`)
   }
 
-  const onEdit = (id: string) => {
+  const onEdit = (id: string | null) => {
+    if (!id) return
     navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`)
   }
 
@@ -71,7 +73,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id)}
+        onClick={() => onViewDetail(element._id!)}
       >
         {element.email}
       </Table.Td>
@@ -84,7 +86,7 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
       <Table.Td className="text-center">{element.accountStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (
-          <IconEdit onClick={() => onEdit(element._id)} />
+          <IconEdit onClick={() => onEdit(element._id!)} />
         )}
         {/* {user?.accountType! > 1 && <IconTrash />} */}
       </Table.Td>

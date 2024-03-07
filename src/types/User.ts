@@ -15,7 +15,15 @@ export type User = {
   verificationToken: string
   createdAt: string
   updatedAt: string
-  profile: string
+  profile?: {
+    title?: string
+    firstName?: string
+    lastName?: string
+    profilePicture?: {
+      profileLink?: string
+    }
+  }
   tokenExpirationDate: string
   id: string
+  _id?: string
 }

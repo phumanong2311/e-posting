@@ -1,6 +1,7 @@
 import { ResponseWrapper } from '../types'
 import { buildQueryParams } from '../utils'
 import { API } from './api'
+import { Company } from '../types'
 
 class CompanyService extends API {
   async getCompanies({
@@ -10,7 +11,9 @@ class CompanyService extends API {
     keyword?: string
     page?: number
   }): Promise<ResponseWrapper> {
-    const url = `company?` + buildQueryParams({ keyword, page })
+    let url = keyword
+      ? `company/search?` + buildQueryParams({ companyName: keyword, page })
+      : `company?` + buildQueryParams({ page })
     return this.getAPI(url)
   }
 
@@ -37,11 +40,11 @@ class CompanyService extends API {
     return this.putAPI(url, { ...payload })
   }
 
-  async deleteCompany(id: string) {
-    //TODO: implement delete company
-    // const url = `job/${id}`
-    // return this.deleteAPI(url)
-  }
+  // async deleteCompany(id: string) {
+  //   //TODO: implement delete company
+  //   // const url = `job/${id}`
+  //   // return this.deleteAPI(url)
+  // }
 }
 
 const companyService = new CompanyService()

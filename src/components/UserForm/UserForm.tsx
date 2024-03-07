@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { Button, Select, Image } from '@mantine/core'
 import { LabelInput } from '../../ui'
 import moment from 'moment'
+import { User } from '../../types'
+
 type UserFormProps = {
   onSubmit: (value: any) => void
   user?: User
@@ -17,9 +19,9 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
   useEffect(() => {
     if (user) {
       reset({
-        firstName: user.profile.firstName,
-        lastName: user.profile.lastName,
-        title: user.profile.title,
+        firstName: user.profile?.firstName,
+        lastName: user.profile?.lastName,
+        title: user.profile?.title,
         email: user.email,
         isEmailAuthenticated: user.isEmailAuthenticated,
         accountStatus: user.accountStatus,
@@ -31,7 +33,7 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="w-full p-6 max-w-screen-lg space-y-4">
-        {user && user!.profile.profilePicture?.profileLink && (
+        {user && user!.profile?.profilePicture?.profileLink && (
           <div className="flex w-full justify-between items-center my-6">
             <div className="flex items-center  w-full">
               <p className="mr-2 w-1/3 text-right font-semibold">
@@ -39,7 +41,7 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
               </p>
               <div className="w-full">
                 <Image
-                  src={user!.profile.profilePicture.profileLink}
+                  src={user!.profile?.profilePicture.profileLink}
                   w={80}
                   h={80}
                   className="ml-3"
@@ -63,7 +65,7 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
             <Controller
               name="accountStatus"
               control={control}
-              render={({ field: { name, value, onChange } }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   placeholder="Account Status"
                   data={[
@@ -94,7 +96,7 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
             <Controller
               name="isEmailAuthenticated"
               control={control}
-              render={({ field: { name, value, onChange } }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   placeholder="Account Status"
                   data={[
@@ -125,7 +127,7 @@ const UserForm = ({ onSubmit, user }: UserFormProps) => {
             <Controller
               name="provider"
               control={control}
-              render={({ field: { name, value, onChange } }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   placeholder="Sign up method"
                   data={[

@@ -1,9 +1,8 @@
 import { Button, Table } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import moment from 'moment'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { IconEdit } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAppProviderCtx } from '../../app-provider'
 import { Company, CompanyPagination, paths } from '../../types'
@@ -61,11 +60,13 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
     }
   }
 
-  const onViewDetail = (id: string) => {
-    navigate(`/admin/company-detail/${id}`)
+  const onViewDetail = (id: string | null) => {
+    if (!id) return
+    navigate(`/${paths.ROOT}/${paths.COMPANY_DETAIL}/${id}`)
   }
 
-  const onEdit = (id: string) => {
+  const onEdit = (id: string | null) => {
+    if (!id) return
     navigate(`/${paths.ROOT}/${paths.EDIT_COMPANY}/${id}`)
   }
 
@@ -77,7 +78,7 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id)}
+        onClick={() => onViewDetail(element._id!)}
       >
         {element.companyName}
       </Table.Td>
@@ -85,7 +86,7 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
       <Table.Td className="text-center">{element.companyStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (
-          <IconEdit onClick={() => onEdit(element._id)} />
+          <IconEdit onClick={() => onEdit(element._id!)} />
         )}
         {/* {user?.accountType! > 1 && <IconTrash />} */}
       </Table.Td>

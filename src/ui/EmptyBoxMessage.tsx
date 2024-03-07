@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconBox } from '@tabler/icons-react'
 
 export const EmptyBoxMessage = () => {

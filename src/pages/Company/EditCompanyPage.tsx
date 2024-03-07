@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { IconChevronLeft } from '@tabler/icons-react'
 
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { companyService } from '../../services'
 import { toast } from '../../lib/toast'
 import { CompanyForm } from '../../components/CompanyForm'
-import { Company, paths } from '../../types'
+import { Company } from '../../types'
 
 const EditCompanyPage = () => {
   const { id } = useParams()
@@ -22,7 +22,7 @@ const EditCompanyPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      companyService.getCompanyDetail(id).then((res) => {
+      companyService.getCompanyDetail(id!).then((res) => {
         if (res.result) {
           setCompanyDetail(res.result)
           return res.result
@@ -50,11 +50,11 @@ const EditCompanyPage = () => {
     if (typeof value.companyLogo !== 'string') {
       const file = value.companyLogo
       const imageLogoUrl = await companyService.getImageLogoUrl(file)
-      company.logo = imageLogoUrl
+      company.logo = imageLogoUrl.url ? imageLogoUrl.url : ''
     }
 
     await companyService
-      .editCompany(id, value)
+      .editCompany(id!, value)
       .then((result) => {
         result && toast.success('Company is edited successfully')
         onBack()

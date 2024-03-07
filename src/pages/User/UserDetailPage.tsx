@@ -7,8 +7,6 @@ import moment from 'moment'
 import { useNavigate, useParams } from 'react-router-dom'
 import { userService } from '../../services'
 import { User, paths } from '../../types'
-import { toast } from '../../lib/toast'
-import { useAppProviderCtx } from '../../app-provider'
 
 const UserDetailPage = () => {
   const { id } = useParams()
@@ -18,7 +16,7 @@ const UserDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      userService.getUserDetail(id).then((res) => {
+      userService.getUserDetail(id!).then((res) => {
         if (res.result) {
           setUserDetail(res.result)
           return res.result
@@ -32,7 +30,7 @@ const UserDetailPage = () => {
   }
 
   const onEdit = () => {
-    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${userDetail!._id}`)
+    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${userDetail!.id}`)
   }
 
   const deletePost = async () => {
@@ -66,7 +64,7 @@ const UserDetailPage = () => {
               Profile Image:
             </p>
             <Image
-              src={userDetail!.profile.profilePicture.profileLink}
+              src={userDetail!.profile?.profilePicture?.profileLink}
               w={80}
               h={80}
               className="ml-3"
@@ -85,7 +83,7 @@ const UserDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               First Name:
             </p>
-            <p className="text-lg ml-3">{userDetail!.profile.firstName}</p>
+            <p className="text-lg ml-3">{userDetail!.profile?.firstName}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -94,7 +92,7 @@ const UserDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Last Name:
             </p>
-            <p className="text-lg ml-3">{userDetail!.profile.lastName}</p>
+            <p className="text-lg ml-3">{userDetail!.profile?.lastName}</p>
           </div>
           <div>{/* <IconPencil /> */}</div>
         </div>
@@ -103,7 +101,7 @@ const UserDetailPage = () => {
             <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Title:
             </p>
-            <p className="text-lg ml-3">{userDetail!.profile.title}</p>
+            <p className="text-lg ml-3">{userDetail!.profile?.title}</p>
           </div>
           <div>
             {/* <p className="text-lg ml-3 text-gray-400">
