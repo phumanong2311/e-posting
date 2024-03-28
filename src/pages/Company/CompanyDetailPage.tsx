@@ -32,21 +32,6 @@ const CompanyDetailPage = () => {
     navigate(`/${paths.ROOT}/${paths.EDIT_COMPANY}/${companyDetail!._id}`)
   }
 
-  const deletePost = async () => {
-    //TODO: Delete company details
-    // await jobService
-    //   .deleteJob(id!)
-    //   .then((res) => {
-    //     if (res) {
-    //       toast.success('Job posting deleted successfully')
-    //       onBack()
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.message)
-    //   })
-  }
-
   if (!companyDetail) return <></>
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
@@ -73,7 +58,6 @@ const CompanyDetailPage = () => {
           <div className="flex gap-3">
             <>
               <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
-              <IconTrash className="cursor-pointer" onClick={deletePost} />
             </>
           </div>
         </div>
