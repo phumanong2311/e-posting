@@ -7,7 +7,7 @@ import { jobService } from '../../services'
 import { Filter } from './Filter'
 import { JobList } from '../JobList'
 
-const JobSearch = ({ keyword }: { keyword: string }) => {
+export const JobSearch = ({ keyword }: { keyword: string }) => {
   const [jobs, setJobs] = useState<Array<Job>>([])
   const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
@@ -111,5 +111,3 @@ const JobSearch = ({ keyword }: { keyword: string }) => {
     </div>
   )
 }
-
-export default JobSearch

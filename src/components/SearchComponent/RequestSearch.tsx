@@ -6,18 +6,20 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAppProviderCtx } from '../../app-provider'
-import { userService } from '../../services'
-import { User, UserPagination, paths } from '../../types'
+import { requestService } from '../../services'
+import { Request, RequestPagination, paths } from '../../types'
 
-export const UserSearch = ({ keyword }: { keyword: string }) => {
+export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
   const {
     data: { user },
   } = useAppProviderCtx()
-  const [users, setUsers] = useState<Array<User>>([])
-  const [userPagination, setUserPagination] = useState<UserPagination>({
-    page: 1,
-  })
+  const [requests, setRequests] = useState<Array<Request>>([])
+  const [requestPagination, setRequestPagination] = useState<RequestPagination>(
+    {
+      page: 1,
+    }
+  )
   const debouncedSearchKeyword = useDebouncedValue(keyword, 500)
 
   useEffect(() => {
@@ -25,18 +27,18 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
   }, [keyword])
 
   useQuery({
-    queryKey: ['userSearch', userPagination.page, debouncedSearchKeyword],
+    queryKey: ['requestSearch', requestPagination.page, debouncedSearchKeyword],
     queryFn: () =>
-      userService
-        .getUsers({
-          page: userPagination?.page,
+      requestService
+        .getResources({
+          page: requestPagination?.page,
           keyword,
         })
         .then((res) => {
           if (res.result) {
-            const { users, ...pagination } = res.result
-            setUsers(users)
-            setUserPagination(pagination)
+            const { users: requests, ...pagination } = res.result
+            setRequests(requests)
+            setRequestPagination(pagination)
             return res.result
           }
           return null
@@ -44,51 +46,48 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
   })
 
   const resetPage = () => {
-    setUserPagination((prev) => ({ ...prev, page: 1 }))
+    setRequestPagination((prev) => ({ ...prev, page: 1 }))
   }
 
   const onNextPage = () => {
-    if (userPagination?.maxPages && userPagination?.page) {
-      setUserPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+    if (requestPagination?.maxPages && requestPagination?.page) {
+      setRequestPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
     }
   }
 
   const onPreviousPage = () => {
-    if (userPagination?.page! > 1) {
-      setUserPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+    if (requestPagination?.page! > 1) {
+      setRequestPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
     }
   }
 
   const onViewDetail = (id: string | null) => {
     if (!id) return
-    navigate(`/${paths.ROOT}/${paths.USER_DETAIL}/${id}`)
+    navigate(`/${paths.ROOT}/${paths.REQUEST_DETAIL}/${id}`)
   }
 
   const onEdit = (id: string | null) => {
     if (!id) return
-    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`)
+    navigate(`/${paths.ROOT}/${paths.EDIT_REQUEST}/${id}`)
   }
 
-  const rows = users.map((element, index) => (
+  const rows = requests.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"
         onClick={() => onViewDetail(element._id!)}
       >
-        {element.email}
+        {element.requestOwner}
       </Table.Td>
+      <Table.Td className="text-center">{element.requestTitle}</Table.Td>
       <Table.Td className="text-center">
-        {moment(element.signupDate).format('MM/DD/YYYY')}
+        {moment(element.closingDate).format('MM/DD/YYYY')}
       </Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.updatedAt).format('MM/DD/YYYY')}
-      </Table.Td>
-      <Table.Td className="text-center">{element.accountStatus}</Table.Td>
+      <Table.Td className="text-center">{element.employmentType}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (
           <IconEdit onClick={() => onEdit(element._id!)} />
         )}
-        {/* {user?.accountType! > 1 && <IconTrash />} */}
       </Table.Td>
     </Table.Tr>
   ))
@@ -100,16 +99,16 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Description</Table.Th>
-              <Table.Th className="text-center">Sign-Up Date</Table.Th>
-              <Table.Th className="text-center">Last Login</Table.Th>
-              <Table.Th className="text-center">Status</Table.Th>
-              <Table.Th className="text-center">Admin</Table.Th>
+              <Table.Th className="text-center">Request Owner</Table.Th>
+              <Table.Th className="text-center">Request Title</Table.Th>
+              <Table.Th className="text-center">Closing Date</Table.Th>
+              <Table.Th className="text-center">Emploment Type</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
         <div className="flex w-full justify-between">
-          {userPagination.page! > 1 ? (
+          {requestPagination.page! > 1 ? (
             <Button
               variant="outline"
               className="w-fit"
@@ -121,8 +120,8 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
           ) : (
             <div></div>
           )}
-          {userPagination.maxPages! > 1 &&
-            userPagination.page! < userPagination.maxPages! && (
+          {requestPagination.maxPages! > 1 &&
+            requestPagination.page! < requestPagination.maxPages! && (
               <Button
                 variant="outline"
                 className="w-fit float-right"

@@ -2,7 +2,7 @@ export enum SearchType {
   Jobs = 'jobs',
   Companies = 'companies',
   Users = 'users',
-  Requests = 'resources',
+  Requests = 'requests',
 }
 
 export type SearchParameter = {

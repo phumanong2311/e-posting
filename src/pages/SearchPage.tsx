@@ -6,6 +6,7 @@ import {
   UserSearch,
   CompanySearch,
   JobSearch,
+  RequestSearch,
 } from '../components/SearchComponent'
 import { SearchType } from '../types'
 
@@ -41,6 +42,8 @@ const SearchPage = () => {
         return <CompanySearch keyword={searchKeyword} />
       case SearchType.Users:
         return <UserSearch keyword={searchKeyword} />
+      case SearchType.Requests:
+        return <RequestSearch keyword={searchKeyword} />
     }
   }
 

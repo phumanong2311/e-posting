@@ -3,5 +3,5 @@ export type RequestPagination = {
   offset?: number
   page?: number
   pageSize?: number
-  totalJobs?: number
+  totalRequests?: number
 }
