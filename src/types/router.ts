@@ -15,6 +15,9 @@ export enum paths {
   USER_DETAIL = 'user-detail',
   EDIT_USER = 'edit-user',
 
+  REQUEST_DETAIL = 'request-detail',
+  EDIT_REQUEST = 'edit-request',
+
   LOGIN = 'login',
   REPORTING = 'reporting',
   LOGOUT = 'logout',

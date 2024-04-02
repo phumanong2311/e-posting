@@ -26,6 +26,10 @@ export const DashboardLayout = () => {
         label: 'Job Postings',
         isActive: location.pathname.includes(paths.JOB_POSTING),
       },
+      {
+        label: 'Requests',
+        isActive: location.pathname.includes(paths.REQUEST_DETAIL),
+      },
     ]
   }, [location])
 
