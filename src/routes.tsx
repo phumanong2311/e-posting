@@ -53,7 +53,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: paths.JOB_POSTING,
+            path: paths.MY_JOB_POSTING,
             element: (
               <Suspense>
                 <MyJobPostingsPage />
@@ -62,7 +62,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: `${paths.JOB_POSTING}/:id`,
+            path: `${paths.MY_JOB_POSTING}/:id`,
             element: (
               <Suspense>
                 <MyJobPostingsDetailPage />

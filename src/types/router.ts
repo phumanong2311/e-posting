@@ -2,6 +2,7 @@ export enum paths {
   ROOT = 'admin',
   DASHBOARD = 'dashboard',
   PROFILE = 'profile',
+  MY_JOB_POSTING = 'my-job-posting',
   JOB_POSTING = 'job-postings',
   EDIT_JOB_POSTING = 'edit-job-posting',
   JOB_REQUEST = 'job-requests',
