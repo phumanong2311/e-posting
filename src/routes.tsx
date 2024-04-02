@@ -17,6 +17,8 @@ const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
 const MyJobPostingsDetailPage = lazy(
   () => import('./pages/MyJobPostingDetailPage')
 )
+const JobPosting = lazy(() => import('./pages/JobPosting'))
+
 const SearchPage = lazy(() => import('./pages/SearchPage'))
 const CreateCompanyPage = lazy(
   () => import('./pages/Company/CreateCompanyPage')
@@ -66,6 +68,15 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <MyJobPostingsDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.JOB_POSTING}/:id`,
+            element: (
+              <Suspense>
+                <JobPosting />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,

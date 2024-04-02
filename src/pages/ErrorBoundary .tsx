@@ -1,8 +1,10 @@
-import { Button } from "@mantine/core";
-import { ErrorResponse, useRouteError } from "react-router-dom";
+import { Button } from '@mantine/core'
+import { ErrorResponse, useRouteError } from 'react-router-dom'
 
 const ErrorBoundary = () => {
-  const error = useRouteError();
+  const error = useRouteError()
+  console.log(error)
+
   return (
     <div className="grid items-center justify-center w-full h-full bg-center bg-no-repeat bg-cover bg-not-found-error">
       <div className="px-4 py-2 space-y-8 bg-transparent">
@@ -24,16 +26,12 @@ const ErrorBoundary = () => {
           )}
         </div>
         <div>
-          <Button
-            size="lg"
-            component="a"
-            href="/"
-          >
+          <Button size="lg" component="a" href="/">
             Back to Home
           </Button>
         </div>
       </div>
     </div>
-  );
-};
-export default ErrorBoundary;
+  )
+}
+export default ErrorBoundary

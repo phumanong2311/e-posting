@@ -9,11 +9,8 @@ import { Job, paths } from '../types'
 import { toast } from '../lib/toast'
 import { useAppProviderCtx } from '../app-provider'
 
-const MyJobPostingsDetailPage = () => {
+const JobPosting = () => {
   const { id } = useParams()
-  const {
-    data: { user },
-  } = useAppProviderCtx()
   const [jobDetail, setJobDetail] = useState<Job>()
 
   useQuery({
@@ -28,7 +25,7 @@ const MyJobPostingsDetailPage = () => {
       }),
   })
 
-  return <JobsPostingDetail jobDetail={jobDetail} isMyJobPosting />
+  return <JobsPostingDetail jobDetail={jobDetail} />
 }
 
-export default MyJobPostingsDetailPage
+export default JobPosting
