@@ -40,6 +40,7 @@ export const Action = ({
           { value: SearchType.Jobs, label: 'Jobs' },
           { value: SearchType.Companies, label: 'Companies' },
           { value: SearchType.Users, label: 'Users' },
+          { value: SearchType.Requests, label: 'Requests' },
         ]}
         value={searchType}
         onChange={(value) => onChangeSearchType(value!)}
