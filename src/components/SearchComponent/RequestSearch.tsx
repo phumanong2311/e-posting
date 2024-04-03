@@ -1,10 +1,10 @@
 import { Button, Table } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import moment from 'moment'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
+import { useQuery } from '@tanstack/react-query'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAppProviderCtx } from '../../app-provider'
 import { requestService } from '../../services'
 import { Request, RequestPagination, paths } from '../../types'
@@ -36,7 +36,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
         })
         .then((res) => {
           if (res.result) {
-            const { users: requests, ...pagination } = res.result
+            const { requests, ...pagination } = res.result
             setRequests(requests)
             setRequestPagination(pagination)
             return res.result
@@ -63,7 +63,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
 
   const onViewDetail = (id: string | null) => {
     if (!id) return
-    navigate(`/${paths.ROOT}/${paths.REQUEST_DETAIL}/${id}`)
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.REQUEST_DETAIL}/${id}`)
   }
 
   const onEdit = (id: string | null) => {
@@ -71,7 +71,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
     navigate(`/${paths.ROOT}/${paths.EDIT_REQUEST}/${id}`)
   }
 
-  const rows = requests.map((element, index) => (
+  const rows = requests && requests.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
         className="text-ellipsis cursor-pointer"

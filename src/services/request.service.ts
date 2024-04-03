@@ -11,21 +11,15 @@ class RequestService extends API {
     page?: number
   }): Promise<ResponseWrapper> {
     let url = keyword
-      ? `/resources/search?` + buildQueryParams({ keyword, page })
-      : `/resources?` + buildQueryParams({ page })
+      ? `resources/search?` + buildQueryParams({ keyword, page })
+      : `resources?` + buildQueryParams({ page })
     return this.getAPI(url)
   }
 
-  //   async getUserDetail(id: string): Promise<ResponseWrapper> {
-  //     const url = `v1/admin/user/${id}`
-  //     console.log(url)
-  //     return this.getAPI(url)
-  //   }
-
-  //   async editUser(id: string, payload: any) {
-  //     const url = `v1/admin/user/${id}`
-  //     return this.putAPI(url, { ...payload })
-  //   }
+  async getRequestDetail(id: string): Promise<ResponseWrapper> {
+    const url = `resources/${id}`
+    return this.getAPI(url)
+  }
 }
 
 const requestService = new RequestService()

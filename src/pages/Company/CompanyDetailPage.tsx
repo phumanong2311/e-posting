@@ -1,7 +1,7 @@
-import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
+import { Image } from '@mantine/core'
+import { IconChevronLeft, IconPencil } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Image } from '@mantine/core'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { companyService } from '../../services'
