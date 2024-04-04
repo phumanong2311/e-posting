@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { requestService } from "../../services";
 import { Request, paths } from "../../types";
+import { InformationField } from "../../ui";
 
 const RequestDetailPage = () => {
   const { id } = useParams();
@@ -48,98 +49,74 @@ const RequestDetailPage = () => {
             </>
           </div>
         </div>
-        <div className="flex w-full justify-between items-center my-6">
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              Owner:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.requestOwner}</p>
-          </div>
-        </div>
-        <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              Title:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.requestTitle}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              Company:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.company}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              Country:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.country}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              state(division):
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.division}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              city:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.city}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              workplace type(worklocationType):
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.workLocationType}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              employment type:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.employmentType}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              minimum salary:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.minimumSalary}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              total comp:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.totalCompensation}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              cover letter:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.coverLetter}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              closing date:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.closingDate}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              user summary:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.userSummary}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              skills:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.skills}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-              visible to:
-            </p>
-            <p className="text-lg ml-3">{requestDetail!.visibleTo}</p>
-          </div>
+        <InformationField
+          label="Owner: "
+          value={requestDetail.company ? requestDetail.company : ""}
+        />
+        <InformationField
+          label="Title: "
+          value={requestDetail.requestTitle ? requestDetail.requestTitle : ""}
+        />
+        <InformationField
+          label="Company: "
+          value={requestDetail.company ? requestDetail.company : ""}
+        />
+        <InformationField
+          label="Country: "
+          value={requestDetail.country ? requestDetail.country : ""}
+        />
+        <InformationField
+          label="State(division): "
+          value={requestDetail.division ? requestDetail.division : ""}
+        />
+        <InformationField
+          label="City: "
+          value={requestDetail.city ? requestDetail.city : ""}
+        />
+        <InformationField
+          label="Workplace Type(worklocationType): "
+          value={
+            requestDetail.workLocationType ? requestDetail.workLocationType : ""
+          }
+        />
+        <InformationField
+          label="Employment Type: "
+          value={
+            requestDetail.employmentType ? requestDetail.employmentType : ""
+          }
+        />
+        <InformationField
+          label="Minimum Salary: "
+          value={requestDetail.minimumSalary ? requestDetail.minimumSalary : ""}
+        />
+        <InformationField
+          label="Total Compensation: "
+          value={
+            requestDetail.totalCompensation
+              ? requestDetail.totalCompensation
+              : ""
+          }
+        />
+        <InformationField
+          label="Cover Letter: "
+          value={requestDetail.coverLetter ? requestDetail.coverLetter : ""}
+        />
+        <InformationField
+          label="Closing Date: "
+          value={requestDetail.closingDate ? requestDetail.closingDate : ""}
+        />
+        <InformationField
+          label="User Summary: "
+          value={requestDetail.userSummary ? requestDetail.userSummary : ""}
+        />
+        <InformationField
+          label="Skills: "
+          value={requestDetail.skills ? requestDetail.skills.toString() : ""}
+        />
+        <InformationField
+          label="Visible To: "
+          value={requestDetail.visibleTo ? requestDetail.visibleTo : ""}
+        />
       </div>
     </div>
   );

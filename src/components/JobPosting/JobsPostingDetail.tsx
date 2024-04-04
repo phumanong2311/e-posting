@@ -1,53 +1,20 @@
 import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
-import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from '../../lib/toast'
 import jobService from '../../services/job.service'
 import { Job, paths } from '../../types'
-import { toast } from '../../lib/toast'
-import { isHTML } from '../../utils'
+import { InformationField } from '../../ui'
 
-const InformationField = ({
-  label,
-  value,
-  valueClassName = '',
-  actionComponent = <></>,
-}: {
-  label: string
-  value: string
-  valueClassName: string
-  actionComponent?: JSX.Element
-}) => {
-  const renderValue = () =>
-    isHTML(value) ? (
-      <p
-        className={`text-lg ml-3 ${valueClassName}`}
-        dangerouslySetInnerHTML={{ __html: value }}
-      ></p>
-    ) : (
-      <p className={`text-lg ml-3 ${valueClassName}`}>{value}</p>
-    )
-  return (
-    <div className="flex w-full justify-between items-center my-6">
-      <div className="flex">
-        <p className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
-          {label}
-        </p>
-        {renderValue()}
-      </div>
-      <div className="flex gap-3">{actionComponent}</div>
-    </div>
-  )
+interface IJobsPostingDetailJob {
+  jobDetail: Job
+  isMyJobPosting: boolean
 }
 
 const JobsPostingDetail = ({
   jobDetail,
   isMyJobPosting = false,
-}: {
-  jobDetail: Job
-  isMyJobPosting: boolean
-}) => {
+}: IJobsPostingDetailJob) => {
   const navigate = useNavigate()
 
   const onBack = () => {
@@ -91,9 +58,9 @@ const JobsPostingDetail = ({
           <InformationField
             label="Owner: "
             value={jobDetail!.jobOwner}
-            valueClassName="font-bold"
+            className="font-bold"
             actionComponent={
-              isMyJobPosting && (
+              (
                 <>
                   <IconPencil
                     className="cursor-pointer"
@@ -109,9 +76,9 @@ const JobsPostingDetail = ({
         <InformationField
           label="Job Title:"
           value={jobDetail!.jobTitle}
-          valueClassName="font-bold"
+          className="font-bold"
           actionComponent={
-            isMyJobPosting && (
+            (
               <>
                 <IconPencil
                   className="cursor-pointer"
@@ -161,7 +128,7 @@ const JobsPostingDetail = ({
           value={jobDetail!.description}
         />
 
-        <InformationField label="Required Skills: " value={jobDetail!.skills} />
+        <InformationField label="Required Skills: " value={jobDetail.skills && jobDetail.skills.toString()} />
       </div>
     </div>
   )

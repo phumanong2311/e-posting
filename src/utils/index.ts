@@ -36,7 +36,7 @@ export function getUserCountry() {
   return country
 }
 
-export function isHTML(str) {
+export function isHTML(str: string) {
   const htmlRegex = /<[a-z][\s\S]*>/i
   return htmlRegex.test(str)
 }
