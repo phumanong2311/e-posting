@@ -20,6 +20,16 @@ class RequestService extends API {
     const url = `resources/${id}`
     return this.getAPI(url)
   }
+
+  async editRequest(id: string, payload: any) {
+    const url = `resources/${id}`
+    return this.putAPI(url, { ...payload })
+  }
+
+  async deleteRequest(id: string) {
+    const url = `resources/${id}`
+    return this.deleteAPI(url)
+  }
 }
 
 const requestService = new RequestService()

@@ -1,6 +1,6 @@
 import { Button, Table } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconEdit } from '@tabler/icons-react'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppProviderCtx } from '../../app-provider'
 import { requestService } from '../../services'
 import { Request, RequestPagination, paths } from '../../types'
+import { toast } from '../../lib/toast'
 
 export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
@@ -26,7 +27,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
     resetPage()
   }, [keyword])
 
-  useQuery({
+  const { refetch } = useQuery({
     queryKey: ['requestSearch', requestPagination.page, debouncedSearchKeyword],
     queryFn: () =>
       requestService
@@ -68,29 +69,46 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
 
   const onEdit = (id: string | null) => {
     if (!id) return
-    navigate(`/${paths.ROOT}/${paths.EDIT_REQUEST}/${id}`)
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_REQUEST}/${id}`)
   }
 
-  const rows = requests && requests.map((element, index) => (
-    <Table.Tr key={index}>
-      <Table.Td
-        className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id!)}
-      >
-        {element.requestOwner}
-      </Table.Td>
-      <Table.Td className="text-center">{element.requestTitle}</Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.closingDate).format('MM/DD/YYYY')}
-      </Table.Td>
-      <Table.Td className="text-center">{element.employmentType}</Table.Td>
-      <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.accountType! > 0 && (
-          <IconEdit onClick={() => onEdit(element._id!)} />
-        )}
-      </Table.Td>
-    </Table.Tr>
-  ))
+  const onDelete = async (id: string) => {
+    await requestService
+      .deleteRequest(id!)
+      .then((result) => {
+        result && toast.success('Request is deleted successfully')
+        refetch()
+      })
+      .catch((error) => {
+        toast.error(error.message)
+      })
+  }
+
+  const rows =
+    requests &&
+    requests.map((element, index) => (
+      <Table.Tr key={index}>
+        <Table.Td
+          className="text-ellipsis cursor-pointer"
+          onClick={() => onViewDetail(element._id!)}
+        >
+          {element.requestOwner}
+        </Table.Td>
+        <Table.Td className="text-center">{element.requestTitle}</Table.Td>
+        <Table.Td className="text-center">
+          {moment(element.closingDate).format('MM/DD/YYYY')}
+        </Table.Td>
+        <Table.Td className="text-center">{element.employmentType}</Table.Td>
+        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
+          {user?.accountType! > 0 && (
+            <>
+              <IconEdit onClick={() => onEdit(element._id!)} />
+              <IconTrash onClick={() => onDelete(element._id)} />
+            </>
+          )}
+        </Table.Td>
+      </Table.Tr>
+    ))
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">

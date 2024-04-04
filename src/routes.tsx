@@ -34,6 +34,7 @@ const EditUserPage = lazy(() => import('./pages/User/EditUserPage'))
 const RequestDetailPage = lazy(
   () => import('./pages/Request/RequestDetailPage')
 )
+const EditRequestPage = lazy(() => import('./pages/Request/EditRequestPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -108,6 +109,15 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <RequestDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.EDIT_REQUEST}/:id`,
+            element: (
+              <Suspense>
+                <EditRequestPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
