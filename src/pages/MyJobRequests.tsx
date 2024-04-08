@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { jobService } from "../services";
-import { Job, RequestPagination, paths } from "../types";
+import { Request, RequestPagination, paths } from "../types";
 
 const MyJobRequestsPage = () => {
   const navigate = useNavigate();
-  const [requests, setRequests] = useState<Array<Job>>([]);
+  const [requests, setRequests] = useState<Array<Request>>([]);
   const [requestPagination, setRequestPagination] = useState<RequestPagination>(
     {
       page: 1,
@@ -30,6 +30,7 @@ const MyJobRequestsPage = () => {
           return null;
         }),
   });
+  console.log('state request', requests);
 
   const onNextPage = () => {
     if (requestPagination?.maxPages && requestPagination?.page) {
@@ -44,19 +45,19 @@ const MyJobRequestsPage = () => {
   };
 
   const onViewDetail = (id: string) => {
-    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`);
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_REQUEST}/${id}`);
   };
 
   const rows = requests.map((element, index) => (
     <Table.Tr key={index}>
       <Table.Td
         className="cursor-pointer "
-        onClick={() => onViewDetail(element._id)}
+        onClick={() => onViewDetail(element.resourceId)}
       >
-        {element.jobTitle}
+        {element.requestTitle}
       </Table.Td>
       <Table.Td className="text-center">{element.createdAt}</Table.Td>
-      <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
+      <Table.Td className="text-center">{element.requestPostStatus}</Table.Td>
     </Table.Tr>
   ));
   return (

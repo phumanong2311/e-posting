@@ -32,5 +32,5 @@ export type Request = {
   inviteJobPostList?: any[]
   createdAt?: string
   updatedAt?: string
-  resourceId?: string
+  resourceId: string
 }

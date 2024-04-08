@@ -6,6 +6,7 @@ import { PageLayout } from './layout/layout'
 import { DashboardLayout } from './layout/layout/DashboardLayout'
 import { NotFoundPage } from './pages'
 import ErrorBoundary from './pages/ErrorBoundary '
+import MyJobRequestDetailPage from './pages/MyJobRequestDetailPage'
 import { paths } from './types'
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
@@ -78,6 +79,24 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
+            path: paths.JOB_REQUEST,
+            element: (
+              <Suspense>
+                <MyJobRequestsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.JOB_REQUEST}/:id`,
+            element: (
+              <Suspense>
+                <MyJobRequestDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
             path: `${paths.JOB_POSTING}/:id`,
             element: (
               <Suspense>
@@ -91,15 +110,6 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense fallback={<p>Loading package location...</p>}>
                 <EditJobPosting />
-              </Suspense>
-            ),
-            errorElement: <ErrorBoundary />,
-          },
-          {
-            path: paths.JOB_REQUEST,
-            element: (
-              <Suspense>
-                <MyJobRequestsPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
