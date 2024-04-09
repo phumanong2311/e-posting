@@ -2,6 +2,7 @@ import { LoadingOverlay } from '@mantine/core'
 import { Suspense, lazy } from 'react'
 import { RouteObject, createBrowserRouter } from 'react-router-dom'
 import { EditJobPosting } from './components/JobPosting'
+import { EditJobRequest } from './components/JobRequest'
 import { PageLayout } from './layout/layout'
 import { DashboardLayout } from './layout/layout/DashboardLayout'
 import { NotFoundPage } from './pages'
@@ -119,6 +120,15 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <RequestDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.EDIT_JOB_REQUEST}/:id`,
+            element: (
+              <Suspense fallback={<p>Loading package location...</p>}>
+                <EditJobRequest />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,

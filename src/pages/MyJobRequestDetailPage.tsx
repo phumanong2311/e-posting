@@ -9,7 +9,6 @@ import { Request } from '../types'
 const MyJobRequestDetailPage = () => {
   const { id } = useParams()
   const [requestDetail, setRequestDetail] = useState<Request>()
-  console.log('id', id)
 
   useQuery({
     queryKey: [id],

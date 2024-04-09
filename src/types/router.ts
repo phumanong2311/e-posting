@@ -6,6 +6,7 @@ export enum paths {
   JOB_POSTING = 'job-postings',
   EDIT_JOB_POSTING = 'edit-job-posting',
   JOB_REQUEST = 'job-requests',
+  EDIT_JOB_REQUEST = 'edit-job-request',
   SEARCH = 'search',
 
   CREATE_COMPANY = 'create-company',

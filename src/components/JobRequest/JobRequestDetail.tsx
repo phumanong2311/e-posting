@@ -1,7 +1,9 @@
 import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
-import { Request } from "../../types";
+import { toast } from "../../lib/toast";
+import { requestService } from "../../services";
+import { paths, Request } from "../../types";
 import { InformationField } from "../../ui";
 
 interface IJobRequestDetail {
@@ -19,27 +21,27 @@ const JobRequestDetail = ({
     navigate(-1);
   };
 
-  // const onEdit = () => {
-  //   navigate(
-  //     `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${
-  //       requestDetail!._id
-  //     }`
-  //   )
-  // }
+  const onEdit = () => {
+    navigate(
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_REQUEST}/${
+        requestDetail!._id
+      }`
+    );
+  };
 
-  // const deletePost = async () => {
-  //   await jobService
-  //     .deleteJob(requestDetail!._id)
-  //     .then((res) => {
-  //       if (res) {
-  //         toast.success('Job posting deleted successfully')
-  //         onBack()
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error.message)
-  //     })
-  // }
+  const deletePost = async () => {
+    await requestService
+      .deleteRequest(requestDetail!._id)
+      .then((res) => {
+        if (res) {
+          toast.success("Job posting deleted successfully");
+          onBack();
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
 
   if (!requestDetail) return <></>;
   return (
@@ -61,12 +63,9 @@ const JobRequestDetail = ({
               <>
                 <IconPencil
                   className="cursor-pointer"
-                  // onClick={() => onEdit()}
+                  onClick={() => onEdit()}
                 />
-                <IconTrash
-                  className="cursor-pointer"
-                  // onClick={deletePost}
-                />
+                <IconTrash className="cursor-pointer" onClick={deletePost} />
               </>
             }
           />
@@ -78,16 +77,15 @@ const JobRequestDetail = ({
           className="font-bold"
           actionComponent={
             <>
-              <IconPencil
-                className="cursor-pointer"
-                // onClick={() => onEdit()}
-              />
-              <IconTrash
-                className="cursor-pointer"
-                // onClick={deletePost}
-              />
+              <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
+              <IconTrash className="cursor-pointer" onClick={deletePost} />
             </>
           }
+        />
+
+        <InformationField
+          label="Request Owner: "
+          value={requestDetail.requestOwner ? requestDetail!.requestOwner : ""}
         />
 
         <InformationField
@@ -98,6 +96,11 @@ const JobRequestDetail = ({
         <InformationField
           label="City:"
           value={requestDetail.city ? requestDetail.city : ""}
+        />
+
+        <InformationField
+          label="Division:"
+          value={requestDetail.division ? requestDetail.division : ""}
         />
 
         <InformationField
@@ -136,6 +139,10 @@ const JobRequestDetail = ({
         <InformationField
           label="Required Skills: "
           value={requestDetail.skills ? requestDetail.skills.toString() : ""}
+        />
+        <InformationField
+          label="Cover Letter: "
+          value={requestDetail.coverLetter ? requestDetail.coverLetter : ""}
         />
       </div>
     </div>
