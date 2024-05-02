@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { companyService } from '../../services'
 import { toast } from '../../lib/toast'
-import { CompanyForm } from '../../components/CompanyForm'
+import { CompanyForm } from '../CompanyForm'
 import { Company } from '../../types'
 
 const EditCompanyPage = () => {

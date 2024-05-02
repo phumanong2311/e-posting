@@ -3,7 +3,7 @@ import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { companyService } from '../../services'
 import { toast } from '../../lib/toast'
-import { CompanyForm } from '../../components/CompanyForm'
+import { CompanyForm } from '../CompanyForm'
 
 const CreateCompanyPage = () => {
   const navigate = useNavigate()
