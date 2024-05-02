@@ -1,11 +1,14 @@
 import { SyntheticEvent, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { Action } from '../components/SearchComponent'
-import JobSearch from '../components/SearchComponent/JobSearch'
+import {
+  Action,
+  UserSearch,
+  CompanySearch,
+  JobSearch,
+  RequestSearch,
+} from '../components/SearchComponent'
 import { SearchType } from '../types'
-import CompanySearch from '../components/SearchComponent/CompanySearch'
-import UserSearch from '../components/SearchComponent/UserSearch'
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -39,6 +42,8 @@ const SearchPage = () => {
         return <CompanySearch keyword={searchKeyword} />
       case SearchType.Users:
         return <UserSearch keyword={searchKeyword} />
+      case SearchType.Requests:
+        return <RequestSearch keyword={searchKeyword} />
     }
   }
 

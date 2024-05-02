@@ -1,21 +1,22 @@
-import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
-import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
-import SubScript from "@tiptap/extension-subscript";
+import { RichTextEditor, Link } from '@mantine/tiptap'
+import { useEditor } from '@tiptap/react'
+import Highlight from '@tiptap/extension-highlight'
+import StarterKit from '@tiptap/starter-kit'
+import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
+import Superscript from '@tiptap/extension-superscript'
+import SubScript from '@tiptap/extension-subscript'
+import { useEffect } from 'react'
 
 interface RichEditorProps {
-  label: string;
-  name: string;
-  value: any;
-  onChange?: any;
-  register?: any;
-  wrapperClass?: string;
-  labelClass?: string;
-  className?: string;
+  label: string
+  name: string
+  value: any
+  onChange?: any
+  register?: any
+  wrapperClass?: string
+  labelClass?: string
+  className?: string
 }
 
 export const RichEditor = ({
@@ -26,21 +27,25 @@ export const RichEditor = ({
   labelClass,
   className,
 }: RichEditorProps) => {
-  const editor = useEditor({
-    extensions: [
-      Link,
-      StarterKit,
-      Underline,
-      SubScript,
-      Superscript,
-      Highlight,
-      TextAlign,
-    ],
-    content: value,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+  const editor = useEditor(
+    {
+      extensions: [
+        Link,
+        StarterKit,
+        Underline,
+        SubScript,
+        Superscript,
+        Highlight,
+        TextAlign,
+      ],
+      content: value,
+      onUpdate: ({ editor }) => {
+        onChange(editor.getHTML())
+      },
     },
-  });
+    [value]
+  )
+
   return (
     <div className={`flex items-center ${wrapperClass}`}>
       <span className={`mr-2 w-1/3 text-right font-semibold ${labelClass}`}>
@@ -95,5 +100,5 @@ export const RichEditor = ({
         <RichTextEditor.Content />
       </RichTextEditor>
     </div>
-  );
-};
+  )
+}

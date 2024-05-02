@@ -1,12 +1,15 @@
+import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { useParams } from 'react-router-dom'
 import { JobsPostingDetail } from '../components/JobPosting'
+import { useNavigate, useParams } from 'react-router-dom'
 import jobService from '../services/job.service'
-import { Job } from '../types'
+import { Job, paths } from '../types'
+import { toast } from '../lib/toast'
+import { useAppProviderCtx } from '../app-provider'
 
-const MyJobPostingsDetailPage = () => {
+const JobPosting = () => {
   const { id } = useParams()
   const [jobDetail, setJobDetail] = useState<Job>()
 
@@ -21,8 +24,8 @@ const MyJobPostingsDetailPage = () => {
         return null
       }),
   })
-  if(!jobDetail) return null
-  return <JobsPostingDetail jobDetail={jobDetail} isMyJobPosting />
+
+  return <JobsPostingDetail jobDetail={jobDetail} />
 }
 
-export default MyJobPostingsDetailPage
+export default JobPosting

@@ -9,7 +9,7 @@ import { useAppProviderCtx } from '../../app-provider'
 import { userService } from '../../services'
 import { User, UserPagination, paths } from '../../types'
 
-const UserSearch = ({ keyword }: { keyword: string }) => {
+export const UserSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
   const {
     data: { user },
@@ -137,5 +137,3 @@ const UserSearch = ({ keyword }: { keyword: string }) => {
     </div>
   )
 }
-
-export default UserSearch

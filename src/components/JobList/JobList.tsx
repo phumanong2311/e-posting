@@ -28,7 +28,12 @@ const JobList = ({
   const navigate = useNavigate()
 
   const onViewDetail = (id: string) => {
-    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`)
+    if (isMyJobList)
+      navigate(
+        `/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_POSTING}/${id}`
+      )
+    else
+      navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_POSTING}/${id}`)
   }
 
   const onEdit = (id: string) => {

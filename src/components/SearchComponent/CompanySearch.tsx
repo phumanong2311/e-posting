@@ -8,7 +8,7 @@ import { useAppProviderCtx } from '../../app-provider'
 import { Company, CompanyPagination, paths } from '../../types'
 import { companyService } from '../../services'
 
-const CompanySearch = ({ keyword }: { keyword: string }) => {
+export const CompanySearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
   const {
     data: { user },
@@ -147,5 +147,3 @@ const CompanySearch = ({ keyword }: { keyword: string }) => {
     </div>
   )
 }
-
-export default CompanySearch
