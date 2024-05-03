@@ -5,10 +5,11 @@ import { EditJobPosting } from './components/JobPosting'
 import { EditJobRequest } from './components/JobRequest'
 import { PageLayout } from './layout/layout'
 import { DashboardLayout } from './layout/layout/DashboardLayout'
-import { NotFoundPage } from './pages'
+import { ContentManagement, NotFoundPage } from './pages'
 import ErrorBoundary from './pages/ErrorBoundary '
 import MyJobRequestDetailPage from './pages/MyJobRequestDetailPage'
 import { paths } from './types'
+import { ListContentActive, ListContentInActive } from './components/ContentManagement'
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const MyProfilePage = lazy(() => import('./pages/MyProfile'))
@@ -80,7 +81,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: paths.JOB_REQUEST,
+            path: paths.MY_JOB_REQUEST,
             element: (
               <Suspense>
                 <MyJobRequestsPage />
@@ -89,7 +90,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: `${paths.JOB_REQUEST}/:id`,
+            path: `${paths.MY_JOB_REQUEST}/:id`,
             element: (
               <Suspense>
                 <MyJobRequestDetailPage />
@@ -198,6 +199,35 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
+      {
+        path: paths.CONTENT_MANAGEMENT,
+        element: (
+          <Suspense>
+            <ContentManagement />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: paths.LIST_OF_ACTIVE_CONTENTS,
+            index: true,
+            element: (
+              <Suspense>
+                <ListContentActive />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: paths.LIST_OF_INACTIVE_CONTENTS,
+            element: (
+              <Suspense>
+                <ListContentInActive />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+        ]
+      }
     ],
   },
   {
@@ -210,7 +240,6 @@ const routesConfig: RouteObject[] = [
     ),
     errorElement: <ErrorBoundary />,
   },
-
   {
     path: '*',
     element: <NotFoundPage />,

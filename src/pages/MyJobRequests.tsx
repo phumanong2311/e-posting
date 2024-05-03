@@ -45,7 +45,7 @@ const MyJobRequestsPage = () => {
   };
 
   const onViewDetail = (id: string) => {
-    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_REQUEST}/${id}`);
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_REQUEST}/${id}`);
   };
 
   const rows = requests.map((element, index) => (

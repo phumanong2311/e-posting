@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { mainDataDefault } from "./data";
 import { MainStateType, UserProfile, UserType } from "./providerType";
+import { ContentEngineType } from "../types";
 
 export const useAppProvider = () => {
   const [mainState, setMainState] = useState<MainStateType>(mainDataDefault);
@@ -23,11 +24,31 @@ export const useAppProvider = () => {
     });
   };
 
+  const updateContentManagementTemp = (data: ContentEngineType[]) => {
+    setMainState((prev) => {
+      return {
+        ...prev,
+        dataContentManagementTemp: data,
+      };
+    });
+  }
+
+  const createContentEngineTemp = (data: ContentEngineType) => {
+    setMainState((prev) => {
+      return {
+        ...prev,
+        dataContentManagementTemp: [data, ...prev.dataContentManagementTemp],
+      };
+    });
+  
+  }
+
   return {
     data: mainState,
     func: {
       updateUser,
       updateUserProfile,
+      updateContentManagementTemp
     },
   };
 };

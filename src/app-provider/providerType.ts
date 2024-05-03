@@ -1,3 +1,5 @@
+import { ContentEngineType } from "../types";
+
 export type UserType = {
   id: string;
   email: string;
@@ -49,11 +51,14 @@ export type UserProfile = {
 export type MainStateType = {
   user: UserType | null;
   userProfile: UserProfile | null;
+  dataContentManagementTemp: ContentEngineType[];
 };
 
 export type FunctionType = {
   updateUser: (user: UserType) => void;
   updateUserProfile: (profile: UserProfile) => void;
+  updateContentManagementTemp: (data: ContentEngineType[]) => void,
+  createContentEngineTemp: (data: ContentEngineType) => void
 };
 
 export type AppProviderType = {
