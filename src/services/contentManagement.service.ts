@@ -3,13 +3,23 @@ import { buildQueryParams } from "../utils";
 import { API } from "./api";
 
 class ContentManagementService extends API {
-  async getContents({
+  async getActiveContents({
     page = 1,
   }: {
     keyword?: string;
     page?: number;
   }): Promise<ResponseWrapper> {
     let url = `content?` + buildQueryParams({ page });
+    return this.getAPI(url);
+  }
+
+  async getInActiveContents({
+    page = 1,
+  }: {
+    keyword?: string;
+    page?: number;
+  }): Promise<ResponseWrapper> {
+    let url = `content/inactive?` + buildQueryParams({ page });
     return this.getAPI(url);
   }
 
