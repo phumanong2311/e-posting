@@ -31,9 +31,7 @@ const ContentDetailPage = () => {
 
   const onEdit = () => {
     navigate(
-      `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.EDIT_CONTENT}/${
-        contentDetail!.contentId
-      }`
+      `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.EDIT_CONTENT}/${id}`
     );
   };
 
