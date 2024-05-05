@@ -1,43 +1,62 @@
-import { LoadingOverlay } from '@mantine/core'
-import { Suspense, lazy } from 'react'
-import { RouteObject, createBrowserRouter } from 'react-router-dom'
-import { EditJobPosting } from './components/JobPosting'
-import { EditJobRequest } from './components/JobRequest'
-import { PageLayout } from './layout/layout'
-import { DashboardLayout } from './layout/layout/DashboardLayout'
-import { ContentManagement, NotFoundPage } from './pages'
-import ErrorBoundary from './pages/ErrorBoundary '
-import MyJobRequestDetailPage from './pages/MyJobRequestDetailPage'
-import { paths } from './types'
-import { ListContentActive, ListContentInActive } from './components/ContentManagement'
+import { LoadingOverlay } from "@mantine/core";
+import { Suspense, lazy } from "react";
+import { RouteObject, createBrowserRouter } from "react-router-dom";
+import { EditJobPosting } from "./components/JobPosting";
+import { EditJobRequest } from "./components/JobRequest";
+import { PageLayout } from "./layout/layout";
+import { DashboardLayout } from "./layout/layout/DashboardLayout";
+import { ContentManagement, NotFoundPage } from "./pages";
+import ErrorBoundary from "./pages/ErrorBoundary ";
+import MyJobRequestDetailPage from "./pages/MyJobRequestDetailPage";
+import { paths } from "./types";
 
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const MyProfilePage = lazy(() => import('./pages/MyProfile'))
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const MyProfilePage = lazy(() => import("./pages/MyProfile"));
 const MyJobPostingsPage = lazy(
-  () => import('./components/JobPosting/MyJobPostings')
-)
-const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
+  () => import("./components/JobPosting/MyJobPostings")
+);
+const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
 const MyJobPostingsDetailPage = lazy(
-  () => import('./pages/MyJobPostingDetailPage')
-)
-const JobPosting = lazy(() => import('./pages/JobPosting'))
+  () => import("./pages/MyJobPostingDetailPage")
+);
+const JobPosting = lazy(() => import("./pages/JobPosting"));
 
-const SearchPage = lazy(() => import('./pages/SearchPage'))
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 const CreateCompanyPage = lazy(
-  () => import('./components/Company/CreateCompanyPage')
-)
+  () => import("./components/Company/CreateCompanyPage")
+);
 const CompanyDetailPage = lazy(
-  () => import('./components/Company/CompanyDetailPage')
-)
-const EditCompanyPage = lazy(() => import('./components/Company/EditCompanyPage'))
+  () => import("./components/Company/CompanyDetailPage")
+);
+const EditCompanyPage = lazy(
+  () => import("./components/Company/EditCompanyPage")
+);
 
-const UserDetailPage = lazy(() => import('./components/User/UserDetailPage'))
-const EditUserPage = lazy(() => import('./components/User/EditUserPage'))
+const UserDetailPage = lazy(() => import("./components/User/UserDetailPage"));
+const EditUserPage = lazy(() => import("./components/User/EditUserPage"));
 
 const RequestDetailPage = lazy(
-  () => import('./components/Request/RequestDetailPage')
-)
-const EditRequestPage = lazy(() => import('./components/Request/EditRequestPage'))
+  () => import("./components/Request/RequestDetailPage")
+);
+const EditRequestPage = lazy(
+  () => import("./components/Request/EditRequestPage")
+);
+
+const ListContentActivePage = lazy(
+  () => import("./components/ContentManagement/ListContentActive")
+);
+const ListContentInActivePage = lazy(
+  () => import("./components/ContentManagement/ListContentInActive")
+);
+const CreateContentPage = lazy(
+  () => import("./components/ContentManagement/CreateContentPage")
+);
+const EditContentPage = lazy(
+  () => import("./components/ContentManagement/EditContentPage")
+);
+const ContentDetailPage = lazy(
+  () => import("./components/ContentManagement/ContentDetailPage")
+);
 
 const routesConfig: RouteObject[] = [
   {
@@ -212,7 +231,7 @@ const routesConfig: RouteObject[] = [
             index: true,
             element: (
               <Suspense>
-                <ListContentActive />
+                <ListContentActivePage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
@@ -221,13 +240,40 @@ const routesConfig: RouteObject[] = [
             path: paths.LIST_OF_INACTIVE_CONTENTS,
             element: (
               <Suspense>
-                <ListContentInActive />
+                <ListContentInActivePage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
           },
-        ]
-      }
+          {
+            path: paths.CREATE_CONTENT,
+            element: (
+              <Suspense>
+                <CreateContentPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.EDIT_CONTENT}/:id`,
+            element: (
+              <Suspense>
+                <EditContentPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.CONTENT_DETAIL}/:id`,
+            element: (
+              <Suspense>
+                <ContentDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+        ],
+      },
     ],
   },
   {
@@ -241,9 +287,9 @@ const routesConfig: RouteObject[] = [
     errorElement: <ErrorBoundary />,
   },
   {
-    path: '*',
+    path: "*",
     element: <NotFoundPage />,
   },
-]
+];
 
-export const router = createBrowserRouter(routesConfig)
+export const router = createBrowserRouter(routesConfig);

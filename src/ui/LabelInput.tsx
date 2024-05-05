@@ -22,7 +22,7 @@ export const LabelInput = ({
       <span className={`mr-2 w-1/3 text-right font-semibold ${labelClass}`}>{label}</span>
       <TextInput
         {...register(name)}
-        className={`w-full rounded-md ${className}`}
+        className={`w-2/3 rounded-md ${className}`}
       />
     </Input.Wrapper>
   );

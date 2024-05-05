@@ -13,5 +13,4 @@ export * from './ResponseWrapper';
 export * from './SearchType';
 export * from './User';
 export * from './UserPagination';
-export * from './enums/role';
 export * from './router';

@@ -1,13 +1,8 @@
-import { useEffect } from "react";
 import { ErrorResponse, Link, useRouteError } from "react-router-dom";
 import { paths } from "../types";
 
 const ErrorBoundary = () => {
   const error = useRouteError();
-  useEffect(() => {
-    console.log(error);
-  }, [error])
-  console.log('page error', error)
 
   return (
     <div className="grid items-center justify-center w-full h-full bg-center bg-no-repeat bg-cover bg-not-found-error">

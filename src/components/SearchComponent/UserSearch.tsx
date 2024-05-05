@@ -1,31 +1,32 @@
-import { Button, Table } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import moment from 'moment'
-import { useDebouncedValue } from '@mantine/hooks'
-import { IconEdit } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
-import { useAppProviderCtx } from '../../app-provider'
-import { userService } from '../../services'
-import { User, UserPagination, paths } from '../../types'
+import { Button, Table } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconEdit } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppProviderCtx } from "../../app-provider";
+import { userService } from "../../services";
+import { User, UserPagination, paths } from "../../types";
+import { EmptyBoxMessage } from "../../ui";
 
 export const UserSearch = ({ keyword }: { keyword: string }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     data: { user },
-  } = useAppProviderCtx()
-  const [users, setUsers] = useState<Array<User>>([])
+  } = useAppProviderCtx();
+  const [users, setUsers] = useState<Array<User>>([]);
   const [userPagination, setUserPagination] = useState<UserPagination>({
     page: 1,
-  })
-  const debouncedSearchKeyword = useDebouncedValue(keyword, 500)
+  });
+  const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
-    resetPage()
-  }, [keyword])
+    resetPage();
+  }, [keyword]);
 
   useQuery({
-    queryKey: ['userSearch', userPagination.page, debouncedSearchKeyword],
+    queryKey: ["userSearch", userPagination.page, debouncedSearchKeyword],
     queryFn: () =>
       userService
         .getUsers({
@@ -34,40 +35,40 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
         })
         .then((res) => {
           if (res.result) {
-            const { users, ...pagination } = res.result
-            setUsers(users)
-            setUserPagination(pagination)
-            return res.result
+            const { users, ...pagination } = res.result;
+            setUsers(users);
+            setUserPagination(pagination);
+            return res.result;
           }
-          return null
+          return null;
         }),
-  })
+  });
 
   const resetPage = () => {
-    setUserPagination((prev) => ({ ...prev, page: 1 }))
-  }
+    setUserPagination((prev) => ({ ...prev, page: 1 }));
+  };
 
   const onNextPage = () => {
     if (userPagination?.maxPages && userPagination?.page) {
-      setUserPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+      setUserPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (userPagination?.page! > 1) {
-      setUserPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+      setUserPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   const onViewDetail = (id: string | null) => {
-    if (!id) return
-    navigate(`/${paths.ROOT}/${paths.USER_DETAIL}/${id}`)
-  }
+    if (!id) return;
+    navigate(`/${paths.ROOT}/${paths.USER_DETAIL}/${id}`);
+  };
 
   const onEdit = (id: string | null) => {
-    if (!id) return
-    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`)
-  }
+    if (!id) return;
+    navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`);
+  };
 
   const rows = users.map((element, index) => (
     <Table.Tr key={index}>
@@ -78,10 +79,10 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
         {element.email}
       </Table.Td>
       <Table.Td className="text-center">
-        {moment(element.signupDate).format('MM/DD/YYYY')}
+        {moment(element.signupDate).format("MM/DD/YYYY")}
       </Table.Td>
       <Table.Td className="text-center">
-        {moment(element.updatedAt).format('MM/DD/YYYY')}
+        {moment(element.updatedAt).format("MM/DD/YYYY")}
       </Table.Td>
       <Table.Td className="text-center">{element.accountStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
@@ -91,7 +92,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
         {/* {user?.accountType! > 1 && <IconTrash />} */}
       </Table.Td>
     </Table.Tr>
-  ))
+  ));
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -108,6 +109,12 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
+        {!users ||
+          (users.length === 0 && (
+            <div className="w-full flex items-center justify-center mt-8">
+              <EmptyBoxMessage />
+            </div>
+          ))}
         <div className="flex w-full justify-between">
           {userPagination.page! > 1 ? (
             <Button
@@ -135,5 +142,5 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

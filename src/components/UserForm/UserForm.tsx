@@ -13,7 +13,6 @@ type UserFormProps = {
 const UserForm = ({ onSubmit, user }: UserFormProps) => {
   const methods = useForm({})
   const { register, handleSubmit, reset, formState, control } = methods
-  console.log(user)
   const { isDirty } = formState
 
   useEffect(() => {

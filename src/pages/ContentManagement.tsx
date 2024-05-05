@@ -1,10 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { SubMenuItem } from "../types/Menu";
 import { paths } from "../types";
 import { SubMenu } from "../ui";
-import { useAppProviderCtx } from "../app-provider";
-import { listContentActive } from "../components/ContentManagement/data";
 
 const ContentManagement = () => {
   const location = useLocation();
@@ -26,12 +24,8 @@ const ContentManagement = () => {
         isActive: location.pathname.includes(paths.LIST_OF_INACTIVE_CONTENTS),
       },
     ];
-  }, [location]);
-  const { func: { updateContentManagementTemp } } = useAppProviderCtx();
-
-  useEffect(() => {
-    updateContentManagementTemp(listContentActive)
-  }, [])
+  }, [location])
+  
   return (
     <>
       <SubMenu subMenuItem={contentSubMenuItem} />

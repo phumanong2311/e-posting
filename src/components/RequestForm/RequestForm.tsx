@@ -13,7 +13,6 @@ type RequestFormProps = {
 const RequestForm = ({ onSubmit, request }: RequestFormProps) => {
   const methods = useForm({})
   const { register, handleSubmit, reset, formState, control } = methods
-  console.log(request)
   const { isDirty } = formState
 
   useEffect(() => {

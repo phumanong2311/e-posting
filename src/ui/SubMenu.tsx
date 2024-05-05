@@ -8,7 +8,6 @@ interface SubMenuProps {
 }
 
 export const SubMenu = (subMenu: SubMenuProps) => {
-  console.log('subMenu', subMenu);
   return (
     <div className="w-full flex mt-4 px-16">
       {subMenu.subMenuItem.map((link: SubMenuItem, index: number) => (

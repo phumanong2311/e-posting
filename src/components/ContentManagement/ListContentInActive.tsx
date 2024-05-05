@@ -1,42 +1,65 @@
 import { Table } from "@mantine/core";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppProviderCtx } from "../../app-provider";
-import { ContentEngineType } from "../../types";
+import { ContentPagination, ContentType, paths } from "../../types";
+import { useQuery } from "@tanstack/react-query";
+import { contentManagementService } from "../../services";
 
-export const ListContentInActive = () => {
-  const [data, setData] = useState<ContentEngineType[]>();
-  const {
-    data: { dataContentManagementTemp },
-  } = useAppProviderCtx();
+export const ListContentActive = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const dataInActive = dataContentManagementTemp
-      ? dataContentManagementTemp.map((dt) => {
-          return {
-            ...dt,
-            status: "Inactive",
-          };
-        })
-      : [];
-    setData(dataInActive);
-  }, [dataContentManagementTemp]);
+  const [contents, setContents] = useState<Array<ContentType>>([]);
+  const [contentPagination, setContentPagination] = useState<ContentPagination>(
+    {
+      page: 1,
+    }
+  );
 
-  const rows = data
-    ? data.map((element, index) => (
+  useQuery({
+    queryKey: ["contentList", contentPagination.page],
+    queryFn: () =>
+      contentManagementService
+        .getContents({ page: contentPagination?.page })
+        .then((res) => {
+          if (res.result) {
+            const { media, ...pagination } = res.result;
+            setContents(media);
+            setContentPagination(pagination);
+            return res.result;
+          }
+          return null;
+        }),
+  });
+
+  const onNextPage = () => {
+    if (contentPagination?.maxPages && contentPagination?.page) {
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
+    }
+  };
+
+  const onPreviousPage = () => {
+    if (contentPagination?.page! > 1) {
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
+    }
+  };
+
+  const onViewDetail = (id: string) => {
+    navigate(`/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.CONTENT_DETAIL}/${id}`);
+  };
+
+  const rows = contents.map((element, index) => (
         <Table.Tr key={index}>
           <Table.Td
             className="text-ellipsis cursor-pointer"
-            // onClick={() => onViewDetail(element._id)}
+            onClick={() => onViewDetail(element.contentId)}
           >
             {element.title}
           </Table.Td>
-          <Table.Td className="text-center">{element.type}</Table.Td>
-          <Table.Td className="text-center">{element.createdBy}</Table.Td>
+          <Table.Td className="text-center">{element.contentType}</Table.Td>
+          <Table.Td className="text-center">{element.createdAt}</Table.Td>
           <Table.Td className="text-center">{element.lastModifiedBy}</Table.Td>
-          <Table.Td className="text-center">{element.status}</Table.Td>
+          <Table.Td className="text-center">{element.mediaStatus}</Table.Td>
           <Table.Td className="text-center">
             {moment(element.publishDate).format("MM/DD/YYYY")}
           </Table.Td>
@@ -44,8 +67,7 @@ export const ListContentInActive = () => {
             {moment(element.endDate).format("MM/DD/YYYY")}
           </Table.Td>
         </Table.Tr>
-      ))
-    : [];
+      ));
   return (
     <div className="w-full px-14 mt-5">
       <Table withRowBorders={false} verticalSpacing="md">
@@ -66,4 +88,4 @@ export const ListContentInActive = () => {
   );
 };
 
-export default ListContentInActive;
+export default ListContentActive;

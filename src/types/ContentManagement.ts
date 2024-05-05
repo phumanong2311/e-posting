@@ -1,16 +1,44 @@
-export type ContentEngineType = {
+export type ContentType = {
+  posterId: string;
+  posterName: string;
   title: string;
-  type: string;
-  createdBy: string;
-  lastModifiedBy: string;
-  status: string;
-  publishDate: Date,
-  endDate: Date,
-  taglineDisplay?: string,
-  displayImage?: string,
-  citeImageSource?: string,
-  description?: string,
-  publicationName?: string,
-  sourceUrl?: string,
-  category?: string,
-}
+  contentType: string;
+  tagline?: string;
+  description?: string;
+  publicationName?: string;
+  displayImage?: string;
+  imageSourceCitation: string;
+  sourceUrl?: string;
+  category?: string;
+  mediaStatus: string;
+  endDate?: string;
+  publishDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  lastModifiedBy?: string;
+  lastModifiedById?: string;
+  contentId: string;
+};
+
+export type ContentPayload = {
+  title: string;
+  contentType: string;
+  tagline?: string;
+  description?: string;
+  publicationName?: string;
+  displayImage?: string;
+  imageSourceCitation: string;
+  sourceUrl?: string;
+  category?: string;
+  endDate?: string;
+  publishDate?: string;
+  mediaStatus: string;
+};
+
+export type ContentPagination = {
+  maxPages?: number;
+  offset?: number;
+  page?: number;
+  pageSize?: number;
+  totalContents?: number;
+};

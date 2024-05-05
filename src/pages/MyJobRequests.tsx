@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { jobService } from "../services";
 import { Request, RequestPagination, paths } from "../types";
+import { EmptyBoxMessage } from "../ui";
 
 const MyJobRequestsPage = () => {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const MyJobRequestsPage = () => {
           return null;
         }),
   });
-  console.log('state request', requests);
 
   const onNextPage = () => {
     if (requestPagination?.maxPages && requestPagination?.page) {
@@ -72,6 +72,12 @@ const MyJobRequestsPage = () => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
+      {!requests ||
+        (requests.length === 0 && (
+          <div className="w-full flex items-center justify-center mt-8">
+            <EmptyBoxMessage />
+          </div>
+        ))}
       <div className="flex w-full justify-between">
         {requestPagination.page! > 1 ? (
           <Button

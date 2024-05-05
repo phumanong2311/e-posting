@@ -1,3 +1,6 @@
-export { default as ListContentActive } from './ListContentActive';
-export { default as ListContentInActive } from './ListContentInActive';
-export * from './data';
+export * from './ContentDetailPage';
+export * from './ContentForm';
+export * from './CreateContentPage';
+export * from './EditContentPage';
+export * from './ListContentActive';
+export * from './ListContentInActive';
