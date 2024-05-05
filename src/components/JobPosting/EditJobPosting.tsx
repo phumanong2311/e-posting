@@ -122,8 +122,8 @@ const EditJobPosting = () => {
                   <RichEditor
                     name="description"
                     label="Job Description: "
-                    labelClass="font-bold text-lg text-right max-w-[300px]"
-                    className="w-full rounded-md"
+                    labelClass="font-bold text-lg text-right"
+                    className="w-2/3 rounded-md"
                     wrapperClass="w-full"
                     value={value}
                     onChange={onChange}
