@@ -1,6 +1,6 @@
 import { Divider } from "@mantine/core";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { SubMenuItem } from "../types/Menu";
 
 interface SubMenuProps {
@@ -12,7 +12,7 @@ export const SubMenu = (subMenu: SubMenuProps) => {
     <div className="w-full flex mt-4 px-16">
       {subMenu.subMenuItem.map((link: SubMenuItem, index: number) => (
         <Fragment key={index}>
-          <Link
+          <NavLink
             to={link.path ? link.path : ""}
             className={
               index === 0
@@ -31,7 +31,7 @@ export const SubMenu = (subMenu: SubMenuProps) => {
             >
               {link.label}
             </p>
-          </Link>
+          </NavLink>
           {index !== subMenu.subMenuItem.length - 1 && <Divider orientation="vertical" />}
         </Fragment>
       ))}
