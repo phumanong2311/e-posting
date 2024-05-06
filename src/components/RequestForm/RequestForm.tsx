@@ -13,7 +13,6 @@ type RequestFormProps = {
 const RequestForm = ({ onSubmit, request }: RequestFormProps) => {
   const methods = useForm({})
   const { register, handleSubmit, reset, formState, control } = methods
-  console.log(request)
   const { isDirty } = formState
 
   useEffect(() => {
@@ -75,8 +74,8 @@ const RequestForm = ({ onSubmit, request }: RequestFormProps) => {
               <RichEditor
                 name="coverLetter"
                 label="Cover Letter: "
-                labelClass="font-bold text-lg text-right max-w-[300px]"
-                className="w-full rounded-md min-h-[50px]"
+                labelClass="font-bold text-lg text-right"
+                className="w-2/3 rounded-md min-h-[50px]"
                 wrapperClass="w-full"
                 value={value}
                 onChange={onChange}
@@ -93,8 +92,8 @@ const RequestForm = ({ onSubmit, request }: RequestFormProps) => {
               <RichEditor
                 name="userSummary"
                 label="User summary: "
-                labelClass="font-bold text-lg text-right max-w-[300px]"
-                className="w-full rounded-md min-h-[50px]"
+                labelClass="font-bold text-lg text-right"
+                className="w-2/3 rounded-md min-h-[50px]"
                 wrapperClass="w-full"
                 value={value}
                 onChange={onChange}

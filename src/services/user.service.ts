@@ -29,7 +29,6 @@ class UserService extends API {
 
   async getUserDetail(id: string): Promise<ResponseWrapper> {
     const url = `v1/admin/user/${id}`
-    console.log(url)
     return this.getAPI(url)
   }
 

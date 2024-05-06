@@ -14,7 +14,7 @@ export const HeadlineText = () => {
         return 'Displays your list of Job Posting by creation date'
       case `/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_POSTING}`:
         return 'Displays your Job Posting Record in Details'
-      case `/${paths.ROOT}/${paths.DASHBOARD}/${paths.JOB_REQUEST}`:
+      case `/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_REQUEST}`:
         return ''
       default:
         return ''

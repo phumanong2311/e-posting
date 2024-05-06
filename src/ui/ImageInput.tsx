@@ -54,7 +54,7 @@ export const ImageInput = ({
           )}
         </FileButton>
       </div>
-      <div className="w-full">
+      <div className="w-2/3">
         <Image
           src={previewFile}
           alt="Company Logo"

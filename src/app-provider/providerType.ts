@@ -1,3 +1,5 @@
+import { ContentEngineType } from "../types";
+
 export type UserType = {
   id: string;
   email: string;

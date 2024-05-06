@@ -5,7 +5,7 @@ export enum paths {
   MY_JOB_POSTING = 'my-job-posting',
   JOB_POSTING = 'job-postings',
   EDIT_JOB_POSTING = 'edit-job-posting',
-  JOB_REQUEST = 'job-requests',
+  MY_JOB_REQUEST = 'my-job-requests',
   EDIT_JOB_REQUEST = 'edit-job-request',
   SEARCH = 'search',
 
@@ -22,4 +22,11 @@ export enum paths {
   LOGIN = 'login',
   REPORTING = 'reporting',
   LOGOUT = 'logout',
+
+  CONTENT_MANAGEMENT = 'content-management',
+  LIST_OF_ACTIVE_CONTENTS = 'list-of-active-contents',
+  CREATE_CONTENT = 'create-content',
+  EDIT_CONTENT = 'edit-content',
+  CONTENT_DETAIL = 'content-detail',
+  LIST_OF_INACTIVE_CONTENTS = 'list-of-inactive-contents',
 }

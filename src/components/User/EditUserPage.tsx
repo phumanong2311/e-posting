@@ -26,7 +26,6 @@ const EditUserPage = () => {
           setUserDetail(res.result)
           return res.result
         }
-        console.log(res)
         return null
       }),
   })

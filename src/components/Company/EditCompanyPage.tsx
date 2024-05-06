@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { IconChevronLeft } from '@tabler/icons-react'
-
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
 import { companyService } from '../../services'
 import { toast } from '../../lib/toast'
-import { CompanyForm } from '../../components/CompanyForm'
 import { Company } from '../../types'
+import CompanyForm from './CompanyForm'
 
 const EditCompanyPage = () => {
   const { id } = useParams()

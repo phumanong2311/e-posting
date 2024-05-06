@@ -28,7 +28,7 @@ export const DatePickerUI = ({
         {...register(name)}
         value={new Date(value)}
         onChange={onChange}
-        className={`w-full rounded-md ${className}`}
+        className={`w-2/3 rounded-md ${className}`}
       />
     </div>
   );
