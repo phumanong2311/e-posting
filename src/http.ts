@@ -1,8 +1,11 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance } from 'axios';
 
+
+const baseUrl = import.meta.env.VITE_DOMAIN
 const instance: AxiosInstance = axios.create({
-  // baseURL: "https://nexapps.com/",
-  baseURL: 'https://eposting.mvp.hoysum.com/',
+  // baseURL: "https://hoysum.com/",
+  // baseURL: 'https://nexapps.com/',
+  baseURL: baseUrl,
   timeout: 5000,
 })
 

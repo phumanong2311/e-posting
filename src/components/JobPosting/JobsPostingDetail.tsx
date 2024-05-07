@@ -77,6 +77,17 @@ const JobsPostingDetail = ({
           label="Job Title:"
           value={jobDetail!.jobTitle}
           className="font-bold"
+          actionComponent={
+            (
+              <>
+                <IconPencil
+                  className="cursor-pointer"
+                  onClick={() => onEdit()}
+                />
+                <IconTrash className="cursor-pointer" onClick={deletePost} />
+              </>
+            )
+          }
         />
 
         <InformationField label="Company: " value={jobDetail!.company} />

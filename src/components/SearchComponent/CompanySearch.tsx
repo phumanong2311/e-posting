@@ -82,7 +82,7 @@ export const CompanySearch = ({ keyword }: { keyword: string }) => {
       >
         {element.companyName}
       </Table.Td>
-      <Table.Td className="text-center">{element.ceo}</Table.Td>
+      <Table.Td className="text-center">{element.companyCeo}</Table.Td>
       <Table.Td className="text-center">{element.companyStatus}</Table.Td>
       <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
         {user?.accountType! > 0 && (

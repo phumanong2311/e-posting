@@ -1,62 +1,59 @@
-import { LoadingOverlay } from "@mantine/core";
-import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
-import { EditJobPosting } from "./components/JobPosting";
-import { EditJobRequest } from "./components/JobRequest";
-import { PageLayout } from "./layout/layout";
-import { DashboardLayout } from "./layout/layout/DashboardLayout";
-import { ContentManagement, NotFoundPage } from "./pages";
-import ErrorBoundary from "./pages/ErrorBoundary ";
-import MyJobRequestDetailPage from "./pages/MyJobRequestDetailPage";
-import { paths } from "./types";
+import { LoadingOverlay } from '@mantine/core'
+import { Suspense, lazy } from 'react'
+import { RouteObject, createBrowserRouter } from 'react-router-dom'
+import { EditJobPosting } from './components/JobPosting'
+import { EditJobRequest } from './components/JobRequest'
+import { PageLayout } from './layout/layout'
+import { DashboardLayout } from './layout/layout/DashboardLayout'
+import { NotFoundPage } from './pages'
+import ErrorBoundary from './pages/ErrorBoundary '
+import MyJobRequestDetailPage from './pages/MyJobRequestDetailPage'
+import { paths } from './types'
 
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const MyProfilePage = lazy(() => import("./pages/MyProfile"));
+
+const JobsPage = lazy(() => import("./pages/Jobs"));
+const JobsByDayPage = lazy(() => import("./pages/JobsByDay"));
+const TopJobPostersPage = lazy(() => import("./pages/TopJobPosters"));
+const UsersPage = lazy(() => import("./pages/Users"));
+const NotificationsPage = lazy(() => import("./pages/Notifications"));
+const UserAccountsCreatedByDayPage = lazy(() => import("./pages/UserAccountsCreatedByDay"));
+const RequestsPage = lazy(() => import("./pages/Requests"));
+const RequestsByDayPage = lazy(() => import("./pages/RequestsByDay"));
+const TopRequestPostersPage = lazy(() => import("./pages/TopRequestPosters"));
+const TopCompaniesByRequestPostsPage = lazy(() => import("./pages/TopCompaniesByRequestPosts"));
+const TopCompaniesByJobPostsPage = lazy(() => import("./pages/TopCompaniesByJobPosts"));
+const UserAccountsByCreationMethodPage = lazy(() => import("./pages/UserAccountsByCreationMethod"));
+const UserAccountsByMonthPage = lazy(() => import("./pages/UserAccountsByMonth"));
+const NotificationsByDayPage = lazy(() => import("./pages/NotificationsByDay"));
+const ReportingPage = lazy(() => import("./pages/ReportingPage"));
+
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const MyProfilePage = lazy(() => import('./pages/MyProfile'))
 const MyJobPostingsPage = lazy(
-  () => import("./components/JobPosting/MyJobPostings")
-);
-const MyJobRequestsPage = lazy(() => import("./pages/MyJobRequests"));
+  () => import('./components/JobPosting/MyJobPostings')
+)
+const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
 const MyJobPostingsDetailPage = lazy(
-  () => import("./pages/MyJobPostingDetailPage")
-);
-const JobPosting = lazy(() => import("./pages/JobPosting"));
+  () => import('./pages/MyJobPostingDetailPage')
+)
+const JobPosting = lazy(() => import('./pages/JobPosting'))
 
-const SearchPage = lazy(() => import("./pages/SearchPage"));
+const SearchPage = lazy(() => import('./pages/SearchPage'))
 const CreateCompanyPage = lazy(
-  () => import("./components/Company/CreateCompanyPage")
-);
+  () => import('./pages/Company/CreateCompanyPage')
+)
 const CompanyDetailPage = lazy(
-  () => import("./components/Company/CompanyDetailPage")
-);
-const EditCompanyPage = lazy(
-  () => import("./components/Company/EditCompanyPage")
-);
+  () => import('./pages/Company/CompanyDetailPage')
+)
+const EditCompanyPage = lazy(() => import('./pages/Company/EditCompanyPage'))
 
-const UserDetailPage = lazy(() => import("./components/User/UserDetailPage"));
-const EditUserPage = lazy(() => import("./components/User/EditUserPage"));
+const UserDetailPage = lazy(() => import('./pages/User/UserDetailPage'))
+const EditUserPage = lazy(() => import('./pages/User/EditUserPage'))
 
 const RequestDetailPage = lazy(
-  () => import("./components/Request/RequestDetailPage")
-);
-const EditRequestPage = lazy(
-  () => import("./components/Request/EditRequestPage")
-);
-
-const ListContentActivePage = lazy(
-  () => import("./components/ContentManagement/ListContentActive")
-);
-const ListContentInActivePage = lazy(
-  () => import("./components/ContentManagement/ListContentInActive")
-);
-const CreateContentPage = lazy(
-  () => import("./components/ContentManagement/CreateContentPage")
-);
-const EditContentPage = lazy(
-  () => import("./components/ContentManagement/EditContentPage")
-);
-const ContentDetailPage = lazy(
-  () => import("./components/ContentManagement/ContentDetailPage")
-);
+  () => import('./pages/Request/RequestDetailPage')
+)
+const EditRequestPage = lazy(() => import('./pages/Request/EditRequestPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -100,7 +97,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: paths.MY_JOB_REQUEST,
+            path: paths.JOB_REQUEST,
             element: (
               <Suspense>
                 <MyJobRequestsPage />
@@ -109,7 +106,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: `${paths.MY_JOB_REQUEST}/:id`,
+            path: `${paths.JOB_REQUEST}/:id`,
             element: (
               <Suspense>
                 <MyJobRequestDetailPage />
@@ -172,6 +169,150 @@ const routesConfig: RouteObject[] = [
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "reporting",
+        element: (
+          <Suspense>
+            <ReportingPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+        children: [
+          {
+            path: "jobs",
+            index: true,
+            element: (
+              <Suspense>
+                <JobsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "requests",
+            element: (
+              <Suspense>
+                <RequestsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "users",
+            element: (
+              <Suspense>
+                <UsersPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "notifications",
+            element: (
+              <Suspense>
+                <NotificationsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "jobs/by-day",
+            index: true,
+            element: (
+              <Suspense>
+                <JobsByDayPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "jobs/top-posters",
+            element: (
+              <Suspense>
+                <TopJobPostersPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "jobs/top-companies",
+            element: (
+              <Suspense>
+                <TopCompaniesByJobPostsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "requests/top-posters",
+            element: (
+              <Suspense>
+                <TopRequestPostersPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "requests/by-day",
+            index: true,
+            element: (
+              <Suspense>
+                <RequestsByDayPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "requests/top-companies",
+            element: (
+              <Suspense>
+                <TopCompaniesByRequestPostsPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "users/by-day",
+            index: true,
+            element: (
+              <Suspense>
+                <UserAccountsCreatedByDayPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "users/total",
+            index: true,
+            element: (
+              <Suspense>
+                <UserAccountsByCreationMethodPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "users/by-month",
+            index: true,
+            element: (
+              <Suspense>
+                <UserAccountsByMonthPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "notifications/by-day",
+            index: true,
+            element: (
+              <Suspense>
+                <NotificationsByDayPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+        ],
       },
       {
         path: paths.CREATE_COMPANY,
@@ -286,10 +427,11 @@ const routesConfig: RouteObject[] = [
     ),
     errorElement: <ErrorBoundary />,
   },
+
   {
-    path: "*",
+    path: '*',
     element: <NotFoundPage />,
   },
-];
+]
 
-export const router = createBrowserRouter(routesConfig);
+export const router = createBrowserRouter(routesConfig)

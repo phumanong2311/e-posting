@@ -1,7 +1,8 @@
-export * from './api'
-export { default as authService } from './auth.service'
-export { default as jobService } from './job.service'
-export { default as userService } from './user.service'
-export { default as companyService } from './company.service'
-export { default as requestService } from './request.service'
-export { default as contentManagementService } from './contentManagement.service'
+export * from './api';
+export * from './auth.service';
+export * from './company.service';
+export * from './contentManagement.service';
+export * from './job.service';
+export * from './notification.service';
+export * from './request.service';
+export * from './user.service';

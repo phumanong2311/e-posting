@@ -15,7 +15,7 @@ export const PageLayout = () => {
 
   useEffect(() => {
     if (!token) {
-      window.location.href = "/login";
+      window.location.href = `/${paths.LOGIN}`;
     }
     userService.getMe().then((res: ResponseWrapper) => {
       if (res.result) {

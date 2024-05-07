@@ -9,6 +9,7 @@ import { toast } from "../../lib/toast";
 import { jobService } from "../../services";
 import { DatePickerUI, LabelInput, RichEditor } from "../../ui";
 
+
 const EditJobPosting = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ const EditJobPosting = () => {
               register={register}
             />
             <Controller
-              name="closingDate"
+              name={`closingDate` as `${number}`}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <DatePickerUI
@@ -116,14 +117,14 @@ const EditJobPosting = () => {
             />
             <div className="flex w-full my-6">
               <Controller
-                name="description"
+                name={`description` as `${number}`}
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <RichEditor
                     name="description"
                     label="Job Description: "
-                    labelClass="font-bold text-lg text-right"
-                    className="w-2/3 rounded-md"
+                    labelClass="font-bold text-lg text-right max-w-[300px]"
+                    className="w-full rounded-md"
                     wrapperClass="w-full"
                     value={value}
                     onChange={onChange}
