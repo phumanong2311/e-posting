@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { SubMenuItem } from "../types/Menu";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { paths } from "../types";
+import { SubMenuItem } from "../types/Menu";
 import { SubMenu } from "../ui";
 
 const ContentManagement = () => {
@@ -25,11 +25,12 @@ const ContentManagement = () => {
       },
     ];
   }, [location])
-  
+
   return (
     <>
       <SubMenu subMenuItem={contentSubMenuItem} />
       <Outlet />
+      <Navigate to={`/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.LIST_OF_ACTIVE_CONTENTS}`} />
     </>
   );
 };

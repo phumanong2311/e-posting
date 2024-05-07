@@ -19,7 +19,7 @@ class ContentManagementService extends API {
     keyword?: string;
     page?: number;
   }): Promise<ResponseWrapper> {
-    let url = `content/inactive?` + buildQueryParams({ page });
+    let url = `content/media/inactive?` + buildQueryParams({ page });
     return this.getAPI(url);
   }
 
