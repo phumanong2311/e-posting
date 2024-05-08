@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppProviderCtx } from '../app-provider'
 import { toast } from '../lib/toast'
-import { authService, userService } from '../services'
+import { authServices, userServices } from '../services'
 import { LoginPayload, ResponseWrapper, paths } from '../types'
 
 const LoginPage = () => {
@@ -26,7 +26,7 @@ const LoginPage = () => {
 
   const getUser = useMutation({
     mutationFn: () =>
-      userService.getMe().then((res: ResponseWrapper) => {
+      userServices.getMe().then((res: ResponseWrapper) => {
         if (res.result) {
           updateUser(res.result)
           toast.success('Login Successful !')
@@ -40,7 +40,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginPayload) => {
     setLoading(true)
-    await authService
+    await authServices
       .login(data)
       .then((r) => {
         localStorage.setItem('accessToken', r.accessToken)

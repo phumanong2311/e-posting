@@ -6,8 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "../../lib/toast";
-import { jobService } from "../../services";
+import { jobServices } from "../../services";
 import { DatePickerUI, LabelInput, RichEditor } from "../../ui";
+
 
 const EditJobPosting = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const EditJobPosting = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      jobService.getJobDetail({ jobId: id }).then((res) => {
+      jobServices.getJobDetail({ jobId: id }).then((res) => {
         if (res.result) {
           setJobDetail(res.result);
           reset(res.result);
@@ -38,7 +39,7 @@ const EditJobPosting = () => {
 
   const onSubmit = async (value: any) => {
     if (isDirty) {
-      await jobService
+      await jobServices
         .editJob(id!, value)
         .then((result) => {
           result && toast.success("Job posting updated successfully");
@@ -51,7 +52,7 @@ const EditJobPosting = () => {
   };
 
   const deletePost = async () => {
-    await jobService
+    await jobServices
       .deleteJob(id!)
       .then((res) => {
         if (res) {
@@ -102,7 +103,7 @@ const EditJobPosting = () => {
               register={register}
             />
             <Controller
-              name="closingDate"
+              name={`closingDate` as `${number}`}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <DatePickerUI
@@ -116,14 +117,14 @@ const EditJobPosting = () => {
             />
             <div className="flex w-full my-6">
               <Controller
-                name="description"
+                name={`description` as `${number}`}
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <RichEditor
                     name="description"
                     label="Job Description: "
-                    labelClass="font-bold text-lg text-right"
-                    className="w-2/3 rounded-md"
+                    labelClass="font-bold text-lg text-right max-w-[300px]"
+                    className="w-full rounded-md"
                     wrapperClass="w-full"
                     value={value}
                     onChange={onChange}

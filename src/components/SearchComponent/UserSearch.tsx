@@ -6,7 +6,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
-import { userService } from "../../services";
+import { userServices } from "../../services";
 import { User, UserPagination, paths } from "../../types";
 import { EmptyBoxMessage } from "../../ui";
 
@@ -28,7 +28,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
   useQuery({
     queryKey: ["userSearch", userPagination.page, debouncedSearchKeyword],
     queryFn: () =>
-      userService
+      userServices
         .getUsers({
           page: userPagination?.page,
           keyword,

@@ -2,7 +2,7 @@ import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
 import { toast } from '../../lib/toast'
-import jobService from '../../services/job.service'
+import { jobServices } from '../../services'
 import { Job, paths } from '../../types'
 import { InformationField } from '../../ui'
 
@@ -30,7 +30,7 @@ const JobsPostingDetail = ({
   }
 
   const deletePost = async () => {
-    await jobService
+    await jobServices
       .deleteJob(jobDetail!._id)
       .then((res) => {
         if (res) {
@@ -77,6 +77,17 @@ const JobsPostingDetail = ({
           label="Job Title:"
           value={jobDetail!.jobTitle}
           className="font-bold"
+          actionComponent={
+            (
+              <>
+                <IconPencil
+                  className="cursor-pointer"
+                  onClick={() => onEdit()}
+                />
+                <IconTrash className="cursor-pointer" onClick={deletePost} />
+              </>
+            )
+          }
         />
 
         <InformationField label="Company: " value={jobDetail!.company} />

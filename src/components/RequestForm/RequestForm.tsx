@@ -1,9 +1,8 @@
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from '@mantine/core'
 import { useEffect } from 'react'
-import { Button, Select, Image } from '@mantine/core'
-import { LabelInput, RichEditor } from '../../ui'
-import moment from 'moment'
+import { Controller, useForm } from 'react-hook-form'
 import { Request } from '../../types'
+import { LabelInput, RichEditor } from '../../ui'
 
 type RequestFormProps = {
   onSubmit: (value: any) => void

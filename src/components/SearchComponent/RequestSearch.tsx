@@ -6,7 +6,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
-import { requestService } from "../../services";
+import { requestServices } from "../../services";
 import { Request, RequestPagination, paths } from "../../types";
 import { toast } from "../../lib/toast";
 import { EmptyBoxMessage } from "../../ui";
@@ -31,7 +31,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const { refetch } = useQuery({
     queryKey: ["requestSearch", requestPagination.page, debouncedSearchKeyword],
     queryFn: () =>
-      requestService
+      requestServices
         .getResources({
           page: requestPagination?.page,
           keyword,
@@ -74,7 +74,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
   };
 
   const onDelete = async (id: string) => {
-    await requestService
+    await requestServices
       .deleteRequest(id!)
       .then((result) => {
         result && toast.success("Request is deleted successfully");

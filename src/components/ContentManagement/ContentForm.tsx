@@ -13,7 +13,7 @@ type ContentFormProps = {
 
 const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
   const methods = useForm({});
-  const { register, handleSubmit, reset, watch, formState, control } = methods;
+  const { register, handleSubmit, reset, formState, control } = methods;
 
   const { isDirty } = formState;
 

@@ -71,7 +71,55 @@ class JobService extends API {
     const url = `job/${id}`
     return this.deleteAPI(url)
   }
+
+  async getTopJobPosters(month: number, year: number, startDate?: Date, endDate?: Date): Promise<{ jobOwner: string; numPostings: number }[]> {
+    let currentPage = 1;
+    let allJobPosters: any[] = [];
+
+    while (true) {
+        const allJobsResponse = await this.getJobs({ searchParameter: {}, page: currentPage });
+        if (!allJobsResponse.success || !allJobsResponse.result) {
+            break;
+        }
+
+        const jobs = allJobsResponse.result.jobs;
+        const currentMonthJobs = jobs.filter((job: any) => {
+            const jobDate = new Date(job.createdAt);
+            return jobDate.getMonth() + 1 === month && jobDate.getFullYear() === year;
+        });
+
+        allJobPosters = [...allJobPosters, ...currentMonthJobs];
+
+        currentPage++;
+
+        if (jobs.length < 20) {
+            break;
+        }
+    }
+
+    if (startDate) {
+        allJobPosters = allJobPosters.filter((job: any) => new Date(job.createdAt) >= startDate);
+    }
+    if (endDate) {
+        allJobPosters = allJobPosters.filter((job: any) => new Date(job.createdAt) <= endDate);
+    }
+
+    const jobPosters: Record<string, number> = {};
+    allJobPosters.forEach((job) => {
+        const jobOwner = job.jobOwner;
+        jobPosters[jobOwner] = (jobPosters[jobOwner] || 0) + 1;
+    });
+
+    const topJobPosters = Object.keys(jobPosters).map((jobOwner) => ({
+        jobOwner,
+        numPostings: jobPosters[jobOwner],
+    }));
+    topJobPosters.sort((a, b) => b.numPostings - a.numPostings);
+
+    return topJobPosters.slice(0, 20);
+  }
 }
+
 
 const jobService = new JobService()
 

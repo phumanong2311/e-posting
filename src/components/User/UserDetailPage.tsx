@@ -5,7 +5,7 @@ import { Image } from '@mantine/core'
 import moment from 'moment'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import { userService } from '../../services'
+import { userServices } from '../../services'
 import { User, paths } from '../../types'
 
 const UserDetailPage = () => {
@@ -16,7 +16,7 @@ const UserDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      userService.getUserDetail(id!).then((res) => {
+      userServices.getUserDetail(id!).then((res) => {
         if (res.result) {
           setUserDetail(res.result)
           return res.result

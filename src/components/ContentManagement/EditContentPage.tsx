@@ -3,7 +3,7 @@ import { IconChevronLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { contentManagementService } from "../../services";
+import { contentManagementServices } from "../../services";
 import { toast } from "../../lib/toast";
 import { ContentPayload, ContentType } from "../../types";
 import ContentForm from "./ContentForm";
@@ -21,7 +21,7 @@ const EditContentPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      contentManagementService.getDetail(id!).then((res) => {
+      contentManagementServices.getDetail(id!).then((res) => {
         if (res.result) {
           setContentDetail(res.result);
           return res.result;
@@ -47,13 +47,13 @@ const EditContentPage = () => {
 
     if (typeof value.displayImage !== "string" && value.displayImage) {
       const file = value.displayImage;
-      const imageLogoUrl = await contentManagementService.getImageLogoUrl(file);
+      const imageLogoUrl = await contentManagementServices.getImageLogoUrl(file);
       if (imageLogoUrl) {
         content.displayImage = imageLogoUrl.url ? imageLogoUrl.url : "";
       }
     }
 
-    await contentManagementService
+    await contentManagementServices
       .edit(id!, value)
       .then((result) => {
         result && toast.success("Content is edited successfully");

@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "../../lib/toast";
-import { requestService } from "../../services";
+import { requestServices } from "../../services";
 import { Request } from "../../types";
 import { LabelInput, RichEditor } from "../../ui";
 
@@ -18,7 +18,7 @@ const EditJobRequest = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      requestService.getRequestDetail(id!).then((res) => {
+      requestServices.getRequestDetail(id!).then((res) => {
         if (res.result) {
           setRequestDetail(res.result)
           reset(res.result);
@@ -39,7 +39,7 @@ const EditJobRequest = () => {
 
   const onSubmit = async (value: any) => {
     if (isDirty) {
-      await requestService
+      await requestServices
         .editRequest(id!, value)
         .then((result) => {
           result && toast.success("Job request updated successfully");
@@ -52,7 +52,7 @@ const EditJobRequest = () => {
   };
 
   const deletePost = async () => {
-    await requestService
+    await requestServices
       .deleteRequest(id!)
       .then((res) => {
         if (res) {

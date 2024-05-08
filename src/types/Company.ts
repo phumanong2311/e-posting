@@ -1,6 +1,6 @@
 export type Company = {
   address: string
-  ceo: string
+  companyCeo: string
   city: string
   companyName: string
   companyStatus?: number

@@ -1,7 +1,7 @@
 import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
-import { contentManagementService } from '../../services'
+import { contentManagementServices } from '../../services'
 import { toast } from '../../lib/toast'
 import ContentForm from './ContentForm'
 
@@ -14,7 +14,7 @@ const CreateContentPage = () => {
   const onSubmit = async (value: any) => {
     try {
       const file = value.displayImage
-      const imageLogoUrl = await contentManagementService.getImageLogoUrl(file)
+      const imageLogoUrl = await contentManagementServices.getImageLogoUrl(file)
       const content = {
         title: value.title,
         contentType: value.contentType,
@@ -29,7 +29,7 @@ const CreateContentPage = () => {
         publishDate: value.publishDate,
         mediaStatus: value.mediaStatus,
       }
-      await contentManagementService
+      await contentManagementServices
         .create(content)
         .then((result) => {
           result && toast.success('Content is created successfully')

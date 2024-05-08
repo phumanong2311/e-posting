@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { jobService } from "../services";
+import { jobServices } from "../services";
 import { Request, RequestPagination, paths } from "../types";
 import { EmptyBoxMessage } from "../ui";
 
@@ -19,7 +19,7 @@ const MyJobRequestsPage = () => {
   useQuery({
     queryKey: ["jobsRequestList", requestPagination.page],
     queryFn: () =>
-      jobService
+      jobServices
         .getMyJobsRequest({ page: requestPagination?.page })
         .then((res) => {
           if (res.result) {
