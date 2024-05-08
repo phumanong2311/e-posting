@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
-import userService from "../../services/userServices";
+import { userServices } from "../../services";
 import { ResponseWrapper, paths } from "../../types";
 
 export const PageLayout = () => {
@@ -17,7 +17,7 @@ export const PageLayout = () => {
     if (!token) {
       window.location.href = `/${paths.LOGIN}`;
     }
-    userService.getMe().then((res: ResponseWrapper) => {
+    userServices.getMe().then((res: ResponseWrapper) => {
       if (res.result) {
         updateUser(res.result);
       }
