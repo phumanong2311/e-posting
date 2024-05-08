@@ -55,6 +55,13 @@ const RequestDetailPage = lazy(
 )
 const EditRequestPage = lazy(() => import('./pages/Request/EditRequestPage'))
 
+const ContentManagement = lazy(() => import('./pages/ContentManagement'))
+const ListContentActivePage = lazy(() => import('./components/ContentManagement/ListContentActive'))
+const ListContentInActivePage = lazy(() => import('./components/ContentManagement/ListContentInActive'))
+const CreateContentPage = lazy(() => import('./components/ContentManagement/CreateContentPage'))
+const EditContentPage = lazy(() => import('./components/ContentManagement/EditContentPage'))
+const ContentDetailPage = lazy(() => import('./components/ContentManagement/ContentDetailPage'))
+
 const routesConfig: RouteObject[] = [
   {
     path: paths.ROOT,
@@ -97,7 +104,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: paths.JOB_REQUEST,
+            path: paths.MY_JOB_REQUEST,
             element: (
               <Suspense>
                 <MyJobRequestsPage />
@@ -106,7 +113,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: `${paths.JOB_REQUEST}/:id`,
+            path: `${paths.MY_JOB_REQUEST}/:id`,
             element: (
               <Suspense>
                 <MyJobRequestDetailPage />

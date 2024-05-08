@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { contentManagementService } from "../../services";
+import { contentManagementServices } from "../../services";
 import { ContentPagination, ContentType, paths } from "../../types";
 import { EmptyBoxMessage } from "../../ui";
 
@@ -22,9 +22,9 @@ export const ListContentActive = () => {
     queryKey: ["contentList", contentPagination.page],
     queryFn: () => {
       open();
-      return contentManagementService
+      return contentManagementServices
         .getInActiveContents({ page: contentPagination?.page })
-        .then((res) => {
+        .then((res: any) => {
           if (res.result) {
             const { media, ...pagination } = res.result;
             setContents(media);

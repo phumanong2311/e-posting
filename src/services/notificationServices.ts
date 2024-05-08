@@ -2,7 +2,6 @@ import { ResponseWrapper, SearchParameter } from '../types'
 import { buildQueryParams } from '../utils'
 import { API } from './api'
 
-
 class NotificationService extends API {
   async getNotifications({
     searchParameter,

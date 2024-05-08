@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { requestService } from "../services";
+import { requestServices } from "../services";
 import { Request } from "../types";
 
 
@@ -31,7 +31,7 @@ const RequestsByDay = () => {
     let currentPage = 1;
     let allRequestPosters: any[] = [];
     while (true) {
-      const allRequestsResponse = await requestService.getRequests({ searchParameter: {}, page: currentPage });
+      const allRequestsResponse = await requestServices.getRequests({ searchParameter: {}, page: currentPage });
       if (!allRequestsResponse.result) {
         break;
       }
@@ -58,7 +58,7 @@ const RequestsByDay = () => {
   const calculateRequestsByDate = (requestList: Request[]) => {
     const requestsCountByDate: Record<string, number> = {};
     requestList.forEach((request) => {
-      const requestDate = new Date(request.createdAt).getDate();
+      const requestDate = new Date(request.createdAt ? request.createdAt : '').getDate();
       requestsCountByDate[requestDate] = (requestsCountByDate[requestDate] || 0) + 1;
     });
     setRequestsByDate(requestsCountByDate);

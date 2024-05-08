@@ -57,7 +57,7 @@ const CompanyForm = ({ onSubmit, company }: CompanyFormProps) => {
         />
         <LabelInput label="Website:" name="website" register={register} />
         <LabelInput label="Ticker:" name="ticker" register={register} />
-        <LabelInput label="Company CEO:" name="ceo" register={register} />
+        <LabelInput label="Company CEO:" name="companyCeo" register={register} />
         <LabelInput label="Sector:" name="sector" register={register} />
         <LabelInput label="Industry:" name="industry" register={register} />
         <LabelInput

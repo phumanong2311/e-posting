@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import jobService from '../../services/job.service'
+import { jobServices } from '../../services'
 import { Job, JobPagination } from '../../types'
 import { JobList } from '../JobList'
 
@@ -14,7 +14,7 @@ const MyJobPostingsPage = () => {
   useQuery({
     queryKey: ['jobsList', jobPagination.page],
     queryFn: () =>
-      jobService.getMyJobs({ page: jobPagination?.page }).then((res) => {
+      jobServices.getMyJobs({ page: jobPagination?.page }).then((res) => {
         if (res.result) {
           const { jobs, ...pagination } = res.result
           setJobs(jobs)

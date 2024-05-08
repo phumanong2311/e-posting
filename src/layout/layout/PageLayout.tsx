@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
-import userService from "../../services/user.service";
+import userService from "../../services/userServices";
 import { ResponseWrapper, paths } from "../../types";
 
 export const PageLayout = () => {

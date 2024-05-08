@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useEffect, useState } from 'react'
 import { Job, JobPagination, SearchParameter } from '../../types'
-import { jobService } from '../../services'
+import { jobServices } from '../../services'
 import { Filter } from './Filter'
 import { JobList } from '../JobList'
 
@@ -29,7 +29,7 @@ export const JobSearch = ({ keyword }: { keyword: string }) => {
     ],
     queryFn: () =>
       keyword
-        ? jobService
+        ? jobServices
             .getJobSearch({
               searchParameter,
               page: jobPagination?.page,
@@ -44,7 +44,7 @@ export const JobSearch = ({ keyword }: { keyword: string }) => {
               }
               return null
             })
-        : jobService
+        : jobServices
             .getJobs({
               searchParameter,
               page: jobPagination?.page,

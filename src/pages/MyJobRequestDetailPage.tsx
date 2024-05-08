@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 import { JobRequestDetail } from '../components/JobRequest'
-import { requestService } from '../services'
+import { requestServices } from '../services'
 import { Request } from '../types'
 
 const MyJobRequestDetailPage = () => {
@@ -13,7 +13,7 @@ const MyJobRequestDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      requestService.getRequestDetail(id!).then((res) => {
+      requestServices.getRequestDetail(id!).then((res) => {
         if (res.result) {
           setRequestDetail(res.result)
           return res.result

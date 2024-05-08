@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { jobService } from "../services";
+import { jobServices } from "../services";
 
 
 function getMonth() {
@@ -24,7 +24,7 @@ const TopJobPosters = () => {
   useEffect(() => {
     const fetchTopJobPosters = async () => {
       try {
-        const posters = await jobService.getTopJobPosters(month, year, startDate, endDate);
+        const posters = await jobServices.getTopJobPosters(month, year, startDate, endDate);
         setTopJobPosters(posters);
       } catch (error) {
         console.error("Error fetching top job posters:", error);

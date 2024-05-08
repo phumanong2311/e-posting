@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { userService } from "../services";
+import { userServices } from "../services";
 import { User } from "../types";
 
 
@@ -28,7 +28,7 @@ const UserAccountsCreatedByDay = () => {
     let allUserPosters: any[] = [];
 
     while (true) {
-      const allUsersResponse = await userService.getUsers({ page: currentPage });
+      const allUsersResponse = await userServices.getUsers({ page: currentPage });
       if (!allUsersResponse.result) {
         break;
       }

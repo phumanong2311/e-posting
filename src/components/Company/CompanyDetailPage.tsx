@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { companyService } from "../../services";
+import { companyServices } from "../../services";
 import { Company, paths } from "../../types";
 import { InformationField } from "../../ui";
 
@@ -16,7 +16,7 @@ const CompanyDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      companyService.getCompanyDetail(id!).then((res) => {
+      companyServices.getCompanyDetail(id!).then((res) => {
         if (res.result) {
           setCompanyDetail(res.result);
           return res.result;
@@ -96,7 +96,7 @@ const CompanyDetailPage = () => {
         />
         <InformationField
           label="Company CEO: "
-          value={companyDetail.ceo && companyDetail.ceo}
+          value={companyDetail.companyCeo && companyDetail.companyCeo}
         />
         <InformationField
           label="Sector: "

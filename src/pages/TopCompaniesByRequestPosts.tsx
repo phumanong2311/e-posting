@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { requestService } from "../services";
+import { requestServices } from "../services";
 import { Request } from "../types";
 
 function getMonth() {
@@ -27,7 +27,7 @@ const TopCompaniesByRequestPosts = () => {
     let currentPage = 1;
     let allRequestPosters: any[] = [];
     while (true) {
-      const allRequestsResponse = await requestService.getRequests({ searchParameter: {}, page: currentPage });
+      const allRequestsResponse = await requestServices.getRequests({ searchParameter: {}, page: currentPage });
       if (!allRequestsResponse.result) {
         break;
       }

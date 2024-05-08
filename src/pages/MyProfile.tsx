@@ -1,7 +1,7 @@
 import { IconPencil } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { useAppProviderCtx } from '../app-provider/AppProvider'
-import userService from '../services/user.service'
+import { userServices } from '../services'
 import { ResponseWrapper } from '../types'
 import { InformationField } from '../ui'
 
@@ -14,7 +14,7 @@ const MyProfilePage = () => {
   useQuery({
     queryKey: ['userProfile'],
     queryFn: () =>
-      userService.getProfile().then((res: ResponseWrapper) => {
+      userServices.getProfile().then((res: ResponseWrapper) => {
         if (res.result) updateUserProfile(res.result)
         return res.result
       }),

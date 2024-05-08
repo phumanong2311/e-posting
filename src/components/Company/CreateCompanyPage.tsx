@@ -1,7 +1,7 @@
 import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
-import { companyService } from '../../services'
+import { companyServices } from '../../services'
 import { toast } from '../../lib/toast'
 import CompanyForm from './CompanyForm'
 
@@ -14,7 +14,7 @@ const CreateCompanyPage = () => {
   const onSubmit = async (value: any) => {
     try {
       const file = value.companyLogo
-      const imageLogoUrl = await companyService.getImageLogoUrl(file)
+      const imageLogoUrl = await companyServices.getImageLogoUrl(file)
       const company = {
         companyName: value.companyName,
         ticker: value.ticker,
@@ -26,10 +26,10 @@ const CreateCompanyPage = () => {
         website: value.website,
         sector: value.sector,
         industry: value.industry,
-        ceo: value.ceo,
+        companyCeo: value.companyCeo,
         logo: imageLogoUrl?.result?.url ? imageLogoUrl?.result.url : '',
       }
-      await companyService
+      await companyServices
         .createCompany(company)
         .then((result) => {
           result && toast.success('Company is created successfully')

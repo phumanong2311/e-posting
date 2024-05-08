@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { notificationService } from "../services";
+import { notificationServices } from "../services";
 import { Notification } from "../types";
 
 
@@ -25,7 +25,7 @@ const NotificationsByDay = () => {
 
   const fetchNotifications = async () => {
     let allNotificationPosters: any[] = [];
-    const allNotificationsResponse = await notificationService.getListNotifications({});
+    const allNotificationsResponse = await notificationServices.getListNotifications({});
     const notifications = allNotificationsResponse.result.consumer;
     const currentMonthPosters = notifications.filter((notification: any) => {
       const notificationDate = new Date(notification.createdAt);

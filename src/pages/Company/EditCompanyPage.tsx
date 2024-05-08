@@ -4,7 +4,7 @@ import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import { companyService } from '../../services'
+import { companyServices } from '../../services'
 import { toast } from '../../lib/toast'
 import { CompanyForm } from '../../components/CompanyForm'
 import { Company } from '../../types'
@@ -22,7 +22,7 @@ const EditCompanyPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      companyService.getCompanyDetail(id!).then((res) => {
+      companyServices.getCompanyDetail(id!).then((res) => {
         if (res.result) {
           setCompanyDetail(res.result)
           return res.result
@@ -49,11 +49,11 @@ const EditCompanyPage = () => {
 
     if (typeof value.companyLogo !== 'string') {
       const file = value.companyLogo
-      const imageLogoUrl = await companyService.getImageLogoUrl(file)
+      const imageLogoUrl = await companyServices.getImageLogoUrl(file)
       company.logo = imageLogoUrl.url ? imageLogoUrl.url : ''
     }
 
-    await companyService
+    await companyServices
       .editCompany(id!, value)
       .then((result) => {
         result && toast.success('Company is edited successfully')

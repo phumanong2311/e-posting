@@ -5,7 +5,7 @@ import { Image } from '@mantine/core'
 import moment from 'moment'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import { userService } from '../../services'
+import { userServices } from '../../services'
 import { User, paths } from '../../types'
 
 const UserDetailPage = () => {
@@ -16,7 +16,7 @@ const UserDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      userService.getUserDetail(id!).then((res) => {
+      userServices.getUserDetail(id!).then((res) => {
         if (res.result) {
           setUserDetail(res.result)
           return res.result
@@ -33,19 +33,7 @@ const UserDetailPage = () => {
     navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${userDetail!.id}`)
   }
 
-  const deletePost = async () => {
-    //TODO: Delete company details
-    // await jobService
-    //   .deleteJob(id!)
-    //   .then((res) => {
-    //     if (res) {
-    //       toast.success('Job posting deleted successfully')
-    //       onBack()
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.message)
-    //   })
+  const deleteUser = async () => {
   }
 
   if (!userDetail) return <></>
@@ -74,7 +62,7 @@ const UserDetailPage = () => {
           <div className="flex gap-3">
             <>
               <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
-              <IconTrash className="cursor-pointer" onClick={deletePost} />
+              <IconTrash className="cursor-pointer" onClick={deleteUser} />
             </>
           </div>
         </div>

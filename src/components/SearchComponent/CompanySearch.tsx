@@ -6,7 +6,7 @@ import { IconEdit } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAppProviderCtx } from '../../app-provider'
 import { Company, CompanyPagination, paths } from '../../types'
-import { companyService } from '../../services'
+import { companyServices } from '../../services'
 
 export const CompanySearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ export const CompanySearch = ({ keyword }: { keyword: string }) => {
   useQuery({
     queryKey: ['companySearch', companyPagination.page, debouncedSearchKeyword],
     queryFn: () =>
-      companyService
+      companyServices
         .getCompanies({
           page: companyPagination?.page,
           keyword,

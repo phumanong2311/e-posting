@@ -4,7 +4,7 @@ import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import { userService } from '../../services'
+import { userServices } from '../../services'
 import { toast } from '../../lib/toast'
 import { UserForm } from '../../components/UserForm'
 import { User } from '../../types'
@@ -21,7 +21,7 @@ const EditUserPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      userService.getUserDetail(id!).then((res) => {
+      userServices.getUserDetail(id!).then((res) => {
         if (res.result) {
           setUserDetail(res.result)
           return res.result
@@ -32,7 +32,7 @@ const EditUserPage = () => {
   })
 
   const onSubmit = async (value: any) => {
-    await userService
+    await userServices
       .editUser(id!, value)
       .then((result) => {
         result && toast.success('User is edited successfully')

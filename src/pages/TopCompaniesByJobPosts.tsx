@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { jobService } from "../services";
+import { jobServices } from "../services";
 import { Job } from "../types";
 
 
@@ -28,7 +28,7 @@ const TopCompaniesByJobPosts = () => {
     let currentPage = 1;
     let allJobPosters: any[] = [];
     while (true) {
-      const allJobsResponse = await jobService.getListJob({ page: currentPage });
+      const allJobsResponse = await jobServices.getListJob({ page: currentPage });
       if (!allJobsResponse.result) {
         break;
       }

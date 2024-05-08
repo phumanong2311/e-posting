@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { contentManagementService } from "../../services";
+import { contentManagementServices } from "../../services";
 import { ContentType, paths } from "../../types";
 import { InformationField } from "../../ui";
 
@@ -16,7 +16,7 @@ const ContentDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      contentManagementService.getDetail(id!).then((res) => {
+      contentManagementServices.getDetail(id!).then((res) => {
         if (res.result) {
           setContentDetail(res.result);
           return res.result;

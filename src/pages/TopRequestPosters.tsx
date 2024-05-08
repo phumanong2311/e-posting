@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { requestService } from "../services";
+import { requestServices } from "../services";
 // import { Request } from "../types";
 
 
@@ -25,7 +25,7 @@ const TopRequestPosters = () => {
   useEffect(() => {
     const fetchTopRequestPosters = async () => {
       try {
-        const posters = await requestService.getTopRequestPosters(month, year, startDate, endDate);
+        const posters = await requestServices.getTopRequestPosters(month, year, startDate, endDate);
         setTopRequestPosters(posters);
       } catch (error) {
         console.error("Error fetching top request posters:", error);

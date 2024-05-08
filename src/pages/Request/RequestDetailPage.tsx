@@ -2,7 +2,7 @@ import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { requestService } from '../../services'
+import { requestServices } from '../../services'
 import { Request, paths } from '../../types'
 import { InformationField } from '../../ui'
 import { toast } from '../../lib/toast'
@@ -15,7 +15,7 @@ const RequestDetailPage = () => {
   useQuery({
     queryKey: [id],
     queryFn: () =>
-      requestService.getRequestDetail(id!).then((res) => {
+      requestServices.getRequestDetail(id!).then((res) => {
         if (res.result) {
           setRequestDetail(res.result)
           return res.result
@@ -37,7 +37,7 @@ const RequestDetailPage = () => {
   }
 
   const onDelete = async () => {
-    await requestService
+    await requestServices
       .deleteRequest(id!)
       .then((result) => {
         result && toast.success('Request is deleted successfully')

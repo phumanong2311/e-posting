@@ -2,7 +2,7 @@ import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
 import { toast } from '../../lib/toast'
-import jobService from '../../services/job.service'
+import { jobServices } from '../../services'
 import { Job, paths } from '../../types'
 import { InformationField } from '../../ui'
 
@@ -30,7 +30,7 @@ const JobsPostingDetail = ({
   }
 
   const deletePost = async () => {
-    await jobService
+    await jobServices
       .deleteJob(jobDetail!._id)
       .then((res) => {
         if (res) {
