@@ -178,7 +178,7 @@ const routesConfig: RouteObject[] = [
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "reporting",
+        path: paths.REPORTING,
         element: (
           <Suspense>
             <ReportingPage />
@@ -187,7 +187,7 @@ const routesConfig: RouteObject[] = [
         errorElement: <ErrorBoundary />,
         children: [
           {
-            path: "jobs",
+            path: paths.REPORT_JOBS,
             index: true,
             element: (
               <Suspense>

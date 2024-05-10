@@ -1,5 +1,8 @@
 export enum paths {
   ROOT = 'admin',
+  LOGIN = 'login',
+  LOGOUT = 'logout',
+
   DASHBOARD = 'dashboard',
   PROFILE = 'profile',
   MY_JOB_POSTING = 'my-job-posting',
@@ -18,15 +21,15 @@ export enum paths {
 
   REQUEST_DETAIL = 'request-detail',
   EDIT_REQUEST = 'edit-request',
-
-  LOGIN = 'login',
-  REPORTING = 'reporting',
-  LOGOUT = 'logout',
-
+  
   CONTENT_MANAGEMENT = 'content-management',
   LIST_OF_ACTIVE_CONTENTS = 'list-of-active-contents',
   CREATE_CONTENT = 'create-content',
   EDIT_CONTENT = 'edit-content',
   CONTENT_DETAIL = 'content-detail',
   LIST_OF_INACTIVE_CONTENTS = 'list-of-inactive-contents',
+
+  REPORTING = 'reporting',
+  REPORT_JOBS = 'reporting-jobs',
+  
 }

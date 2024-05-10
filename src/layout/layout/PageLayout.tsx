@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../../app-provider/AppProvider";
 import { userServices } from "../../services";
@@ -7,7 +7,6 @@ import { ResponseWrapper, paths } from "../../types";
 
 export const PageLayout = () => {
   const token = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
   const {
     func: { updateUser },
     data: { user },
@@ -22,8 +21,6 @@ export const PageLayout = () => {
         updateUser(res.result);
       }
     });
-    if (location.pathname === paths.ROOT)
-      navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`);
   }, [token]);
 
   if (!user) return <></>;
@@ -33,6 +30,7 @@ export const PageLayout = () => {
         <HeadlineText />
         <Header containerClass="mt-12 px-16" />
         <Outlet />
+        <Navigate to={`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`} />
       </div>
       <Footer />
     </>
