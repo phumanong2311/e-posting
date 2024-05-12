@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import { paths } from '../../types'
+import { paths } from '../types'
 
 export const HeadlineText = () => {
   const location = useLocation()

@@ -1,49 +1,45 @@
-import { IconChevronLeft, IconPencil, IconTrash } from '@tabler/icons-react'
-import { useNavigate } from 'react-router-dom'
+import { IconChevronLeft, IconPencil, IconTrash } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
-import { toast } from '../../lib/toast'
-import { jobServices } from '../../services'
-import { Job, paths } from '../../types'
-import { InformationField } from '../../ui'
+import { toast } from "../../lib/toast";
+import { jobServices } from "../../services";
+import { Job, paths } from "../../types";
+import { InformationField } from "../../ui";
 
-interface IJobsPostingDetailJob {
-  jobDetail: Job
-  isMyJobPosting: boolean
+interface IMyJobPostingDetailProps {
+  jobDetail: Job;
 }
 
-const JobsPostingDetail = ({
-  jobDetail,
-  isMyJobPosting = false,
-}: IJobsPostingDetailJob) => {
-  const navigate = useNavigate()
+const MyJobPostingDetail = ({ jobDetail }: IMyJobPostingDetailProps) => {
+  const navigate = useNavigate();
 
   const onBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const onEdit = () => {
     navigate(
       `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${
         jobDetail!._id
       }`
-    )
-  }
+    );
+  };
 
   const deletePost = async () => {
     await jobServices
       .deleteJob(jobDetail!._id)
       .then((res) => {
         if (res) {
-          toast.success('Job posting deleted successfully')
-          onBack()
+          toast.success("Job posting deleted successfully");
+          onBack();
         }
       })
       .catch((error) => {
-        toast.error(error.message)
-      })
-  }
+        toast.error(error.message);
+      });
+  };
 
-  if (!jobDetail) return <></>
+  if (!jobDetail) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
       <div className="w-full px-16">
@@ -54,39 +50,15 @@ const JobsPostingDetail = ({
           <IconChevronLeft /> Back to list
         </p>
 
-        {!isMyJobPosting && (
-          <InformationField
-            label="Owner: "
-            value={jobDetail!.jobOwner}
-            className="font-bold"
-            actionComponent={
-              (
-                <>
-                  <IconPencil
-                    className="cursor-pointer"
-                    onClick={() => onEdit()}
-                  />
-                  <IconTrash className="cursor-pointer" onClick={deletePost} />
-                </>
-              )
-            }
-          />
-        )}
-
         <InformationField
           label="Job Title:"
           value={jobDetail!.jobTitle}
           className="font-bold"
           actionComponent={
-            (
-              <>
-                <IconPencil
-                  className="cursor-pointer"
-                  onClick={() => onEdit()}
-                />
-                <IconTrash className="cursor-pointer" onClick={deletePost} />
-              </>
-            )
+            <>
+              <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
+              <IconTrash className="cursor-pointer" onClick={deletePost} />
+            </>
           }
         />
 
@@ -128,10 +100,13 @@ const JobsPostingDetail = ({
           value={jobDetail!.description}
         />
 
-        <InformationField label="Required Skills: " value={jobDetail.skills && jobDetail.skills.toString()} />
+        <InformationField
+          label="Required Skills: "
+          value={jobDetail.skills && jobDetail.skills.toString()}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default JobsPostingDetail
+export default MyJobPostingDetail;

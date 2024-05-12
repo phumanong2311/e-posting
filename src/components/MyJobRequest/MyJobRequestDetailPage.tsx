@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { useParams } from 'react-router-dom'
-import { JobRequestDetail } from '../components/JobRequest'
-import { requestServices } from '../services'
-import { Request } from '../types'
+import { JobRequestDetail } from '../JobRequest'
+import { requestServices } from '../../services'
+import { Request } from '../../types'
 
 const MyJobRequestDetailPage = () => {
   const { id } = useParams()

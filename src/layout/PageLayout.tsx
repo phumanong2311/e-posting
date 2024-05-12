@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
-import { useAppProviderCtx } from "../../app-provider/AppProvider";
-import { userServices } from "../../services";
-import { ResponseWrapper, paths } from "../../types";
+import { useAppProviderCtx } from "../app-provider/AppProvider";
+import { userServices } from "../services";
+import { ResponseWrapper, paths } from "../types";
 
 export const PageLayout = () => {
   const token = localStorage.getItem("accessToken");

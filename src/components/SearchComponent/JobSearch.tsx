@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { Job, JobPagination, SearchParameter } from '../../types'
 import { jobServices } from '../../services'
 import { Filter } from './Filter'
-import { JobList } from '../JobList'
+import { JobList } from '../JobSearch'
 
 export const JobSearch = ({ keyword }: { keyword: string }) => {
   const [jobs, setJobs] = useState<Array<Job>>([])

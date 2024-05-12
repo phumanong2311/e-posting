@@ -1,6 +1,6 @@
 import { Divider } from "@mantine/core";
-import { useAppProviderCtx } from "../../app-provider";
-import { getRoleName, getUserCountry } from "../../utils";
+import { useAppProviderCtx } from "../app-provider";
+import { getRoleName, getUserCountry } from "../utils";
 import moment from "moment";
 
 export const Footer = () => {

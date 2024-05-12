@@ -1,11 +1,12 @@
 import { IconPencil } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
-import { useAppProviderCtx } from '../app-provider/AppProvider'
-import { userServices } from '../services'
-import { ResponseWrapper } from '../types'
-import { InformationField } from '../ui'
 
-const MyProfilePage = () => {
+import { useAppProviderCtx } from '../../app-provider'
+import { userServices } from '../../services'
+import { ResponseWrapper } from '../../types'
+import { InformationField } from '../../ui'
+
+const MyProfile = () => {
   const {
     data: { userProfile, user },
     func: { updateUserProfile },
@@ -58,4 +59,4 @@ const MyProfilePage = () => {
   )
 }
 
-export default MyProfilePage
+export default MyProfile

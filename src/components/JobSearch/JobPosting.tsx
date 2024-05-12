@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { useParams } from 'react-router-dom'
-import { JobsPostingDetail } from '../components/JobPosting'
-import { jobServices } from '../services'
-import { Job } from '../types'
+import { jobServices } from '../../services'
+import { Job } from '../../types'
+import JobsPostingDetail from './JobsPostingDetail'
 
 const JobPosting = () => {
   const { id } = useParams()
@@ -22,7 +22,7 @@ const JobPosting = () => {
       }),
   })
   if (!jobDetail) return <></>
-  return <JobsPostingDetail jobDetail={jobDetail} isMyJobPosting={false} />
+  return <JobsPostingDetail jobDetail={jobDetail} />
 }
 
 export default JobPosting

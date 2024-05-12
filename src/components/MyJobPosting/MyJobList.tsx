@@ -7,7 +7,7 @@ import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { EmptyBoxMessage } from '../../ui'
 import moment from 'moment'
 
-const JobList = ({
+const MyJobList = ({
   jobs = [],
   page,
   maxPage,
@@ -118,4 +118,4 @@ const JobList = ({
   )
 }
 
-export default JobList
+export default MyJobList

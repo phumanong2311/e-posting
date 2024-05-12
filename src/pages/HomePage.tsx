@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { paths } from '../../types'
-import { SubMenu } from '../../ui'
+import { paths } from '../types'
+import { SubMenu } from '../ui'
 
-export const DashboardLayout = () => {
+const HomePage = () => {
   const location = useLocation()
   const dashboardLinks = useMemo(() => {
     return [
@@ -40,3 +40,5 @@ export const DashboardLayout = () => {
     </>
   )
 }
+
+export default HomePage

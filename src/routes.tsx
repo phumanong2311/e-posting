@@ -1,13 +1,9 @@
 import { LoadingOverlay } from '@mantine/core'
 import { Suspense, lazy } from 'react'
 import { RouteObject, createBrowserRouter } from 'react-router-dom'
-import { EditJobPosting } from './components/JobPosting'
 import { EditJobRequest } from './components/JobRequest'
-import { PageLayout } from './layout/layout'
-import { DashboardLayout } from './layout/layout/DashboardLayout'
-import { NotFoundPage } from './pages'
-import ErrorBoundary from './pages/ErrorBoundary '
-import MyJobRequestDetailPage from './pages/MyJobRequestDetailPage'
+import { PageLayout } from './layout'
+import { ErrorBoundary, HomePage, NotFoundPage } from './pages'
 import { paths } from './types'
 
 
@@ -28,15 +24,19 @@ const NotificationsByDayPage = lazy(() => import("./pages/NotificationsByDay"));
 const ReportingPage = lazy(() => import("./pages/ReportingPage"));
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
-const MyProfilePage = lazy(() => import('./pages/MyProfile'))
+const MyProfile = lazy(() => import('./components/MyProfile/MyProfile'))
+
 const MyJobPostingsPage = lazy(
-  () => import('./components/JobPosting/MyJobPostings')
+  () => import('./components/MyJobPosting/MyJobPostings')
 )
-const MyJobRequestsPage = lazy(() => import('./pages/MyJobRequests'))
 const MyJobPostingsDetailPage = lazy(
-  () => import('./pages/MyJobPostingDetailPage')
+  () => import('./components/MyJobPosting/MyJobPostingDetailPage')
 )
-const JobPosting = lazy(() => import('./pages/JobPosting'))
+const MyJobRequestsPage = lazy(() => import('./components/MyJobRequest/MyJobRequests'))
+const MyJobRequestDetailPage = lazy(() => import('./components/MyJobRequest/MyJobRequestDetailPage'))
+
+const JobPosting = lazy(() => import('./components/JobSearch/JobPosting'))
+const EditJobPosting = lazy(() => import('./components/JobSearch/EditJobPosting'))
 
 const SearchPage = lazy(() => import('./pages/SearchPage'))
 const CreateCompanyPage = lazy(
@@ -55,7 +55,7 @@ const RequestDetailPage = lazy(
 )
 const EditRequestPage = lazy(() => import('./pages/Request/EditRequestPage'))
 
-const ContentManagement = lazy(() => import('./pages/ContentManagement'))
+const ContentManagementPage = lazy(() => import('./pages/ContentManagementPage'))
 const ListContentActivePage = lazy(() => import('./components/ContentManagement/ListContentActive'))
 const ListContentInActivePage = lazy(() => import('./components/ContentManagement/ListContentInActive'))
 const CreateContentPage = lazy(() => import('./components/ContentManagement/CreateContentPage'))
@@ -73,14 +73,14 @@ const routesConfig: RouteObject[] = [
     children: [
       {
         path: paths.DASHBOARD,
-        element: <DashboardLayout />,
+        element: <HomePage />,
         children: [
           {
             path: paths.PROFILE,
             index: true,
             element: (
               <Suspense>
-                <MyProfilePage />
+                <MyProfile />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
@@ -370,7 +370,7 @@ const routesConfig: RouteObject[] = [
         path: paths.CONTENT_MANAGEMENT,
         element: (
           <Suspense>
-            <ContentManagement />
+            <ContentManagementPage />
           </Suspense>
         ),
         children: [

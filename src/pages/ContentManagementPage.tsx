@@ -4,7 +4,7 @@ import { paths } from "../types";
 import { SubMenuItem } from "../types/Menu";
 import { SubMenu } from "../ui";
 
-const ContentManagement = () => {
+const ContentManagementPage = () => {
   const location = useLocation();
   const contentSubMenuItem: SubMenuItem[] = useMemo(() => {
     return [
@@ -34,4 +34,4 @@ const ContentManagement = () => {
     </>
   );
 };
-export default ContentManagement;
+export default ContentManagementPage;

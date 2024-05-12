@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { jobServices } from '../../services'
 import { Job, JobPagination } from '../../types'
-import { JobList } from '../JobList'
+import MyJobList from './MyJobList'
 
 const MyJobPostingsPage = () => {
   const [jobs, setJobs] = useState<Array<Job>>([])
@@ -39,7 +39,7 @@ const MyJobPostingsPage = () => {
 
   return (
     <div className="w-full">
-      <JobList
+      <MyJobList
         jobs={jobs}
         page={jobPagination.page!}
         maxPage={jobPagination.maxPages!}

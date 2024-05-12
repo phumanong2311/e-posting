@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { jobServices } from "../services";
-import { Request, RequestPagination, paths } from "../types";
-import { EmptyBoxMessage } from "../ui";
+import { jobServices } from "../../services";
+import { Request, RequestPagination, paths } from "../../types";
+import { EmptyBoxMessage } from "../../ui";
 
 const MyJobRequestsPage = () => {
   const navigate = useNavigate();

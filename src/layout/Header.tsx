@@ -1,7 +1,7 @@
 import { Fragment, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Divider } from "@mantine/core";
-import { paths } from "../../types";
+import { paths } from "../types";
 export const Header = ({ containerClass = "" }) => {
   const location = useLocation();
   const headerLinks = useMemo(() => {
