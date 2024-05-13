@@ -8,7 +8,7 @@ import { contentManagementServices } from "../../services/";
 import { ContentPagination, ContentType, paths } from "../../types";
 import { EmptyBoxMessage } from "../../ui";
 
-export const ListContentActive = () => {
+const ListContentActive = () => {
   const navigate = useNavigate();
   const [visible, { open, close }] = useDisclosure(false);
   const [contents, setContents] = useState<Array<ContentType>>([]);

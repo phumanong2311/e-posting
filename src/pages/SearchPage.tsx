@@ -7,7 +7,7 @@ import {
   CompanySearch,
   JobSearch,
   RequestSearch,
-} from '../components/SearchComponent'
+} from '../components/Search'
 import { SearchType } from '../types'
 
 const SearchPage = () => {

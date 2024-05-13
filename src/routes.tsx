@@ -1,27 +1,11 @@
 import { LoadingOverlay } from '@mantine/core'
 import { Suspense, lazy } from 'react'
 import { RouteObject, createBrowserRouter } from 'react-router-dom'
-import { EditJobRequest } from './components/JobRequest'
+
 import { PageLayout } from './layout'
 import { ErrorBoundary, HomePage, NotFoundPage } from './pages'
 import { paths } from './types'
 
-
-const JobsPage = lazy(() => import("./pages/Jobs"));
-const JobsByDayPage = lazy(() => import("./pages/JobsByDay"));
-const TopJobPostersPage = lazy(() => import("./pages/TopJobPosters"));
-const UsersPage = lazy(() => import("./pages/Users"));
-const NotificationsPage = lazy(() => import("./pages/Notifications"));
-const UserAccountsCreatedByDayPage = lazy(() => import("./pages/UserAccountsCreatedByDay"));
-const RequestsPage = lazy(() => import("./pages/Requests"));
-const RequestsByDayPage = lazy(() => import("./pages/RequestsByDay"));
-const TopRequestPostersPage = lazy(() => import("./pages/TopRequestPosters"));
-const TopCompaniesByRequestPostsPage = lazy(() => import("./pages/TopCompaniesByRequestPosts"));
-const TopCompaniesByJobPostsPage = lazy(() => import("./pages/TopCompaniesByJobPosts"));
-const UserAccountsByCreationMethodPage = lazy(() => import("./pages/UserAccountsByCreationMethod"));
-const UserAccountsByMonthPage = lazy(() => import("./pages/UserAccountsByMonth"));
-const NotificationsByDayPage = lazy(() => import("./pages/NotificationsByDay"));
-const ReportingPage = lazy(() => import("./pages/ReportingPage"));
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const MyProfile = lazy(() => import('./components/MyProfile/MyProfile'))
@@ -34,26 +18,28 @@ const MyJobPostingsDetailPage = lazy(
 )
 const MyJobRequestsPage = lazy(() => import('./components/MyJobRequest/MyJobRequests'))
 const MyJobRequestDetailPage = lazy(() => import('./components/MyJobRequest/MyJobRequestDetailPage'))
+const MyJobRequestEditPage = lazy(() => import('./components/MyJobRequest/MyJobRequestEditPage'))
 
 const JobPosting = lazy(() => import('./components/JobSearch/JobPosting'))
 const EditJobPosting = lazy(() => import('./components/JobSearch/EditJobPosting'))
 
 const SearchPage = lazy(() => import('./pages/SearchPage'))
+
 const CreateCompanyPage = lazy(
-  () => import('./pages/Company/CreateCompanyPage')
+  () => import('./components/CompanySearch/CreateCompanyPage')
 )
 const CompanyDetailPage = lazy(
-  () => import('./pages/Company/CompanyDetailPage')
+  () => import('./components/CompanySearch/CompanyDetailPage')
 )
-const EditCompanyPage = lazy(() => import('./pages/Company/EditCompanyPage'))
+const EditCompanyPage = lazy(() => import('./components/CompanySearch/EditCompanyPage'))
 
-const UserDetailPage = lazy(() => import('./pages/User/UserDetailPage'))
-const EditUserPage = lazy(() => import('./pages/User/EditUserPage'))
+const UserDetailPage = lazy(() => import('./components/UserSearch/UserDetailPage'))
+const EditUserPage = lazy(() => import('./components/UserSearch/EditUserPage'))
 
 const RequestDetailPage = lazy(
-  () => import('./pages/Request/RequestDetailPage')
+  () => import('./components/RequestSearch/RequestDetailPage')
 )
-const EditRequestPage = lazy(() => import('./pages/Request/EditRequestPage'))
+const EditRequestPage = lazy(() => import('./components/RequestSearch/EditRequestPage'))
 
 const ContentManagementPage = lazy(() => import('./pages/ContentManagementPage'))
 const ListContentActivePage = lazy(() => import('./components/ContentManagement/ListContentActive'))
@@ -61,6 +47,26 @@ const ListContentInActivePage = lazy(() => import('./components/ContentManagemen
 const CreateContentPage = lazy(() => import('./components/ContentManagement/CreateContentPage'))
 const EditContentPage = lazy(() => import('./components/ContentManagement/EditContentPage'))
 const ContentDetailPage = lazy(() => import('./components/ContentManagement/ContentDetailPage'))
+
+const ReportingPage = lazy(() => import("./pages/ReportingPage"));
+
+const JobsReportPage = lazy(() => import("./components/Report/JobsReport"));
+const JobsByDayPage = lazy(() => import("./components/Report/JobsByDay"));
+const TopJobPostersPage = lazy(() => import("./components/Report/TopJobPosters"));
+
+const UsersPage = lazy(() => import("./components/Report/Users"));
+const NotificationsPage = lazy(() => import("./components/Report/Notifications"));
+const UserAccountsCreatedByDayPage = lazy(() => import("./components/Report/UserAccountsCreatedByDay"));
+const RequestsPage = lazy(() => import("./components/Report/Requests"));
+const RequestsByDayPage = lazy(() => import("./components/Report/RequestsByDay"));
+const TopRequestPostersPage = lazy(() => import("./components/Report/TopRequestPosters"));
+const TopCompaniesByRequestPostsPage = lazy(() => import("./components/Report/TopCompaniesByRequestPosts"));
+const TopCompaniesByJobPostsPage = lazy(() => import("./components/Report/TopCompaniesByJobPosts"));
+const UserAccountsByCreationMethodPage = lazy(() => import("./components/Report/UserAccountsByCreationMethod"));
+const UserAccountsByMonthPage = lazy(() => import("./components/Report/UserAccountsByMonth"));
+const NotificationsByDayPage = lazy(() => import("./components/Report/NotificationsByDay"));
+
+
 
 const routesConfig: RouteObject[] = [
   {
@@ -122,6 +128,15 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
+            path: `${paths.MY_JOB_REQUEST_EDIT}/:id`,
+            element: (
+              <Suspense fallback={<p>Loading package location...</p>}>
+                <MyJobRequestEditPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
             path: `${paths.JOB_POSTING}/:id`,
             element: (
               <Suspense>
@@ -144,15 +159,6 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <RequestDetailPage />
-              </Suspense>
-            ),
-            errorElement: <ErrorBoundary />,
-          },
-          {
-            path: `${paths.EDIT_JOB_REQUEST}/:id`,
-            element: (
-              <Suspense fallback={<p>Loading package location...</p>}>
-                <EditJobRequest />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
@@ -191,13 +197,13 @@ const routesConfig: RouteObject[] = [
             index: true,
             element: (
               <Suspense>
-                <JobsPage />
+                <JobsReportPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "requests",
+            path: paths.REPORT_REQUESTS,
             element: (
               <Suspense>
                 <RequestsPage />
@@ -206,7 +212,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "users",
+            path: paths.REPORT_USERS,
             element: (
               <Suspense>
                 <UsersPage />
@@ -215,7 +221,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "notifications",
+            path: paths.REPORT_NOTIFICATIONS,
             element: (
               <Suspense>
                 <NotificationsPage />
@@ -224,7 +230,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "jobs/by-day",
+            path: paths.REPORT_JOBS_BY_DAY,
             index: true,
             element: (
               <Suspense>
@@ -234,7 +240,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "jobs/top-posters",
+            path: paths.REPORT_JOBS_TOP_POSTERS,
             element: (
               <Suspense>
                 <TopJobPostersPage />
@@ -243,7 +249,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "jobs/top-companies",
+            path: paths.REPORT_JOBS_TOP_COMPANIES,
             element: (
               <Suspense>
                 <TopCompaniesByJobPostsPage />
@@ -252,7 +258,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "requests/top-posters",
+            path: paths.REPORT_REQUESTS_TOP_POSTERS,
             element: (
               <Suspense>
                 <TopRequestPostersPage />
@@ -261,7 +267,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "requests/by-day",
+            path: paths.REPORT_REQUESTS_BY_DAY,
             index: true,
             element: (
               <Suspense>
@@ -271,7 +277,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "requests/top-companies",
+            path: paths.REPORT_REQUESTS_TOP_COMPANIES,
             element: (
               <Suspense>
                 <TopCompaniesByRequestPostsPage />
@@ -280,7 +286,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "users/by-day",
+            path: paths.REPORT_USERS_BY_DAY,
             index: true,
             element: (
               <Suspense>
@@ -290,7 +296,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "users/total",
+            path: paths.REPORT_USERS_TOTAL,
             index: true,
             element: (
               <Suspense>
@@ -300,7 +306,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "users/by-month",
+            path: paths.REPORT_USERS_BY_MONTH,
             index: true,
             element: (
               <Suspense>
@@ -310,7 +316,7 @@ const routesConfig: RouteObject[] = [
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "notifications/by-day",
+            path: paths.REPORT_NOTIFICATIONS_BY_DAY,
             index: true,
             element: (
               <Suspense>

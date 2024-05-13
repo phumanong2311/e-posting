@@ -21,7 +21,7 @@ const MyJobRequestDetail = ({
 
   const onEdit = () => {
     navigate(
-      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_REQUEST}/${
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_REQUEST_EDIT}/${
         requestDetail!._id
       }`
     );

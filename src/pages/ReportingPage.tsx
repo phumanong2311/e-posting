@@ -1,6 +1,7 @@
-import { Divider } from "@mantine/core";
-import { Fragment, useMemo } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { useMemo } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { paths } from "../types";
+import { SubMenu } from "../ui";
 
 const ReportingPage = () => {
 
@@ -9,61 +10,32 @@ const ReportingPage = () => {
     return [
       {
         label: "Jobs",
-        path: "/admin/reporting/jobs",
-        isActive: location.pathname.includes("/jobs"),
+        path: `/${paths.ROOT}/${paths.REPORTING}/${paths.REPORT_JOBS}`,
+        isActive: location.pathname.includes(paths.REPORT_JOBS),
       },
       {
         label: "Requests",
-        path: "/admin/reporting/requests",
-        isActive: location.pathname.includes("/requests"),
+        path: `/${paths.ROOT}/${paths.REPORTING}/${paths.REPORT_REQUESTS}`,
+        isActive: location.pathname.includes(paths.REPORT_REQUESTS),
       },
       {
         label: "Users",
-        path: "/admin/reporting/users",
-        isActive: location.pathname.includes("/users"),
+        path: `/${paths.ROOT}/${paths.REPORTING}/${paths.REPORT_USERS}`,
+        isActive: location.pathname.includes(paths.REPORT_USERS),
       },
       {
         label: "Notifications",
-        path: "/admin/reporting/notifications",
-        isActive: location.pathname.includes("/notifications"),
+        path: `/${paths.ROOT}/${paths.REPORTING}/${paths.REPORT_NOTIFICATIONS}`,
+        isActive: location.pathname.includes(paths.REPORT_NOTIFICATIONS),
       },
     ];
   }, [location]);
 
   return (
     <>
-      <div className="w-full flex mt-4 px-16 mb-8">
-        <div className="w-full flex">
-          {dashboardLinks.map((link, index) => (
-            <Fragment key={index}>
-              <Link
-                to={link.path}
-                className={
-                  index === 0
-                    ? "mr-4"
-                    : index === dashboardLinks.length - 1
-                    ? "ml-4"
-                    : "mx-4"
-                }
-              >
-                <p
-                  className={`text-lg ${
-                    link.isActive
-                      ? "text-black font-bold"
-                      : "text-purple-800 font-normal"
-                  }`}
-                >
-                  {link.label}
-                </p>
-              </Link>
-              {index !== dashboardLinks.length - 1 && (
-                <Divider orientation="vertical" />
-              )}
-            </Fragment>
-          ))}
-        </div>
-      </div>
+      <SubMenu subMenuItem={dashboardLinks} />
       <Outlet />
+      <Navigate to={`/${paths.ROOT}/${paths.REPORTING}/${paths.REPORT_JOBS}`} />
     </>
   );
 };
