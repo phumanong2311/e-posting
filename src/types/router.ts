@@ -8,8 +8,10 @@ export enum paths {
   MY_JOB_POSTING = 'my-job-posting',
   JOB_POSTING = 'job-postings',
   EDIT_JOB_POSTING = 'edit-job-posting',
+
   MY_JOB_REQUEST = 'my-job-requests',
-  EDIT_JOB_REQUEST = 'edit-job-request',
+  MY_JOB_REQUEST_EDIT = 'my-job-request-edit',
+
   SEARCH = 'search',
 
   CREATE_COMPANY = 'create-company',
@@ -30,6 +32,22 @@ export enum paths {
   LIST_OF_INACTIVE_CONTENTS = 'list-of-inactive-contents',
 
   REPORTING = 'reporting',
+
   REPORT_JOBS = 'reporting-jobs',
-  
+  REPORT_JOBS_BY_DAY = 'reporting-jobs-by-day',
+  REPORT_JOBS_TOP_POSTERS = 'reporting-jobs-top-posters',
+  REPORT_JOBS_TOP_COMPANIES = 'reporting-jobs-top-companies',
+
+  REPORT_REQUESTS = 'reporting-requests',
+  REPORT_REQUESTS_TOP_POSTERS = 'reporting-requests-top-posters',
+  REPORT_REQUESTS_BY_DAY = 'reporting-requests-by-day',
+  REPORT_REQUESTS_TOP_COMPANIES = 'reporting-requests-top-companies',
+
+  REPORT_USERS = 'reporting-users',
+  REPORT_USERS_BY_DAY = 'reporting-users-by-day',
+  REPORT_USERS_TOTAL = 'reporting-users-total',
+  REPORT_USERS_BY_MONTH = 'reporting-users-by-month',
+
+  REPORT_NOTIFICATIONS = 'reporting-notifications',
+  REPORT_NOTIFICATIONS_BY_DAY = 'reporting-notifications-by-day',
 }
