@@ -112,6 +112,9 @@ const NotificationsByDayPage = lazy(
 )
 
 const SkillPage = lazy(() => import('./pages/SkillPage'))
+const CreateSkillPage = lazy(
+  () => import('./components/Skills/CreateSkillPage')
+)
 
 const routesConfig: RouteObject[] = [
   {
@@ -234,6 +237,16 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <SkillPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: paths.SKILLS_CREATE,
+        element: (
+          <Suspense>
+            <CreateSkillPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,
