@@ -23,7 +23,7 @@ export enum paths {
 
   REQUEST_DETAIL = 'request-detail',
   EDIT_REQUEST = 'edit-request',
-  
+
   CONTENT_MANAGEMENT = 'content-management',
   LIST_OF_ACTIVE_CONTENTS = 'list-of-active-contents',
   CREATE_CONTENT = 'create-content',
@@ -50,4 +50,9 @@ export enum paths {
 
   REPORT_NOTIFICATIONS = 'reporting-notifications',
   REPORT_NOTIFICATIONS_BY_DAY = 'reporting-notifications-by-day',
+
+  SKILLS = 'skills',
+  SKILLS_DETAIL = 'skills-detail',
+  SKILLS_EDIT = 'skills-edit',
+  SKILLS_CREATE = 'skills-create',
 }
