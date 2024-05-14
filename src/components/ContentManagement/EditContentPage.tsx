@@ -1,68 +1,85 @@
-import { useState } from "react";
-import { IconChevronLeft } from "@tabler/icons-react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from 'react'
+import { IconChevronLeft } from '@tabler/icons-react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 
-import { contentManagementServices } from "../../services";
-import { toast } from "../../lib/toast";
-import { ContentPayload, ContentType } from "../../types";
-import ContentForm from "./ContentForm";
+import { contentManagementServices } from '../../services'
+import { toast } from '../../lib/toast'
+import { ContentPayload, ContentType } from '../../types'
+import ContentForm from './ContentForm'
 
 const EditContentPage = () => {
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const onBack = () => {
-    navigate(-1);
-  };
+    navigate(-1)
+  }
 
-  const [contentDetail, setContentDetail] = useState<ContentType>();
+  const [contentDetail, setContentDetail] = useState<ContentType>()
 
   useQuery({
     queryKey: [id],
     queryFn: () =>
       contentManagementServices.getDetail(id!).then((res) => {
         if (res.result) {
-          setContentDetail(res.result);
-          return res.result;
+          setContentDetail(res.result)
+          return res.result
         }
-        return null;
+        return null
       }),
-  });
+  })
 
   const onSubmit = async (value: ContentPayload) => {
     const content: ContentPayload = {
       title: value.title,
       contentType: value.contentType,
       tagline: value.tagline,
+      imageSourceUrl: value.imageSourceUrl,
       description: value.description,
-      publicationName: value.publicationName,
-      sourceUrl: value.sourceUrl,
+      publisherName: value.publisherName,
       imageSourceCitation: value.imageSourceCitation,
+      authorName: value.authorName,
+      authorTitle: value.authorTitle,
+      authorBio: value.authorBio,
       category: value.category,
       endDate: value.endDate,
       publishDate: value.publishDate,
       mediaStatus: value.mediaStatus,
-    };
+    }
 
-    if (typeof value.displayImage !== "string" && value.displayImage) {
-      const file = value.displayImage;
-      const imageLogoUrl = await contentManagementServices.getImageLogoUrl(file);
+    if (typeof value.displayImage !== 'string' && value.displayImage) {
+      const file = value.displayImage
+      const imageLogoUrl = await contentManagementServices.getImageLogoUrl(file)
       if (imageLogoUrl) {
-        content.displayImage = imageLogoUrl.url ? imageLogoUrl.url : "";
+        content.displayImage = imageLogoUrl?.result?.url
+          ? imageLogoUrl?.result?.url
+          : ''
+      }
+    }
+
+    if (typeof value.authorImage !== 'string' && value.authorImage) {
+      const file = value.authorImage
+      const authorImageUrl = await contentManagementServices.getImageLogoUrl(
+        file
+      )
+      if (authorImageUrl) {
+        content.authorImage = authorImageUrl?.result?.url
+          ? authorImageUrl?.result?.url
+          : ''
       }
     }
 
     await contentManagementServices
       .edit(id!, value)
       .then((result) => {
-        result && toast.success("Content is edited successfully");
-        onBack();
+        result && toast.success('Content is edited successfully')
+        onBack()
       })
       .catch((error) => {
-        toast.error(error.message);
-      });
-  };
+        toast.error(error.message)
+      })
+  }
 
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
@@ -76,7 +93,7 @@ const EditContentPage = () => {
         <ContentForm onSubmit={onSubmit} content={contentDetail} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditContentPage;
+export default EditContentPage

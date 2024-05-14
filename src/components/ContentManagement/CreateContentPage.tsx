@@ -14,16 +14,26 @@ const CreateContentPage = () => {
   const onSubmit = async (value: any) => {
     try {
       const file = value.displayImage
+      const authorImage = value.authorImage
       const imageLogoUrl = await contentManagementServices.getImageLogoUrl(file)
+      const authorImageUrl = await contentManagementServices.getImageLogoUrl(
+        authorImage
+      )
       const content = {
         title: value.title,
         contentType: value.contentType,
         tagline: value.tagline,
-        description: value.description,
-        publicationName: value.publicationName,
-        sourceUrl: value.sourceUrl,
         displayImage: imageLogoUrl?.result?.url ? imageLogoUrl?.result.url : '',
+        imageSourceUrl: value.imageSourceUrl,
+        description: value.description,
+        publisherName: value.publisherName,
         imageSourceCitation: value.imageSourceCitation,
+        authorName: value.authorName,
+        authorTitle: value.authorTitle,
+        authorBio: value.authorBio,
+        authorImage: authorImageUrl?.result?.url
+          ? authorImageUrl?.result?.url
+          : '',
         category: value.category,
         endDate: value.endDate,
         publishDate: value.publishDate,

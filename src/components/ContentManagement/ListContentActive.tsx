@@ -1,61 +1,61 @@
-import { Button, LoadingOverlay, Table } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { contentManagementServices } from "../../services/";
-import { ContentPagination, ContentType, paths } from "../../types";
-import { EmptyBoxMessage } from "../../ui";
+import { Button, LoadingOverlay, Table } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { useQuery } from '@tanstack/react-query'
+import moment from 'moment'
+import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { contentManagementServices } from '../../services/'
+import { ContentPagination, ContentType, paths } from '../../types'
+import { EmptyBoxMessage } from '../../ui'
 
 const ListContentActive = () => {
-  const navigate = useNavigate();
-  const [visible, { open, close }] = useDisclosure(false);
-  const [contents, setContents] = useState<Array<ContentType>>([]);
+  const navigate = useNavigate()
+  const [visible, { open, close }] = useDisclosure(false)
+  const [contents, setContents] = useState<Array<ContentType>>([])
   const [contentPagination, setContentPagination] = useState<ContentPagination>(
     {
       page: 1,
     }
-  );
+  )
 
   useQuery({
-    queryKey: ["contentList", contentPagination.page],
+    queryKey: ['contentList', contentPagination.page],
     queryFn: () => {
-      open();
+      open()
       return contentManagementServices
         .getActiveContents({ page: contentPagination?.page })
         .then((res: any) => {
           if (res.result) {
-            const { media, ...pagination } = res.result;
-            setContents(media);
-            setContentPagination(pagination);
-            return res.result;
+            const { media, ...pagination } = res.result
+            setContents(media)
+            setContentPagination(pagination)
+            return res.result
           }
-          return null;
+          return null
         })
         .finally(() => {
-          close();
-        });
+          close()
+        })
     },
-  });
+  })
 
   const onNextPage = () => {
     if (contentPagination?.maxPages && contentPagination?.page) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }))
     }
-  };
+  }
 
   const onPreviousPage = () => {
     if (contentPagination?.page! > 1) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }))
     }
-  };
+  }
 
   const onViewDetail = (id: string) => {
     navigate(
       `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.CONTENT_DETAIL}/${id}`
-    );
-  };
+    )
+  }
 
   const rows = useMemo(() => {
     if (visible) {
@@ -63,9 +63,9 @@ const ListContentActive = () => {
         <LoadingOverlay
           visible={visible}
           zIndex={1000}
-          overlayProps={{ radius: "sm" }}
+          overlayProps={{ radius: 'sm' }}
         />
-      );
+      )
     }
 
     if (!contents.length) {
@@ -73,7 +73,7 @@ const ListContentActive = () => {
         <div className="w-full flex items-center justify-center mt-8">
           <EmptyBoxMessage />
         </div>
-      );
+      )
     }
 
     return (
@@ -87,22 +87,22 @@ const ListContentActive = () => {
               {element.title}
             </Table.Td>
             <Table.Td className="text-center">{element.contentType}</Table.Td>
-            <Table.Td className="text-center">{element.createdAt}</Table.Td>
+            <Table.Td className="text-center">{element.publisherName}</Table.Td>
             <Table.Td className="text-center">
               {element.lastModifiedBy}
             </Table.Td>
             <Table.Td className="text-center">{element.mediaStatus}</Table.Td>
             <Table.Td className="text-center">
-              {moment(element.publishDate).format("MM/DD/YYYY")}
+              {moment(element.publishDate).format('MM/DD/YYYY')}
             </Table.Td>
             <Table.Td className="text-center">
-              {moment(element.endDate).format("MM/DD/YYYY")}
+              {moment(element.endDate).format('MM/DD/YYYY')}
             </Table.Td>
           </Table.Tr>
         ))}
       </>
-    );
-  }, [visible, contents]);
+    )
+  }, [visible, contents])
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -150,7 +150,7 @@ const ListContentActive = () => {
         </>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ListContentActive;
+export default ListContentActive
