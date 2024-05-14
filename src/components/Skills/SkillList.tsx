@@ -73,11 +73,17 @@ const SkillList = ({ keyword }: { keyword: string }) => {
   const rows = useMemo(() => {
     if (isLoading) {
       return (
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: 'sm' }}
-        />
+        <Table.Tr>
+          <Table.Td></Table.Td>
+          <Table.Td className="text-center">
+            <LoadingOverlay
+              visible={isLoading}
+              zIndex={1000}
+              overlayProps={{ radius: 'sm' }}
+            />
+          </Table.Td>
+          <Table.Td></Table.Td>
+        </Table.Tr>
       )
     }
 

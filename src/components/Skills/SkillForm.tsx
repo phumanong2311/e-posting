@@ -37,7 +37,7 @@ const SkillForm = ({ onSubmit, skill }: SkillFormProps) => {
           name="skillCategory"
           register={register}
         />
-        <LabelInput label="Status:" name="status" register={register} />
+        <LabelInput label="Status:" name="skillStatus" register={register} />
       </div>
 
       <div className="flex justify-end gap-5 items-center">
