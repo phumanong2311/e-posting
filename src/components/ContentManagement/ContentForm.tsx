@@ -1,30 +1,30 @@
-import { Button, Input, Select } from "@mantine/core";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Button, Input, Select } from '@mantine/core'
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
-import { DateInput } from "@mantine/dates";
-import { ContentPayload } from "../../types";
-import { ImageInput, LabelInput, RichEditor } from "../../ui";
+import { DateInput } from '@mantine/dates'
+import { ContentPayload } from '../../types'
+import { ImageInput, LabelInput, RichEditor } from '../../ui'
 
 type ContentFormProps = {
-  onSubmit: (value: any) => void;
-  content?: ContentPayload;
-};
+  onSubmit: (value: any) => void
+  content?: ContentPayload
+}
 
 const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
-  const methods = useForm({});
-  const { register, handleSubmit, reset, formState, control } = methods;
+  const methods = useForm({})
+  const { register, handleSubmit, reset, formState, control } = methods
 
-  const { isDirty } = formState;
+  const { isDirty } = formState
 
   useEffect(() => {
     if (content) {
       reset({
         ...content,
         displayImage: content.displayImage,
-      });
+      })
     }
-  }, [content]);
+  }, [content])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -36,15 +36,15 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           <Controller
             name="contentType"
             control={control}
-            defaultValue={content?.contentType || "media"}
+            defaultValue={content?.contentType || 'media'}
             render={({ field: { onChange, value } }) => (
               <Select
                 data={[
-                  { value: "media", label: "Media" },
-                  { value: "news", label: "News" },
-                  { value: "other", label: "Other" },
+                  { value: 'media', label: 'Media' },
+                  { value: 'news', label: 'News' },
+                  { value: 'other', label: 'Other' },
                 ]}
-                defaultValue={value ? value : "media"}
+                defaultValue={value ? value : 'media'}
                 onChange={onChange}
               />
             )}
@@ -53,7 +53,7 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
 
         <LabelInput label="Title:" name="title" register={register} />
         <LabelInput
-          label="Tagline Display:"
+          label="Sub-Title (Tagline): "
           name="tagline"
           register={register}
         />
@@ -62,7 +62,7 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           control={control}
           render={({ field: { onChange, value } }) => (
             <ImageInput
-              label="Display Image:"
+              label="Image:"
               name="displayImage"
               register={register}
               onChange={onChange}
@@ -71,8 +71,8 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           )}
         />
         <LabelInput
-          label="Cite image source:"
-          name="imageSourceCitation"
+          label="Image source:"
+          name="imageSourceUrl"
           register={register}
         />
         <Controller
@@ -90,11 +90,67 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           )}
         />
         <LabelInput
-          label="Publication Name:"
-          name="publicationName"
+          label="Publisher Name:"
+          name="publisherName"
           register={register}
         />
-        <LabelInput label="Source URL:" name="sourceUrl" register={register} />
+        <LabelInput
+          label="Source URL:"
+          name="imageSourceCitation"
+          register={register}
+        />
+        <LabelInput
+          label="Author Name:"
+          name="authorName"
+          register={register}
+        />
+        <LabelInput
+          label="Author Title:"
+          name="authorTitle"
+          register={register}
+        />
+        <Controller
+          name="authorBio"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <RichEditor
+              name="authorBio"
+              label="Author Bio: "
+              labelClass="text-right w-1/3"
+              className="w-2/3 rounded-md"
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+        <Controller
+          name="authorImage"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <ImageInput
+              label="Author Image:"
+              name="authorImage"
+              register={register}
+              onChange={onChange}
+              value={value}
+            />
+          )}
+        />
+        <Input.Wrapper className="flex items-center">
+          <span className="mr-2 w-1/3 text-right font-semibold">
+            Publish Date:
+          </span>
+          <Controller
+            name="publishDate"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <DateInput
+                value={value ? new Date(value) : undefined}
+                onChange={onChange}
+              />
+            )}
+          />
+        </Input.Wrapper>
         <Input.Wrapper className="flex items-center">
           <span className="mr-2 w-1/3 text-right font-semibold">End Date:</span>
           <Controller
@@ -113,14 +169,14 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           <Controller
             name="category"
             control={control}
-            defaultValue={content?.category || "general"}
+            defaultValue={content?.category || 'general'}
             render={({ field: { onChange, value } }) => (
               <Select
                 data={[
-                  { value: "general", label: "General" },
-                  { value: "other", label: "Other" },
+                  { value: 'general', label: 'General' },
+                  { value: 'other', label: 'Other' },
                 ]}
-                defaultValue={value ? value : "general"}
+                defaultValue={value ? value : 'general'}
                 onChange={onChange}
               />
             )}
@@ -131,31 +187,16 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
           <Controller
             name="mediaStatus"
             control={control}
-            defaultValue={content?.mediaStatus || "draft"}
+            defaultValue={content?.mediaStatus || 'draft'}
             render={({ field: { onChange, value } }) => (
               <Select
                 data={[
-                  { value: "draft", label: "Draft" },
-                  { value: "reviewed", label: "Reviewed" },
-                  { value: "approved", label: "Approved" },
-                  { value: "published", label: "Published" },
+                  { value: 'draft', label: 'Draft' },
+                  { value: 'reviewed', label: 'Reviewed' },
+                  { value: 'approved', label: 'Approved' },
+                  { value: 'published', label: 'Published' },
                 ]}
-                defaultValue={value ? value : "draft"}
-                onChange={onChange}
-              />
-            )}
-          />
-        </Input.Wrapper>
-        <Input.Wrapper className="flex items-center">
-          <span className="mr-2 w-1/3 text-right font-semibold">
-            Publish Date:
-          </span>
-          <Controller
-            name="publishDate"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <DateInput
-                value={value ? new Date(value) : undefined}
+                defaultValue={value ? value : 'draft'}
                 onChange={onChange}
               />
             )}
@@ -167,7 +208,7 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
         <Button
           type="submit"
           className={`rounded-lg border-1 cursor-pointer ${
-            !isDirty ? "border-red-200 text-gray-300" : ""
+            !isDirty ? 'border-red-200 text-gray-300' : ''
           }`}
           title="Save"
           variant="outline"
@@ -177,7 +218,7 @@ const ContentForm = ({ onSubmit, content }: ContentFormProps) => {
         </Button>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default ContentForm;
+export default ContentForm

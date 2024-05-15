@@ -39,7 +39,7 @@ export const RichEditor = ({
         TextAlign,
       ],
       content: value,
-      onUpdate: ({ editor }) => {
+      onBlur: ({ editor }) => {
         onChange(editor.getHTML())
       },
     },

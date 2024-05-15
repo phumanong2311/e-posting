@@ -6,7 +6,6 @@ import { PageLayout } from './layout'
 import { ErrorBoundary, HomePage, NotFoundPage } from './pages'
 import { paths } from './types'
 
-
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const MyProfile = lazy(() => import('./components/MyProfile/MyProfile'))
 
@@ -16,12 +15,20 @@ const MyJobPostingsPage = lazy(
 const MyJobPostingsDetailPage = lazy(
   () => import('./components/MyJobPosting/MyJobPostingDetailPage')
 )
-const MyJobRequestsPage = lazy(() => import('./components/MyJobRequest/MyJobRequests'))
-const MyJobRequestDetailPage = lazy(() => import('./components/MyJobRequest/MyJobRequestDetailPage'))
-const MyJobRequestEditPage = lazy(() => import('./components/MyJobRequest/MyJobRequestEditPage'))
+const MyJobRequestsPage = lazy(
+  () => import('./components/MyJobRequest/MyJobRequests')
+)
+const MyJobRequestDetailPage = lazy(
+  () => import('./components/MyJobRequest/MyJobRequestDetailPage')
+)
+const MyJobRequestEditPage = lazy(
+  () => import('./components/MyJobRequest/MyJobRequestEditPage')
+)
 
 const JobPosting = lazy(() => import('./components/JobSearch/JobPosting'))
-const EditJobPosting = lazy(() => import('./components/JobSearch/EditJobPosting'))
+const EditJobPosting = lazy(
+  () => import('./components/JobSearch/EditJobPosting')
+)
 
 const SearchPage = lazy(() => import('./pages/SearchPage'))
 
@@ -31,42 +38,87 @@ const CreateCompanyPage = lazy(
 const CompanyDetailPage = lazy(
   () => import('./components/CompanySearch/CompanyDetailPage')
 )
-const EditCompanyPage = lazy(() => import('./components/CompanySearch/EditCompanyPage'))
+const EditCompanyPage = lazy(
+  () => import('./components/CompanySearch/EditCompanyPage')
+)
 
-const UserDetailPage = lazy(() => import('./components/UserSearch/UserDetailPage'))
+const UserDetailPage = lazy(
+  () => import('./components/UserSearch/UserDetailPage')
+)
 const EditUserPage = lazy(() => import('./components/UserSearch/EditUserPage'))
 
 const RequestDetailPage = lazy(
   () => import('./components/RequestSearch/RequestDetailPage')
 )
-const EditRequestPage = lazy(() => import('./components/RequestSearch/EditRequestPage'))
+const EditRequestPage = lazy(
+  () => import('./components/RequestSearch/EditRequestPage')
+)
 
-const ContentManagementPage = lazy(() => import('./pages/ContentManagementPage'))
-const ListContentActivePage = lazy(() => import('./components/ContentManagement/ListContentActive'))
-const ListContentInActivePage = lazy(() => import('./components/ContentManagement/ListContentInActive'))
-const CreateContentPage = lazy(() => import('./components/ContentManagement/CreateContentPage'))
-const EditContentPage = lazy(() => import('./components/ContentManagement/EditContentPage'))
-const ContentDetailPage = lazy(() => import('./components/ContentManagement/ContentDetailPage'))
+const ContentManagementPage = lazy(
+  () => import('./pages/ContentManagementPage')
+)
+const ListContentActivePage = lazy(
+  () => import('./components/ContentManagement/ListContentActive')
+)
+const ListContentInActivePage = lazy(
+  () => import('./components/ContentManagement/ListContentInActive')
+)
+const CreateContentPage = lazy(
+  () => import('./components/ContentManagement/CreateContentPage')
+)
+const EditContentPage = lazy(
+  () => import('./components/ContentManagement/EditContentPage')
+)
+const ContentDetailPage = lazy(
+  () => import('./components/ContentManagement/ContentDetailPage')
+)
 
-const ReportingPage = lazy(() => import("./pages/ReportingPage"));
+const ReportingPage = lazy(() => import('./pages/ReportingPage'))
 
-const JobsReportPage = lazy(() => import("./components/Report/JobsReport"));
-const JobsByDayPage = lazy(() => import("./components/Report/JobsByDay"));
-const TopJobPostersPage = lazy(() => import("./components/Report/TopJobPosters"));
+const JobsReportPage = lazy(() => import('./components/Report/JobsReport'))
+const JobsByDayPage = lazy(() => import('./components/Report/JobsByDay'))
+const TopJobPostersPage = lazy(
+  () => import('./components/Report/TopJobPosters')
+)
 
-const UsersPage = lazy(() => import("./components/Report/Users"));
-const NotificationsPage = lazy(() => import("./components/Report/Notifications"));
-const UserAccountsCreatedByDayPage = lazy(() => import("./components/Report/UserAccountsCreatedByDay"));
-const RequestsPage = lazy(() => import("./components/Report/Requests"));
-const RequestsByDayPage = lazy(() => import("./components/Report/RequestsByDay"));
-const TopRequestPostersPage = lazy(() => import("./components/Report/TopRequestPosters"));
-const TopCompaniesByRequestPostsPage = lazy(() => import("./components/Report/TopCompaniesByRequestPosts"));
-const TopCompaniesByJobPostsPage = lazy(() => import("./components/Report/TopCompaniesByJobPosts"));
-const UserAccountsByCreationMethodPage = lazy(() => import("./components/Report/UserAccountsByCreationMethod"));
-const UserAccountsByMonthPage = lazy(() => import("./components/Report/UserAccountsByMonth"));
-const NotificationsByDayPage = lazy(() => import("./components/Report/NotificationsByDay"));
+const UsersPage = lazy(() => import('./components/Report/Users'))
+const NotificationsPage = lazy(
+  () => import('./components/Report/Notifications')
+)
+const UserAccountsCreatedByDayPage = lazy(
+  () => import('./components/Report/UserAccountsCreatedByDay')
+)
+const RequestsPage = lazy(() => import('./components/Report/Requests'))
+const RequestsByDayPage = lazy(
+  () => import('./components/Report/RequestsByDay')
+)
+const TopRequestPostersPage = lazy(
+  () => import('./components/Report/TopRequestPosters')
+)
+const TopCompaniesByRequestPostsPage = lazy(
+  () => import('./components/Report/TopCompaniesByRequestPosts')
+)
+const TopCompaniesByJobPostsPage = lazy(
+  () => import('./components/Report/TopCompaniesByJobPosts')
+)
+const UserAccountsByCreationMethodPage = lazy(
+  () => import('./components/Report/UserAccountsByCreationMethod')
+)
+const UserAccountsByMonthPage = lazy(
+  () => import('./components/Report/UserAccountsByMonth')
+)
+const NotificationsByDayPage = lazy(
+  () => import('./components/Report/NotificationsByDay')
+)
 
-
+const SkillPage = lazy(() => import('./pages/SkillPage'))
+const CreateSkillPage = lazy(
+  () => import('./components/Skills/CreateSkillPage')
+)
+const SkillDetailPage = lazy(
+  () => import('./components/Skills/SkillDetailPage')
+)
+const EditSkillPage = lazy(() => import('./components/Skills/EditSkillPage'))
 
 const routesConfig: RouteObject[] = [
   {
@@ -183,6 +235,46 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
+
+      {
+        path: paths.SKILLS,
+        element: (
+          <Suspense>
+            <SkillPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: paths.SKILLS_CREATE,
+        element: (
+          <Suspense>
+            <CreateSkillPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: `${paths.SKILLS_DETAIL}/:id`,
+        element: (
+          <Suspense>
+            <SkillDetailPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.SKILLS_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditSkillPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
       {
         path: paths.REPORTING,
         element: (
