@@ -18,6 +18,7 @@ export type ContentType = {
   lastModifiedBy?: string;
   lastModifiedById?: string;
   contentId: string;
+  publisherName?: string
 };
 
 export type ContentPayload = {

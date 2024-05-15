@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useAppProviderCtx } from "../../app-provider";
 import { ROLE } from "../../types/enums/role";
 import { useNavigate } from "react-router-dom";
@@ -6,17 +6,20 @@ import { Job, paths } from "../../types";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { EmptyBoxMessage } from "../../ui";
 import moment from "moment";
+import { useMemo } from "react";
 
 const JobList = ({
-  jobs = [],
+  jobs,
   page,
   maxPage,
+  isLoading,
   onNextPage,
   onPreviousPage,
 }: {
-  jobs: Array<Job>;
+  jobs: Array<Job> | null;
   page: number;
   maxPage: number;
+  isLoading: boolean
   onNextPage: () => void;
   onPreviousPage: () => void;
 }) => {
@@ -35,29 +38,58 @@ const JobList = ({
     );
   };
 
-  const rows = jobs.map((element, index) => (
-    <Table.Tr key={index}>
-      <Table.Td
-        className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id)}
-      >
-        {element.jobTitle}
-      </Table.Td>
-      <Table.Td className="text-center">{element.jobOwner}</Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.createdAt).format("MM/DD/YYYY")}
-      </Table.Td>
-      <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
-      <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.role === ROLE.EDITOR && (
-          <IconEdit onClick={() => onEdit(element._id)} />
-        )}
-        {(user?.role === ROLE.EDITOR || user?.role === ROLE.ADMIN) && (
-          <IconTrash />
-        )}
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows = useMemo(() => {
+    if (isLoading) {
+      return (
+        <Table.Tr>
+          <Table.Td></Table.Td>
+          <Table.Td className="text-center">
+            <LoadingOverlay
+              visible={isLoading}
+              zIndex={1000}
+              overlayProps={{ radius: "sm" }}
+            />
+          </Table.Td>
+          <Table.Td></Table.Td>
+        </Table.Tr>
+      );
+    }
+
+    if (jobs === null) {
+      return (
+        <tr>
+          <td colSpan={3}>
+            <EmptyBoxMessage className="h-60" />
+          </td>
+        </tr>
+      );
+    }
+
+    return jobs.map((element, index) => (
+      <Table.Tr key={index}>
+        <Table.Td
+          className="text-ellipsis cursor-pointer"
+          onClick={() => onViewDetail(element._id)}
+        >
+          {element.jobTitle}
+        </Table.Td>
+        <Table.Td className="text-center">{element.jobOwner}</Table.Td>
+        <Table.Td className="text-center">
+          {moment(element.createdAt).format("MM/DD/YYYY")}
+        </Table.Td>
+        <Table.Td className="text-center">{element.jobPostStatus}</Table.Td>
+        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
+          {user?.role === ROLE.EDITOR && (
+            <IconEdit onClick={() => onEdit(element._id)} />
+          )}
+          {(user?.role === ROLE.EDITOR || user?.role === ROLE.ADMIN) && (
+            <IconTrash />
+          )}
+        </Table.Td>
+      </Table.Tr>
+    ));
+  }, [jobs, isLoading])
+
   return (
     <div className="w-full px-14 mt-5">
       <Table withRowBorders={false} verticalSpacing="md">
@@ -74,12 +106,6 @@ const JobList = ({
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-      {!jobs ||
-        (jobs.length === 0 && (
-          <div className="w-full flex items-center justify-center mt-8">
-            <EmptyBoxMessage />
-          </div>
-        ))}
 
       <div className="flex w-full justify-between">
         {page > 1 ? (

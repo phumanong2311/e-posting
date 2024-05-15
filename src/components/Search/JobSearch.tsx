@@ -1,28 +1,28 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 
-import { useDebouncedValue } from '@mantine/hooks'
-import { useEffect, useState } from 'react'
-import { Job, JobPagination, SearchParameter } from '../../types'
-import { jobServices } from '../../services'
-import { Filter } from './Filter'
-import { JobList } from '../JobSearch'
+import { useDebouncedValue } from "@mantine/hooks";
+import { useEffect, useState } from "react";
+import { Job, JobPagination, SearchParameter } from "../../types";
+import { jobServices } from "../../services";
+import { Filter } from "./Filter";
+import { JobList } from "../JobSearch";
 
 export const JobSearch = ({ keyword }: { keyword: string }) => {
-  const [jobs, setJobs] = useState<Array<Job>>([])
+  const [jobs, setJobs] = useState<Array<Job> | null>([]);
   const [jobPagination, setJobPagination] = useState<JobPagination>({
     page: 1,
-  })
+  });
 
-  const [searchParameter, setSearchParameter] = useState<SearchParameter>({})
-  const debouncedSearchKeyword = useDebouncedValue(keyword, 500)
+  const [searchParameter, setSearchParameter] = useState<SearchParameter>({});
+  const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
-    resetPage()
-  }, [keyword])
+    resetPage();
+  }, [keyword]);
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: [
-      'jobsSearch',
+      "jobsSearch",
       searchParameter,
       jobPagination.page,
       debouncedSearchKeyword,
@@ -37,12 +37,13 @@ export const JobSearch = ({ keyword }: { keyword: string }) => {
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result
-                setJobs(jobs)
-                setJobPagination(pagination)
-                return res.result
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                if (!res.result.jobs.length) setJobs(null);
+                return res.result;
               }
-              return null
+              return null;
             })
         : jobServices
             .getJobs({
@@ -51,47 +52,48 @@ export const JobSearch = ({ keyword }: { keyword: string }) => {
             })
             .then((res) => {
               if (res.result) {
-                const { jobs, ...pagination } = res.result
-                setJobs(jobs)
-                setJobPagination(pagination)
-                return res.result
+                const { jobs, ...pagination } = res.result;
+                setJobs(jobs);
+                setJobPagination(pagination);
+                if (!res.result.jobs.length) setJobs(null);
+                return res.result;
               }
-              return null
+              return null;
             }),
-  })
+  });
 
   const onChangeParameter = (name: string, value: string) => {
     setSearchParameter((prev) => {
-      return { ...prev, [name]: value }
-    })
-    resetPage()
-  }
+      return { ...prev, [name]: value };
+    });
+    resetPage();
+  };
 
   const onResetFilter = () => {
     setSearchParameter({
-      workLocationType: '',
-      employmentType: '',
-      yearsOfExperience: '',
-      closingDate: '',
-    })
-    resetPage()
-  }
+      workLocationType: "",
+      employmentType: "",
+      yearsOfExperience: "",
+      closingDate: "",
+    });
+    resetPage();
+  };
 
   const resetPage = () => {
-    setJobPagination((prev) => ({ ...prev, page: 1 }))
-  }
+    setJobPagination((prev) => ({ ...prev, page: 1 }));
+  };
 
   const onNextPage = () => {
     if (jobPagination?.maxPages && jobPagination?.page) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (jobPagination?.page! > 1) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -102,12 +104,13 @@ export const JobSearch = ({ keyword }: { keyword: string }) => {
       />
 
       <JobList
-        jobs={jobs}
+        isLoading={isLoading}
+        jobs={jobs ? jobs : null}
         page={jobPagination.page!}
         maxPage={jobPagination.maxPages!}
         onNextPage={onNextPage}
         onPreviousPage={onPreviousPage}
       />
     </div>
-  )
-}
+  );
+};

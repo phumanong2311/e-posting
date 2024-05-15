@@ -1,9 +1,9 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
 import { requestServices } from "../../services";
@@ -16,7 +16,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const {
     data: { user },
   } = useAppProviderCtx();
-  const [requests, setRequests] = useState<Array<Request>>([]);
+  const [requests, setRequests] = useState<Array<Request> | null>([]);
   const [requestPagination, setRequestPagination] = useState<RequestPagination>(
     {
       page: 1,
@@ -28,7 +28,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
     resetPage();
   }, [keyword]);
 
-  const { refetch } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["requestSearch", requestPagination.page, debouncedSearchKeyword],
     queryFn: () =>
       requestServices
@@ -41,6 +41,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
             const { requests, ...pagination } = res.result;
             setRequests(requests);
             setRequestPagination(pagination);
+            if (!res.result.requests.length) setRequests(null);
             return res.result;
           }
           return null;
@@ -85,29 +86,50 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
       });
   };
 
-  const rows = requests.map((element, index) => (
-    <Table.Tr key={index}>
-      <Table.Td
-        className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id!)}
-      >
-        {element.requestOwner}
-      </Table.Td>
-      <Table.Td className="text-center">{element.requestTitle}</Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.closingDate).format("MM/DD/YYYY")}
-      </Table.Td>
-      <Table.Td className="text-center">{element.employmentType}</Table.Td>
-      <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.accountType! > 0 && (
-          <>
-            <IconEdit onClick={() => onEdit(element._id!)} />
-            <IconTrash onClick={() => onDelete(element._id)} />
-          </>
-        )}
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows = useMemo(() => {
+    if (isLoading) {
+      return (
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm" }}
+        />
+      );
+    }
+
+    if (requests === null) {
+      return (
+        <tr>
+          <td colSpan={4}>
+            <EmptyBoxMessage className="h-60" />
+          </td>
+        </tr>
+      );
+    }
+    return requests.map((element, index) => (
+      <Table.Tr key={index}>
+        <Table.Td
+          className="text-ellipsis cursor-pointer"
+          onClick={() => onViewDetail(element._id!)}
+        >
+          {element.requestOwner}
+        </Table.Td>
+        <Table.Td className="text-center">{element.requestTitle}</Table.Td>
+        <Table.Td className="text-center">
+          {moment(element.closingDate).format("MM/DD/YYYY")}
+        </Table.Td>
+        <Table.Td className="text-center">{element.employmentType}</Table.Td>
+        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
+          {user?.accountType! > 0 && (
+            <>
+              <IconEdit onClick={() => onEdit(element._id!)} />
+              <IconTrash onClick={() => onDelete(element._id)} />
+            </>
+          )}
+        </Table.Td>
+      </Table.Tr>
+    ));
+  }, [isLoading, requests])
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -124,12 +146,6 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        {!requests ||
-          (requests.length === 0 && (
-            <div className="w-full flex items-center justify-center mt-8">
-              <EmptyBoxMessage />
-            </div>
-          ))}
         <div className="flex w-full justify-between">
           {requestPagination.page! > 1 ? (
             <Button

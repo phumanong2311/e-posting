@@ -1,9 +1,9 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
 import { userServices } from "../../services";
@@ -15,7 +15,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
   const {
     data: { user },
   } = useAppProviderCtx();
-  const [users, setUsers] = useState<Array<User>>([]);
+  const [users, setUsers] = useState<Array<User> | null>([]);
   const [userPagination, setUserPagination] = useState<UserPagination>({
     page: 1,
   });
@@ -25,7 +25,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
     resetPage();
   }, [keyword]);
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["userSearch", userPagination.page, debouncedSearchKeyword],
     queryFn: () =>
       userServices
@@ -38,6 +38,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
             const { users, ...pagination } = res.result;
             setUsers(users);
             setUserPagination(pagination);
+            if (!res.result.users.length) setUsers(null);
             return res.result;
           }
           return null;
@@ -70,29 +71,51 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
     navigate(`/${paths.ROOT}/${paths.EDIT_USER}/${id}`);
   };
 
-  const rows = users.map((element, index) => (
-    <Table.Tr key={index}>
-      <Table.Td
-        className="text-ellipsis cursor-pointer"
-        onClick={() => onViewDetail(element._id!)}
-      >
-        {element.email}
-      </Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.signupDate).format("MM/DD/YYYY")}
-      </Table.Td>
-      <Table.Td className="text-center">
-        {moment(element.updatedAt).format("MM/DD/YYYY")}
-      </Table.Td>
-      <Table.Td className="text-center">{element.accountStatus}</Table.Td>
-      <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-        {user?.accountType! > 0 && (
-          <IconEdit onClick={() => onEdit(element._id!)} />
-        )}
-        {/* {user?.accountType! > 1 && <IconTrash />} */}
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows = useMemo(() => {
+    if (isLoading) {
+      return (
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm" }}
+        />
+      );
+    }
+
+    if (users === null) {
+      return (
+        <tr>
+          <td colSpan={4}>
+            <EmptyBoxMessage className="h-60" />
+          </td>
+        </tr>
+      );
+    }
+
+    return users.map((element, index) => (
+      <Table.Tr key={index}>
+        <Table.Td
+          className="text-ellipsis cursor-pointer"
+          onClick={() => onViewDetail(element._id!)}
+        >
+          {element.email}
+        </Table.Td>
+        <Table.Td className="text-center">
+          {moment(element.signupDate).format("MM/DD/YYYY")}
+        </Table.Td>
+        <Table.Td className="text-center">
+          {moment(element.updatedAt).format("MM/DD/YYYY")}
+        </Table.Td>
+        <Table.Td className="text-center">{element.accountStatus}</Table.Td>
+        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
+          {user?.accountType! > 0 && (
+            <IconEdit onClick={() => onEdit(element._id!)} />
+          )}
+          {/* {user?.accountType! > 1 && <IconTrash />} */}
+        </Table.Td>
+      </Table.Tr>
+    ));
+  }, [isLoading, users])
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -109,12 +132,6 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        {!users ||
-          (users.length === 0 && (
-            <div className="w-full flex items-center justify-center mt-8">
-              <EmptyBoxMessage />
-            </div>
-          ))}
         <div className="flex w-full justify-between">
           {userPagination.page! > 1 ? (
             <Button

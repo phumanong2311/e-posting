@@ -1,79 +1,76 @@
-import { Button, LoadingOverlay, Table } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { useQuery } from '@tanstack/react-query'
-import moment from 'moment'
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { contentManagementServices } from '../../services/'
-import { ContentPagination, ContentType, paths } from '../../types'
-import { EmptyBoxMessage } from '../../ui'
+import { Button, LoadingOverlay, Table } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { contentManagementServices } from "../../services/";
+import { ContentPagination, ContentType, paths } from "../../types";
+import { EmptyBoxMessage } from "../../ui";
 
 const ListContentActive = () => {
-  const navigate = useNavigate()
-  const [visible, { open, close }] = useDisclosure(false)
-  const [contents, setContents] = useState<Array<ContentType>>([])
+  const navigate = useNavigate();
+  const [contents, setContents] = useState<Array<ContentType> | null>([]);
   const [contentPagination, setContentPagination] = useState<ContentPagination>(
     {
       page: 1,
     }
-  )
+  );
 
-  useQuery({
-    queryKey: ['contentList', contentPagination.page],
+  const { isLoading } = useQuery({
+    queryKey: ["contentList", contentPagination.page],
     queryFn: () => {
-      open()
       return contentManagementServices
         .getActiveContents({ page: contentPagination?.page })
         .then((res: any) => {
           if (res.result) {
-            const { media, ...pagination } = res.result
-            setContents(media)
-            setContentPagination(pagination)
-            return res.result
+            const { media, ...pagination } = res.result;
+            setContents(media);
+            setContentPagination(pagination);
+            if (!res.result.media.length) setContents(null);
+            return res.result;
           }
-          return null
-        })
-        .finally(() => {
-          close()
+          return null;
         })
     },
-  })
+  });
 
   const onNextPage = () => {
     if (contentPagination?.maxPages && contentPagination?.page) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }))
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (contentPagination?.page! > 1) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }))
+      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   const onViewDetail = (id: string) => {
     navigate(
       `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.CONTENT_DETAIL}/${id}`
-    )
-  }
+    );
+  };
 
   const rows = useMemo(() => {
-    if (visible) {
+    if (isLoading) {
       return (
         <LoadingOverlay
-          visible={visible}
+          visible={isLoading}
           zIndex={1000}
-          overlayProps={{ radius: 'sm' }}
+          overlayProps={{ radius: "sm" }}
         />
-      )
+      );
     }
 
-    if (!contents.length) {
+    if (contents === null) {
       return (
-        <div className="w-full flex items-center justify-center mt-8">
-          <EmptyBoxMessage />
-        </div>
-      )
+        <tr>
+          <td colSpan={7}>
+            <EmptyBoxMessage className="h-60" />
+          </td>
+        </tr>
+      );
     }
 
     return (
@@ -93,16 +90,16 @@ const ListContentActive = () => {
             </Table.Td>
             <Table.Td className="text-center">{element.mediaStatus}</Table.Td>
             <Table.Td className="text-center">
-              {moment(element.publishDate).format('MM/DD/YYYY')}
+              {moment(element.publishDate).format("MM/DD/YYYY")}
             </Table.Td>
             <Table.Td className="text-center">
-              {moment(element.endDate).format('MM/DD/YYYY')}
+              {moment(element.endDate).format("MM/DD/YYYY")}
             </Table.Td>
           </Table.Tr>
         ))}
       </>
-    )
-  }, [visible, contents])
+    );
+  }, [isLoading, contents]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -150,7 +147,7 @@ const ListContentActive = () => {
         </>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ListContentActive
+export default ListContentActive;

@@ -1,28 +1,28 @@
-import { Button, Table, LoadingOverlay } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import { useDebouncedValue } from '@mantine/hooks'
-import { IconEdit } from '@tabler/icons-react'
-import { useEffect, useState, useMemo } from 'react'
-import { useAppProviderCtx } from '../../app-provider'
-import { Skill, SkillPagination, paths } from '../../types'
-import { skillServices } from '../../services'
-import { EmptyBoxMessage } from '../../ui'
+import { Button, Table, LoadingOverlay } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconEdit } from "@tabler/icons-react";
+import { useEffect, useState, useMemo } from "react";
+import { useAppProviderCtx } from "../../app-provider";
+import { Skill, SkillPagination, paths } from "../../types";
+import { skillServices } from "../../services";
+import { EmptyBoxMessage } from "../../ui";
 
 const SkillList = ({ keyword }: { keyword: string }) => {
-  const navigate = useNavigate()
-  const [skills, setSkills] = useState<Array<Skill>>([])
+  const navigate = useNavigate();
+  const [skills, setSkills] = useState<Array<Skill> | null>([]);
   const [skillPagination, setSkillPagination] = useState<SkillPagination>({
     page: 1,
-  })
-  const debouncedSearchKeyword = useDebouncedValue(keyword, 500)
+  });
+  const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
-    resetPage()
-  }, [keyword])
+    resetPage();
+  }, [keyword]);
 
   const { isLoading } = useQuery({
-    queryKey: ['skillList', skillPagination.page, debouncedSearchKeyword],
+    queryKey: ["skillList", skillPagination.page, debouncedSearchKeyword],
     queryFn: () =>
       skillServices
         .getSkills({
@@ -31,44 +31,45 @@ const SkillList = ({ keyword }: { keyword: string }) => {
         })
         .then((res) => {
           if (res.result) {
-            const { skills, ...pagination } = res.result
-            setSkills(skills)
-            setSkillPagination(pagination)
-            return res.result
+            const { skills, ...pagination } = res.result;
+            setSkills(skills);
+            setSkillPagination(pagination);
+            if (!res.result.skills.length) setSkills(null);
+            return res.result;
           }
-          return null
+          return null;
         }),
-  })
+  });
 
   const resetPage = () => {
-    setSkillPagination((prev) => ({ ...prev, page: 1 }))
-  }
+    setSkillPagination((prev) => ({ ...prev, page: 1 }));
+  };
 
   const onNextPage = () => {
     if (skillPagination?.maxPages && skillPagination?.page) {
-      setSkillPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
+      setSkillPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
     }
-  }
+  };
 
   const onPreviousPage = () => {
     if (skillPagination?.page! > 1) {
-      setSkillPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
+      setSkillPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
     }
-  }
+  };
 
   const onViewDetail = (id: string | null) => {
-    if (!id) return
-    navigate(`/${paths.ROOT}/${paths.SKILLS_DETAIL}/${id}`)
-  }
+    if (!id) return;
+    navigate(`/${paths.ROOT}/${paths.SKILLS_DETAIL}/${id}`);
+  };
 
   const onEdit = (id: string | null) => {
-    if (!id) return
-    navigate(`/${paths.ROOT}/${paths.SKILLS_EDIT}/${id}`)
-  }
+    if (!id) return;
+    navigate(`/${paths.ROOT}/${paths.SKILLS_EDIT}/${id}`);
+  };
 
   const onAddSkill = () => {
-    navigate(`/${paths.ROOT}/${paths.SKILLS_CREATE}`)
-  }
+    navigate(`/${paths.ROOT}/${paths.SKILLS_CREATE}`);
+  };
 
   const rows = useMemo(() => {
     if (isLoading) {
@@ -79,26 +80,22 @@ const SkillList = ({ keyword }: { keyword: string }) => {
             <LoadingOverlay
               visible={isLoading}
               zIndex={1000}
-              overlayProps={{ radius: 'sm' }}
+              overlayProps={{ radius: "sm" }}
             />
           </Table.Td>
           <Table.Td></Table.Td>
         </Table.Tr>
-      )
+      );
     }
 
-    if (!skills.length) {
+    if (skills === null) {
       return (
-        <Table.Tr>
-          <Table.Td></Table.Td>
-          <Table.Td className="text-center">
-            <div className="w-full flex items-center justify-center mt-8">
-              <EmptyBoxMessage />
-            </div>
-          </Table.Td>
-          <Table.Td className="text-center"></Table.Td>
-        </Table.Tr>
-      )
+        <tr>
+          <td colSpan={3}>
+            <EmptyBoxMessage className="h-60" />
+          </td>
+        </tr>
+      );
     }
 
     return skills.map((element, index) => (
@@ -112,8 +109,8 @@ const SkillList = ({ keyword }: { keyword: string }) => {
         <Table.Td className="text-center">{element.functionalArea}</Table.Td>
         <Table.Td className="text-center">{element.skillCategory}</Table.Td>
       </Table.Tr>
-    ))
-  }, [skills, isLoading])
+    ));
+  }, [skills, isLoading]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -166,7 +163,7 @@ const SkillList = ({ keyword }: { keyword: string }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SkillList
+export default SkillList;
