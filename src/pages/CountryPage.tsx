@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SelectSearchField } from "../ui/SelectSearchField";
-import { SkillList } from "../components/Skills";
+import { SelectSearchField } from "../ui";
+import { CountryList } from "../components/Country";
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,12 +30,25 @@ const SearchPage = () => {
       <SelectSearchField
         searchType={searchType}
         searchKeyword={searchKeyword}
+        options={[
+          {
+            value: "country",
+            label: "Country",
+          },
+          {
+            value: "state",
+            label: "State/Province",
+          },
+          {
+            value: "city",
+            label: "City",
+          },
+        ]}
         onChangeSearchKeyword={onChangeSearchKeyword}
         onChangeSearchType={onChangeSearchType}
-        options={[{ value: "skills", label: "Skills" }]}
       />
 
-      <SkillList keyword={searchKeyword} />
+      <CountryList keyword={searchKeyword} />
     </div>
   );
 };

@@ -5,4 +5,4 @@ export { default as LoginPage } from "./LoginPage";
 export { default as NotFoundPage } from "./NotFoundPage";
 export { default as ReportingPage } from "./ReportingPage";
 export { default as SearchPage } from "./SearchPage";
-
+export { default as CountryPage } from "./CountryPage";
