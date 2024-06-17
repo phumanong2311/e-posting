@@ -5,7 +5,7 @@ import { CountryList } from "../components/Country";
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initSearchType = searchParams.get("searchType") || "skills";
+  const initSearchType = searchParams.get("searchType") || "country";
 
   const [searchType, setSearchType] = useState(initSearchType);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -36,7 +36,7 @@ const SearchPage = () => {
             label: "Country",
           },
           {
-            value: "state",
+            value: "division",
             label: "State/Province",
           },
           {

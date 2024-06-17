@@ -10,7 +10,9 @@ class CountryService extends API {
     keyword?: string;
     page?: number;
   }): Promise<ResponseWrapper> {
-    let url = `country?` + buildQueryParams({ keyword, page });
+    let url = !!keyword
+      ? `country/search?` + buildQueryParams({ keyword, page })
+      : `country?` + buildQueryParams({ page });
     return this.getAPI(url);
   }
 
