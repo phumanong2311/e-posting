@@ -1,4 +1,4 @@
-import { ResponseWrapper, Skill } from "../types";
+import { Country, ResponseWrapper, Skill } from "../types";
 import { buildQueryParams } from "../utils";
 import { API } from "./api";
 
@@ -47,9 +47,9 @@ class CountryService extends API {
     return this.getAPI(url);
   }
 
-  async createCountry(skill: Skill) {
+  async createCountry(country: Country) {
     const url = `country`;
-    return this.postAPI(url, skill);
+    return this.postAPI(url, country);
   }
 
   async editCountry(id: string, payload: any) {

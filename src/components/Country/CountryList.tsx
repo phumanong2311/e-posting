@@ -58,18 +58,13 @@ export const CountryList = ({ keyword }: { keyword: string }) => {
     }
   };
 
-  const onViewDetail = (id: string | null) => {
-    if (!id) return;
-    navigate(`/${paths.ROOT}/${paths.SKILLS_DETAIL}/${id}`);
-  };
-
   const onEdit = (id: string | null) => {
     if (!id) return;
-    navigate(`/${paths.ROOT}/${paths.SKILLS_EDIT}/${id}`);
+    navigate(`/${paths.ROOT}/${paths.COUNTRY_EDIT}/${id}`);
   };
 
-  const onAddSkill = () => {
-    navigate(`/${paths.ROOT}/${paths.SKILLS_CREATE}`);
+  const onAddCountry = () => {
+    navigate(`/${paths.ROOT}/${paths.COUNTRY_CREATE}`);
   };
 
   const rows = useMemo(() => {
@@ -101,14 +96,11 @@ export const CountryList = ({ keyword }: { keyword: string }) => {
 
     return countries.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td
-          className="text-ellipsis cursor-pointer"
-          onClick={() => onViewDetail(element.countryId!)}
-        >
+        <Table.Td className="text-ellipsis cursor-pointer">
           {element.countryName}
         </Table.Td>
         <Table.Td>
-          <IconEdit />
+          <IconEdit onClick={() => onEdit(element.countryId!)} />
         </Table.Td>
       </Table.Tr>
     ));
@@ -116,6 +108,16 @@ export const CountryList = ({ keyword }: { keyword: string }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
+      <div className="w-full h-fit mt-5 px-14">
+        <Button
+          variant="outline"
+          className="w-fit float-right"
+          size="sm"
+          onClick={onAddCountry}
+        >
+          Add Country
+        </Button>
+      </div>
       <div className="w-full px-14 mt-2">
         <Table withRowBorders={false} verticalSpacing="md">
           <Table.Thead>

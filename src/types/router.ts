@@ -59,4 +59,5 @@ export enum paths {
   COUNTRY = "country",
   COUNTRY_DETAIL = "country-detail",
   COUNTRY_EDIT = "country-edit",
+  COUNTRY_CREATE = "country-create",
 }

@@ -120,6 +120,13 @@ const SkillDetailPage = lazy(
 );
 const EditSkillPage = lazy(() => import("./components/Skills/EditSkillPage"));
 
+const CreateCountryPage = lazy(
+  () => import("./components/Country/CreateCountryPage")
+);
+const EditCountryPage = lazy(
+  () => import("./components/Country/EditCountryPage")
+);
+
 const routesConfig: RouteObject[] = [
   {
     path: paths.ROOT,
@@ -281,6 +288,25 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <CountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: paths.COUNTRY_CREATE,
+        element: (
+          <Suspense>
+            <CreateCountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.COUNTRY_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditCountryPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,
