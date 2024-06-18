@@ -57,18 +57,13 @@ export const DivisionList = ({ keyword }: { keyword: string }) => {
     }
   };
 
-  const onViewDetail = (id: string | null) => {
-    if (!id) return;
-    navigate(`/${paths.ROOT}/${paths.SKILLS_DETAIL}/${id}`);
-  };
-
   const onEdit = (id: string | null) => {
     if (!id) return;
-    navigate(`/${paths.ROOT}/${paths.SKILLS_EDIT}/${id}`);
+    navigate(`/${paths.ROOT}/${paths.DIVISION_EDIT}/${id}`);
   };
 
-  const onAddSkill = () => {
-    navigate(`/${paths.ROOT}/${paths.SKILLS_CREATE}`);
+  const onAddDivision = () => {
+    navigate(`/${paths.ROOT}/${paths.DIVISION_CREATE}`);
   };
 
   const rows = useMemo(() => {
@@ -100,14 +95,11 @@ export const DivisionList = ({ keyword }: { keyword: string }) => {
 
     return divisions.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td
-          className="text-ellipsis cursor-pointer"
-          onClick={() => onViewDetail(element.divisionId!)}
-        >
+        <Table.Td className="text-ellipsis cursor-pointer">
           {element.divisionName}
         </Table.Td>
         <Table.Td>
-          <IconEdit />
+          <IconEdit onClick={() => onEdit(element.divisionId!)} />
         </Table.Td>
       </Table.Tr>
     ));
@@ -120,7 +112,7 @@ export const DivisionList = ({ keyword }: { keyword: string }) => {
           variant="outline"
           className="w-fit float-right"
           size="sm"
-          onClick={onAddSkill}
+          onClick={onAddDivision}
         >
           Add State/Province
         </Button>

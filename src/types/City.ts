@@ -4,5 +4,5 @@ export type City = {
   divisionName: string;
   divisionAbbreviation: string;
   status: number;
-  cityId: string;
+  cityId?: string;
 };

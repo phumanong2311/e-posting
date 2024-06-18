@@ -126,6 +126,12 @@ const CreateCountryPage = lazy(
 const EditCountryPage = lazy(
   () => import("./components/Country/EditCountryPage")
 );
+const CreateDivisionPage = lazy(
+  () => import("./components/Country/CreateDivisionPage")
+);
+const EditDivisionPage = lazy(
+  () => import("./components/Country/EditDivisionPage")
+);
 
 const routesConfig: RouteObject[] = [
   {
@@ -307,6 +313,26 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <EditCountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: paths.DIVISION_CREATE,
+        element: (
+          <Suspense>
+            <CreateDivisionPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.DIVISION_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditDivisionPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,

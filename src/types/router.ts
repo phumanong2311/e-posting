@@ -57,7 +57,10 @@ export enum paths {
   SKILLS_CREATE = "skills-create",
 
   COUNTRY = "country",
-  COUNTRY_DETAIL = "country-detail",
   COUNTRY_EDIT = "country-edit",
   COUNTRY_CREATE = "country-create",
+  DIVISION_EDIT = "division-edit",
+  DIVISION_CREATE = "division-create",
+  CITY_EDIT = "city-edit",
+  CITY_CREATE = "city-create",
 }

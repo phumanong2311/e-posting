@@ -4,5 +4,5 @@ export type Division = {
   divisionType: string;
   divisionAbbreviation: string;
   status: number;
-  divisionId: string;
+  divisionId?: string;
 };
