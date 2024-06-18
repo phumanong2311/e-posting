@@ -1,28 +1,32 @@
-import { Select, TextInput } from '@mantine/core'
-import { IconSearch } from '@tabler/icons-react'
-import { SyntheticEvent } from 'react'
-import { SearchType } from '../../types'
+import { Select, TextInput } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
+import { SyntheticEvent } from "react";
 
-interface ActionProps {
-  searchType: string
-  searchKeyword: string
-  onChangeSearchKeyword: (e: SyntheticEvent<HTMLInputElement, Event>) => void
-  onChangeSearchType: (value: string) => void
+interface SelectSearchFieldProps {
+  searchType: string;
+  searchKeyword: string;
+  options: Array<{
+    value: string;
+    label: string;
+  }>;
+  onChangeSearchKeyword: (e: SyntheticEvent<HTMLInputElement, Event>) => void;
+  onChangeSearchType: (value: string) => void;
 }
 
-const Action = ({
+export const SelectSearchField = ({
   searchType,
   searchKeyword,
+  options,
   onChangeSearchKeyword,
   onChangeSearchType,
-}: ActionProps) => {
+}: SelectSearchFieldProps) => {
   return (
     <div className="max-w-[400px] mt-10 flex items-center">
       <TextInput
         leftSection={<IconSearch />}
         radius={100}
         classNames={{
-          input: 'rounded-tr-none rounded-br-none border-r-0',
+          input: "rounded-tr-none rounded-br-none border-r-0",
         }}
         className="w-[70%]"
         name="keyword"
@@ -33,15 +37,13 @@ const Action = ({
         placeholder="Filters"
         radius={100}
         classNames={{
-          input: 'rounded-tl-none rounded-bl-none',
+          input: "rounded-tl-none rounded-bl-none",
         }}
         className="mt-0 w-[30%]"
-        data={[{ value: 'skills', label: 'Skills' }]}
+        data={options}
         value={searchType}
         onChange={(value) => onChangeSearchType(value!)}
       />
     </div>
-  )
-}
-
-export default Action
+  );
+};

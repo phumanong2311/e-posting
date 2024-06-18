@@ -1,124 +1,141 @@
-import { LoadingOverlay } from '@mantine/core'
-import { Suspense, lazy } from 'react'
-import { RouteObject, createBrowserRouter } from 'react-router-dom'
+import { LoadingOverlay } from "@mantine/core";
+import { Suspense, lazy } from "react";
+import { RouteObject, createBrowserRouter } from "react-router-dom";
 
-import { PageLayout } from './layout'
-import { ErrorBoundary, HomePage, NotFoundPage } from './pages'
-import { paths } from './types'
+import { PageLayout } from "./layout";
+import { CountryPage, ErrorBoundary, HomePage, NotFoundPage } from "./pages";
+import { paths } from "./types";
 
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const MyProfile = lazy(() => import('./components/MyProfile/MyProfile'))
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const MyProfile = lazy(() => import("./components/MyProfile/MyProfile"));
 
 const MyJobPostingsPage = lazy(
-  () => import('./components/MyJobPosting/MyJobPostings')
-)
+  () => import("./components/MyJobPosting/MyJobPostings")
+);
 const MyJobPostingsDetailPage = lazy(
-  () => import('./components/MyJobPosting/MyJobPostingDetailPage')
-)
+  () => import("./components/MyJobPosting/MyJobPostingDetailPage")
+);
 const MyJobRequestsPage = lazy(
-  () => import('./components/MyJobRequest/MyJobRequests')
-)
+  () => import("./components/MyJobRequest/MyJobRequests")
+);
 const MyJobRequestDetailPage = lazy(
-  () => import('./components/MyJobRequest/MyJobRequestDetailPage')
-)
+  () => import("./components/MyJobRequest/MyJobRequestDetailPage")
+);
 const MyJobRequestEditPage = lazy(
-  () => import('./components/MyJobRequest/MyJobRequestEditPage')
-)
+  () => import("./components/MyJobRequest/MyJobRequestEditPage")
+);
 
-const JobPosting = lazy(() => import('./components/JobSearch/JobPosting'))
+const JobPosting = lazy(() => import("./components/JobSearch/JobPosting"));
 const EditJobPosting = lazy(
-  () => import('./components/JobSearch/EditJobPosting')
-)
+  () => import("./components/JobSearch/EditJobPosting")
+);
 
-const SearchPage = lazy(() => import('./pages/SearchPage'))
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const CreateCompanyPage = lazy(
-  () => import('./components/CompanySearch/CreateCompanyPage')
-)
+  () => import("./components/CompanySearch/CreateCompanyPage")
+);
 const CompanyDetailPage = lazy(
-  () => import('./components/CompanySearch/CompanyDetailPage')
-)
+  () => import("./components/CompanySearch/CompanyDetailPage")
+);
 const EditCompanyPage = lazy(
-  () => import('./components/CompanySearch/EditCompanyPage')
-)
+  () => import("./components/CompanySearch/EditCompanyPage")
+);
 
 const UserDetailPage = lazy(
-  () => import('./components/UserSearch/UserDetailPage')
-)
-const EditUserPage = lazy(() => import('./components/UserSearch/EditUserPage'))
+  () => import("./components/UserSearch/UserDetailPage")
+);
+const EditUserPage = lazy(() => import("./components/UserSearch/EditUserPage"));
 
 const RequestDetailPage = lazy(
-  () => import('./components/RequestSearch/RequestDetailPage')
-)
+  () => import("./components/RequestSearch/RequestDetailPage")
+);
 const EditRequestPage = lazy(
-  () => import('./components/RequestSearch/EditRequestPage')
-)
+  () => import("./components/RequestSearch/EditRequestPage")
+);
 
 const ContentManagementPage = lazy(
-  () => import('./pages/ContentManagementPage')
-)
+  () => import("./pages/ContentManagementPage")
+);
 const ListContentActivePage = lazy(
-  () => import('./components/ContentManagement/ListContentActive')
-)
+  () => import("./components/ContentManagement/ListContentActive")
+);
 const ListContentInActivePage = lazy(
-  () => import('./components/ContentManagement/ListContentInActive')
-)
+  () => import("./components/ContentManagement/ListContentInActive")
+);
 const CreateContentPage = lazy(
-  () => import('./components/ContentManagement/CreateContentPage')
-)
+  () => import("./components/ContentManagement/CreateContentPage")
+);
 const EditContentPage = lazy(
-  () => import('./components/ContentManagement/EditContentPage')
-)
+  () => import("./components/ContentManagement/EditContentPage")
+);
 const ContentDetailPage = lazy(
-  () => import('./components/ContentManagement/ContentDetailPage')
-)
+  () => import("./components/ContentManagement/ContentDetailPage")
+);
 
-const ReportingPage = lazy(() => import('./pages/ReportingPage'))
+const ReportingPage = lazy(() => import("./pages/ReportingPage"));
 
-const JobsReportPage = lazy(() => import('./components/Report/JobsReport'))
-const JobsByDayPage = lazy(() => import('./components/Report/JobsByDay'))
+const JobsReportPage = lazy(() => import("./components/Report/JobsReport"));
+const JobsByDayPage = lazy(() => import("./components/Report/JobsByDay"));
 const TopJobPostersPage = lazy(
-  () => import('./components/Report/TopJobPosters')
-)
+  () => import("./components/Report/TopJobPosters")
+);
 
-const UsersPage = lazy(() => import('./components/Report/Users'))
+const UsersPage = lazy(() => import("./components/Report/Users"));
 const NotificationsPage = lazy(
-  () => import('./components/Report/Notifications')
-)
+  () => import("./components/Report/Notifications")
+);
 const UserAccountsCreatedByDayPage = lazy(
-  () => import('./components/Report/UserAccountsCreatedByDay')
-)
-const RequestsPage = lazy(() => import('./components/Report/Requests'))
+  () => import("./components/Report/UserAccountsCreatedByDay")
+);
+const RequestsPage = lazy(() => import("./components/Report/Requests"));
 const RequestsByDayPage = lazy(
-  () => import('./components/Report/RequestsByDay')
-)
+  () => import("./components/Report/RequestsByDay")
+);
 const TopRequestPostersPage = lazy(
-  () => import('./components/Report/TopRequestPosters')
-)
+  () => import("./components/Report/TopRequestPosters")
+);
 const TopCompaniesByRequestPostsPage = lazy(
-  () => import('./components/Report/TopCompaniesByRequestPosts')
-)
+  () => import("./components/Report/TopCompaniesByRequestPosts")
+);
 const TopCompaniesByJobPostsPage = lazy(
-  () => import('./components/Report/TopCompaniesByJobPosts')
-)
+  () => import("./components/Report/TopCompaniesByJobPosts")
+);
 const UserAccountsByCreationMethodPage = lazy(
-  () => import('./components/Report/UserAccountsByCreationMethod')
-)
+  () => import("./components/Report/UserAccountsByCreationMethod")
+);
 const UserAccountsByMonthPage = lazy(
-  () => import('./components/Report/UserAccountsByMonth')
-)
+  () => import("./components/Report/UserAccountsByMonth")
+);
 const NotificationsByDayPage = lazy(
-  () => import('./components/Report/NotificationsByDay')
-)
+  () => import("./components/Report/NotificationsByDay")
+);
 
-const SkillPage = lazy(() => import('./pages/SkillPage'))
+const SkillPage = lazy(() => import("./pages/SkillPage"));
 const CreateSkillPage = lazy(
-  () => import('./components/Skills/CreateSkillPage')
-)
+  () => import("./components/Skills/CreateSkillPage")
+);
 const SkillDetailPage = lazy(
-  () => import('./components/Skills/SkillDetailPage')
-)
-const EditSkillPage = lazy(() => import('./components/Skills/EditSkillPage'))
+  () => import("./components/Skills/SkillDetailPage")
+);
+const EditSkillPage = lazy(() => import("./components/Skills/EditSkillPage"));
+
+const CreateCountryPage = lazy(
+  () => import("./components/Country/CreateCountryPage")
+);
+const EditCountryPage = lazy(
+  () => import("./components/Country/EditCountryPage")
+);
+const CreateDivisionPage = lazy(
+  () => import("./components/Country/CreateDivisionPage")
+);
+const EditDivisionPage = lazy(
+  () => import("./components/Country/EditDivisionPage")
+);
+const CreateCityPage = lazy(
+  () => import("./components/Country/CreateCityPage")
+);
+const EditCityPage = lazy(() => import("./components/Country/EditCityPage"));
 
 const routesConfig: RouteObject[] = [
   {
@@ -270,6 +287,75 @@ const routesConfig: RouteObject[] = [
         element: (
           <Suspense>
             <EditSkillPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      // Country Management Section
+      {
+        path: paths.COUNTRY,
+        element: (
+          <Suspense>
+            <CountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: paths.COUNTRY_CREATE,
+        element: (
+          <Suspense>
+            <CreateCountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.COUNTRY_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditCountryPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: paths.DIVISION_CREATE,
+        element: (
+          <Suspense>
+            <CreateDivisionPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.DIVISION_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditDivisionPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: paths.CITY_CREATE,
+        element: (
+          <Suspense>
+            <CreateCityPage />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+
+      {
+        path: `${paths.CITY_EDIT}/:id`,
+        element: (
+          <Suspense>
+            <EditCityPage />
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,
@@ -534,9 +620,9 @@ const routesConfig: RouteObject[] = [
   },
 
   {
-    path: '*',
+    path: "*",
     element: <NotFoundPage />,
   },
-]
+];
 
-export const router = createBrowserRouter(routesConfig)
+export const router = createBrowserRouter(routesConfig);
