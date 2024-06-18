@@ -2,6 +2,8 @@ import { SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SelectSearchField } from "../ui";
 import { CountryList } from "../components/Country";
+import { DivisionList } from "../components/Country/DivisionList";
+import { CityList } from "../components/Country/CityList";
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,6 +25,17 @@ const SearchPage = () => {
     if (!e?.target) return;
     const { value } = e.target as HTMLInputElement;
     setSearchKeyword(value);
+  };
+
+  const renderList = (searchType: string) => {
+    switch (searchType) {
+      case "country":
+        return <CountryList keyword={searchKeyword} />;
+      case "division":
+        return <DivisionList keyword={searchKeyword} />;
+      case "city":
+        return <CityList keyword={searchKeyword} />;
+    }
   };
 
   return (
@@ -48,7 +61,7 @@ const SearchPage = () => {
         onChangeSearchType={onChangeSearchType}
       />
 
-      <CountryList keyword={searchKeyword} />
+      {renderList(searchType)}
     </div>
   );
 };
