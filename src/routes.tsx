@@ -5,6 +5,7 @@ import { RouteObject, createBrowserRouter } from "react-router-dom";
 import { PageLayout } from "./layout";
 import { CountryPage, ErrorBoundary, HomePage, NotFoundPage } from "./pages";
 import { paths } from "./types";
+import FinancePage from "./pages/FinancePage";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfile = lazy(() => import("./components/MyProfile/MyProfile"));
@@ -137,6 +138,13 @@ const CreateCityPage = lazy(
 );
 const EditCityPage = lazy(() => import("./components/Country/EditCityPage"));
 
+const WithdrawRequestPage = lazy(
+  () => import("./components/Finance/WithdrawRequest/WithdrawRequestPage")
+);
+
+const UserBalancePage = lazy(
+  () => import("./components/Finance/UserBalance/UserBalancePage")
+);
 const routesConfig: RouteObject[] = [
   {
     path: paths.ROOT,
@@ -311,7 +319,6 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
-
       {
         path: `${paths.COUNTRY_EDIT}/:id`,
         element: (
@@ -321,7 +328,6 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
-
       {
         path: paths.DIVISION_CREATE,
         element: (
@@ -331,7 +337,6 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
-
       {
         path: `${paths.DIVISION_EDIT}/:id`,
         element: (
@@ -350,7 +355,6 @@ const routesConfig: RouteObject[] = [
         ),
         errorElement: <ErrorBoundary />,
       },
-
       {
         path: `${paths.CITY_EDIT}/:id`,
         element: (
@@ -359,6 +363,33 @@ const routesConfig: RouteObject[] = [
           </Suspense>
         ),
         errorElement: <ErrorBoundary />,
+      },
+
+      //Finance Management Section
+      {
+        path: `${paths.FINANCE}`,
+        element: <FinancePage />,
+        children: [
+          {
+            path: paths.WITHDRAW,
+            index: true,
+            element: (
+              <Suspense>
+                <WithdrawRequestPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: paths.BALANCE,
+            element: (
+              <Suspense>
+                <UserBalancePage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+        ],
       },
 
       {
@@ -505,6 +536,7 @@ const routesConfig: RouteObject[] = [
           },
         ],
       },
+
       {
         path: paths.CREATE_COMPANY,
         element: (

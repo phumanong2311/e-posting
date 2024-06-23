@@ -37,6 +37,11 @@ export const Header = ({ containerClass = "" }) => {
         isActive: location.pathname.includes(paths.COUNTRY),
       },
       {
+        label: "Finance Management",
+        path: `/${paths.ROOT}/${paths.FINANCE}/${paths.WITHDRAW}`,
+        isActive: location.pathname.includes(paths.FINANCE),
+      },
+      {
         label: "Logout",
         path: `/${paths.LOGOUT}`,
         isActive: false,
