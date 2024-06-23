@@ -1,4 +1,11 @@
+import { useState } from "react";
+import UserBalanceList from "./UserBalanceList";
+
 const UserBalancePage = () => {
-  return <h1>This is User Balance Page</h1>;
+  return (
+    <div className="w-full h-full flex flex-col justify-center items-center">
+      <UserBalanceList />
+    </div>
+  );
 };
 export default UserBalancePage;

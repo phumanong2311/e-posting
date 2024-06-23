@@ -9,11 +9,11 @@ class FinanceService extends API {
     withdrawRequestStatus,
   }: {
     page?: number;
-    withdrawRequestStatus?: WithdrawRequestStatus;
+    withdrawRequestStatus?: WithdrawRequestStatus | undefined;
   }): Promise<ResponseWrapper> {
     const url =
       "walletAdmin/request?" +
-      buildQueryParams({ page, withdrawRequestStatus });
+      buildQueryParams({ page, requestStatus: withdrawRequestStatus });
     return this.getAPI(url);
   }
 
