@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { SelectSearchField } from "../ui/SelectSearchField";
 import { SkillList } from "../components/Skills";
 
-const SearchPage = () => {
+const SkillPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initSearchType = searchParams.get("searchType") || "skills";
 
@@ -40,4 +40,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default SkillPage;

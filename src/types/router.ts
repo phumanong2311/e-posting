@@ -63,4 +63,8 @@ export enum paths {
   DIVISION_CREATE = "division-create",
   CITY_EDIT = "city-edit",
   CITY_CREATE = "city-create",
+
+  FINANCE = "finance",
+  WITHDRAW = "withdraw",
+  BALANCE = "balance",
 }

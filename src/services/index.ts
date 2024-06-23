@@ -8,3 +8,4 @@ export { default as requestServices } from "./requestServices";
 export { default as userServices } from "./userServices";
 export { default as skillServices } from "./skillServices";
 export { default as countryService } from "./countryServices";
+export { default as financeService } from "./financeServices";
