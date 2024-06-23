@@ -145,6 +145,11 @@ const WithdrawRequestPage = lazy(
 const UserBalancePage = lazy(
   () => import("./components/Finance/UserBalance/UserBalancePage")
 );
+
+const UserBalanceDetailPage = lazy(
+  () => import("./components/Finance/UserBalance/UserBalanceDetailPage")
+);
+
 const routesConfig: RouteObject[] = [
   {
     path: paths.ROOT,
@@ -385,6 +390,15 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <UserBalancePage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.BALANCE}/:id`,
+            element: (
+              <Suspense>
+                <UserBalanceDetailPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,

@@ -30,7 +30,7 @@ class FinanceService extends API {
     return this.getAPI(url);
   }
 
-  async getSingleUserBalance({ customerId }: { customerId: string }) {
+  async getSingleUserBalance(customerId: string) {
     const url = `walletAdmin/user/${customerId}`;
     return this.getAPI(url);
   }

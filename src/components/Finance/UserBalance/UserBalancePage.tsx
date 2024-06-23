@@ -1,4 +1,3 @@
-import { useState } from "react";
 import UserBalanceList from "./UserBalanceList";
 
 const UserBalancePage = () => {

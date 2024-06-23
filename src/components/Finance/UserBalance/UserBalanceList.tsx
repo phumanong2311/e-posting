@@ -2,12 +2,13 @@ import { Table, LoadingOverlay } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
-import { UserBalance } from "../../../types";
+import { UserBalance, paths } from "../../../types";
 import { financeService } from "../../../services";
 import { EmptyBoxMessage } from "../../../ui";
 import { formatAmount } from "../../../utils/formatAmount";
 
 const UserBalanceList = () => {
+  const navigate = useNavigate();
   const [userBalances, setUserBalances] = useState<Array<UserBalance> | null>(
     []
   );
@@ -56,7 +57,14 @@ const UserBalanceList = () => {
 
     return userBalances.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis cursor-pointer">
+        <Table.Td
+          className="text-ellipsis cursor-pointer"
+          onClick={() =>
+            navigate(
+              `/${paths.ROOT}/${paths.FINANCE}/${paths.BALANCE}/${element.customerId}`
+            )
+          }
+        >
           {element.customerId}
         </Table.Td>
         <Table.Td>{element.customerName}</Table.Td>
