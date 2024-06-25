@@ -94,11 +94,11 @@ export const CityList = ({ keyword }: { keyword: string }) => {
 
     return cities.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis cursor-pointer">
+        <Table.Td className="text-ellipsis">
           {element.cityName}
         </Table.Td>
         <Table.Td>
-          <IconEdit onClick={() => onEdit(element.cityId!)} />
+          <IconEdit className="cursor-pointer" onClick={() => onEdit(element.cityId!)} />
         </Table.Td>
       </Table.Tr>
     ));

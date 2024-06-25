@@ -30,7 +30,14 @@ const ConfirmModal: React.FC<ModalProps> = ({
 
   return (
     <>
-      <Button onClick={handleOpen}>{trigger}</Button>
+      <Button
+        variant="white"
+        className="w-fit float-right"
+        size="sm"
+        onClick={handleOpen}
+      >
+        {trigger}
+      </Button>
       <Modal opened={opened} onClose={handleClose}>
         <Title>{title}</Title>
         <Text>{children}</Text>

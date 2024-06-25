@@ -123,7 +123,7 @@ const WithdrawList = ({ withdrawFilter }: { withdrawFilter: string }) => {
 
     return withdrawRequests.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis cursor-pointer">
+        <Table.Td className="text-ellipsis">
           {element.customerId}
         </Table.Td>
         <Table.Td>{element.transactionId}</Table.Td>

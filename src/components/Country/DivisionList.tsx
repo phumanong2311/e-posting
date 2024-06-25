@@ -95,11 +95,11 @@ export const DivisionList = ({ keyword }: { keyword: string }) => {
 
     return divisions.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis cursor-pointer">
+        <Table.Td className="text-ellipsis">
           {element.divisionName}
         </Table.Td>
         <Table.Td>
-          <IconEdit onClick={() => onEdit(element.divisionId!)} />
+          <IconEdit className="cursor-pointer" onClick={() => onEdit(element.divisionId!)} />
         </Table.Td>
       </Table.Tr>
     ));
