@@ -1,23 +1,15 @@
-import { Button, Table, LoadingOverlay, Select } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { IconEdit } from "@tabler/icons-react";
-import { useEffect, useState, useMemo } from "react";
-import {
-  WithdrawRequest,
-  WithdrawRequestPagination,
-  paths,
-} from "../../../types";
-import { financeService } from "../../../services";
-import { EmptyBoxMessage } from "../../../ui";
-import { WithdrawRequestStatus } from "../../../types/enums/WithdrawRequestStatus";
-import { formatAmount } from "../../../utils/formatAmount";
-import ConfirmModal from "../../../ui/ConfirmModal";
-import WithdrawRequestUpdateStatusModal from "./WithdrawRequestUpdateStatusModal";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "../../../lib/toast";
+import { financeService } from "../../../services";
+import { WithdrawRequest, WithdrawRequestPagination } from "../../../types";
+import { WithdrawRequestStatus } from "../../../types/enums/WithdrawRequestStatus";
+import { EmptyBoxMessage } from "../../../ui";
+import { formatAmount } from "../../../utils/formatAmount";
+import WithdrawRequestUpdateStatusModal from "./WithdrawRequestUpdateStatusModal";
 
 const WithdrawList = ({ withdrawFilter }: { withdrawFilter: string }) => {
-  const navigate = useNavigate();
   const [withdrawRequests, setWithdrawRequests] =
     useState<Array<WithdrawRequest> | null>([]);
   const [withdrawRequestPagination, setWithdrawRequestPagination] =
@@ -123,19 +115,19 @@ const WithdrawList = ({ withdrawFilter }: { withdrawFilter: string }) => {
 
     return withdrawRequests.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis">
-          {element.customerId}
-        </Table.Td>
+        <Table.Td className="text-ellipsis">{element.customerId}</Table.Td>
         <Table.Td>{element.transactionId}</Table.Td>
         <Table.Td>{formatAmount(element.amount)}</Table.Td>
         <Table.Td>{element.requestStatus}</Table.Td>
-        <Table.Td>
-          <WithdrawRequestUpdateStatusModal
-            currentStatus={element.requestStatus}
-            withdrawRequestId={element.withdrawRequestId}
-            handleUpdateStatus={handleUpdateWithdrawRequestStatus}
-          />
-        </Table.Td>
+        {element.requestStatus === WithdrawRequestStatus.PENDING && (
+          <Table.Td>
+            <WithdrawRequestUpdateStatusModal
+              currentStatus={element.requestStatus}
+              withdrawRequestId={element.withdrawRequestId}
+              handleUpdateStatus={handleUpdateWithdrawRequestStatus}
+            />
+          </Table.Td>
+        )}
       </Table.Tr>
     ));
   }, [withdrawRequests, isLoading]);

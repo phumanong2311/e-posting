@@ -26,10 +26,6 @@ const WithdrawRequestUpdateStatusModal = ({
           className="mt-6 w-full"
           data={[
             {
-              value: WithdrawRequestStatus.PENDING,
-              label: "Pending",
-            },
-            {
               value: WithdrawRequestStatus.APPROVED,
               label: "Approved",
             },
