@@ -27,6 +27,11 @@ export const Header = ({ containerClass = "" }) => {
         isActive: location.pathname.includes(paths.CONTENT_MANAGEMENT),
       },
       {
+        label: "Support Management",
+        path: `/${paths.ROOT}/${paths.SUPPORT_MANAGEMENT}/${paths.SUPPORT_TICKET_MANAGER}`,
+        isActive: location.pathname.includes(paths.SUPPORT_MANAGEMENT),
+      },
+      {
         label: "Reporting",
         path: `/${paths.ROOT}/${paths.REPORTING}`,
         isActive: location.pathname.includes(paths.REPORTING),

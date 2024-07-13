@@ -6,8 +6,9 @@ import { useEffect, useState, useMemo } from "react";
 import { Skill, SkillPagination, paths } from "../../types";
 import { skillServices } from "../../services";
 import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { toast } from "../../lib/toast";
 
-const SkillList = ({ keyword }: { keyword: string }) => {
+const SkillList = ({ keyword = "" }: { keyword: string }) => {
   const navigate = useNavigate();
   const [skills, setSkills] = useState<Array<Skill> | null>([]);
   const [skillPagination, setSkillPagination] = useState<SkillPagination>({
@@ -28,6 +29,7 @@ const SkillList = ({ keyword }: { keyword: string }) => {
           keyword,
         })
         .then((res) => {
+          console.log(res);
           if (res.result) {
             const { skills, ...pagination } = res.result;
             setSkills(skills);
@@ -36,6 +38,9 @@ const SkillList = ({ keyword }: { keyword: string }) => {
             return res.result;
           }
           return null;
+        })
+        .catch((err) => {
+          toast.error("Fetching skills failed");
         }),
   });
 

@@ -67,4 +67,8 @@ export enum paths {
   FINANCE = "finance",
   WITHDRAW = "withdraw",
   BALANCE = "balance",
+
+  SUPPORT_MANAGEMENT = "support-management",
+  SUPPORT_TICKET_MANAGER = "support-ticket-manager",
+  USER_CONDUCT_MANAGER = "user-conduct-manager",
 }
