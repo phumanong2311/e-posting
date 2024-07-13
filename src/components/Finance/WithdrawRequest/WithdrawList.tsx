@@ -5,7 +5,7 @@ import { toast } from "../../../lib/toast";
 import { financeService } from "../../../services";
 import { WithdrawRequest, WithdrawRequestPagination } from "../../../types";
 import { WithdrawRequestStatus } from "../../../types/enums/WithdrawRequestStatus";
-import { EmptyBoxMessage } from "../../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../../ui";
 import { formatAmount } from "../../../utils/formatAmount";
 import WithdrawRequestUpdateStatusModal from "./WithdrawRequestUpdateStatusModal";
 
@@ -146,32 +146,11 @@ const WithdrawList = ({ withdrawFilter }: { withdrawFilter: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {withdrawRequestPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {withdrawRequestPagination.maxPages! > 1 &&
-            withdrawRequestPagination.page! <
-              withdrawRequestPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={withdrawRequestPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );

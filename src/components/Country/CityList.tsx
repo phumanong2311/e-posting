@@ -6,7 +6,7 @@ import { IconEdit } from "@tabler/icons-react";
 import { useEffect, useState, useMemo } from "react";
 import { City, CityPagination, paths } from "../../types";
 import { countryService } from "../../services";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 export const CityList = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
@@ -78,6 +78,7 @@ export const CityList = ({ keyword }: { keyword: string }) => {
             />
           </Table.Td>
           <Table.Td></Table.Td>
+          <Table.Td></Table.Td>
         </Table.Tr>
       );
     }
@@ -85,7 +86,7 @@ export const CityList = ({ keyword }: { keyword: string }) => {
     if (cities === null) {
       return (
         <tr>
-          <td colSpan={3}>
+          <td colSpan={4}>
             <EmptyBoxMessage className="h-60" />
           </td>
         </tr>
@@ -94,11 +95,14 @@ export const CityList = ({ keyword }: { keyword: string }) => {
 
     return cities.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis">
-          {element.cityName}
-        </Table.Td>
+        <Table.Td className="text-ellipsis">{element.cityName}</Table.Td>
+        <Table.Td className="text-ellipsis">{element.divisionName}</Table.Td>
+        <Table.Td className="text-ellipsis">{element.countryName}</Table.Td>
         <Table.Td>
-          <IconEdit className="cursor-pointer" onClick={() => onEdit(element.cityId!)} />
+          <IconEdit
+            className="cursor-pointer"
+            onClick={() => onEdit(element.cityId!)}
+          />
         </Table.Td>
       </Table.Tr>
     ));
@@ -121,36 +125,18 @@ export const CityList = ({ keyword }: { keyword: string }) => {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>City</Table.Th>
+              <Table.Th>State (Division)</Table.Th>
+              <Table.Th>Country</Table.Th>
               <Table.Th>Action</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {cityPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {cityPagination.maxPages! > 1 &&
-            cityPagination.page! < cityPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={cityPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );

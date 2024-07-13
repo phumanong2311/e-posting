@@ -9,7 +9,7 @@ import { useAppProviderCtx } from "../../app-provider";
 import { requestServices } from "../../services";
 import { Request, RequestPagination, paths } from "../../types";
 import { toast } from "../../lib/toast";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
@@ -129,7 +129,7 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
         </Table.Td>
       </Table.Tr>
     ));
-  }, [isLoading, requests])
+  }, [isLoading, requests]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -146,31 +146,11 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {requestPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {requestPagination.maxPages! > 1 &&
-            requestPagination.page! < requestPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={requestPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );

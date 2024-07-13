@@ -1,6 +1,6 @@
 import { LoadingOverlay } from "@mantine/core";
 import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
 
 import { PageLayout } from "./layout";
 import { CountryPage, ErrorBoundary, HomePage, NotFoundPage } from "./pages";
@@ -151,6 +151,15 @@ const UserBalanceDetailPage = lazy(
 );
 
 const routesConfig: RouteObject[] = [
+  {
+    path: "",
+    element: (
+      <Navigate
+        replace
+        to={`${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`}
+      />
+    ),
+  },
   {
     path: paths.ROOT,
     element: (

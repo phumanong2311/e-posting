@@ -7,7 +7,6 @@ export * from "./Job";
 export * from "./JobPagination";
 export * from "./Menu";
 export * from "./Notification";
-export * from "./PaginationObject";
 export * from "./Request";
 export * from "./RequestPagination";
 export * from "./ResponseWrapper";

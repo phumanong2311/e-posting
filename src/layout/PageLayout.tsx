@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 import { Footer, Header, HeadlineText } from ".";
 import { useAppProviderCtx } from "../app-provider/AppProvider";
 import { userServices } from "../services";
@@ -11,7 +11,6 @@ export const PageLayout = () => {
     func: { updateUser },
     data: { user },
   } = useAppProviderCtx();
-
   useEffect(() => {
     if (!token) {
       window.location.href = `/${paths.LOGIN}`;
@@ -30,7 +29,6 @@ export const PageLayout = () => {
         <HeadlineText />
         <Header containerClass="mt-12 px-16" />
         <Outlet />
-        <Navigate to={`/${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`} />
       </div>
       <Footer />
     </>

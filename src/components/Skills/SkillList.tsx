@@ -5,7 +5,7 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState, useMemo } from "react";
 import { Skill, SkillPagination, paths } from "../../types";
 import { skillServices } from "../../services";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 const SkillList = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const SkillList = ({ keyword }: { keyword: string }) => {
             const { skills, ...pagination } = res.result;
             setSkills(skills);
             setSkillPagination(pagination);
-            if (!res.result.skills.length) setSkills(null);
+            if (!skills.length) setSkills(null);
             return res.result;
           }
           return null;
@@ -134,31 +134,11 @@ const SkillList = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {skillPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {skillPagination.maxPages! > 1 &&
-            skillPagination.page! < skillPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={skillPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );

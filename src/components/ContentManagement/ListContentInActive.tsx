@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { contentManagementServices } from "../../services";
 import { ContentPagination, ContentType, paths } from "../../types";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 const ListContentActive = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const ListContentActive = () => {
             return res.result;
           }
           return null;
-        })
+        });
     },
   });
 
@@ -67,7 +67,7 @@ const ListContentActive = () => {
       return (
         <tr>
           <td colSpan={7}>
-            <EmptyBoxMessage className="h-60"/>
+            <EmptyBoxMessage className="h-60" />
           </td>
         </tr>
       );
@@ -119,31 +119,11 @@ const ListContentActive = () => {
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>
           </Table>
-          <div className="flex w-full justify-between">
-            {contentPagination.page! > 1 ? (
-              <Button
-                variant="outline"
-                className="w-fit"
-                size="sm"
-                onClick={onPreviousPage}
-              >
-                &lt; previous page
-              </Button>
-            ) : (
-              <div></div>
-            )}
-            {contentPagination.maxPages! > 1 &&
-              contentPagination.page! < contentPagination.maxPages! && (
-                <Button
-                  variant="outline"
-                  className="w-fit float-right"
-                  size="sm"
-                  onClick={onNextPage}
-                >
-                  next page &gt;
-                </Button>
-              )}
-          </div>
+          <PaginationButton
+            pagination={contentPagination}
+            onNextPage={onNextPage}
+            onPreviousPage={onPreviousPage}
+          />
         </>
       </div>
     </div>

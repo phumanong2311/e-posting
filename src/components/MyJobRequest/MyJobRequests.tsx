@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { jobServices } from "../../services";
 import { Request, RequestPagination, paths } from "../../types";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 const MyJobRequestsPage = () => {
   const navigate = useNavigate();
@@ -78,31 +78,11 @@ const MyJobRequestsPage = () => {
             <EmptyBoxMessage />
           </div>
         ))}
-      <div className="flex w-full justify-between">
-        {requestPagination.page! > 1 ? (
-          <Button
-            variant="outline"
-            className="w-fit"
-            size="sm"
-            onClick={onPreviousPage}
-          >
-            &lt; previous page
-          </Button>
-        ) : (
-          <div></div>
-        )}
-        {requestPagination.maxPages! > 1 &&
-          requestPagination.page! < requestPagination.maxPages! && (
-            <Button
-              variant="outline"
-              className="w-fit float-right"
-              size="sm"
-              onClick={onNextPage}
-            >
-              next page &gt;
-            </Button>
-          )}
-      </div>
+      <PaginationButton
+        pagination={requestPagination}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
     </div>
   );
 };

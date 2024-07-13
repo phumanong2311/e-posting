@@ -6,7 +6,7 @@ import { IconEdit } from "@tabler/icons-react";
 import { useEffect, useState, useMemo } from "react";
 import { Country, CountryPagination, paths } from "../../types";
 import { countryService } from "../../services";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 export const CountryList = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
@@ -96,11 +96,12 @@ export const CountryList = ({ keyword }: { keyword: string }) => {
 
     return countries.map((element, index) => (
       <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis">
-          {element.countryName}
-        </Table.Td>
+        <Table.Td className="text-ellipsis">{element.countryName}</Table.Td>
         <Table.Td>
-          <IconEdit className="cursor-pointer" onClick={() => onEdit(element.countryId!)} />
+          <IconEdit
+            className="cursor-pointer"
+            onClick={() => onEdit(element.countryId!)}
+          />
         </Table.Td>
       </Table.Tr>
     ));
@@ -128,31 +129,11 @@ export const CountryList = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {countryPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {countryPagination.maxPages! > 1 &&
-            countryPagination.page! < countryPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={countryPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );
