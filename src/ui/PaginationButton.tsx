@@ -18,12 +18,12 @@ export const PaginationButton = ({
   const renderPreviousButton = () =>
     isShowPrevious ? (
       <Button
-        variant="outline"
+        variant="default"
         className="w-fit h-full"
         size="sm"
         onClick={onPreviousPage}
       >
-        &lt; previous page
+        Previous
       </Button>
     ) : (
       <div></div>
@@ -36,13 +36,13 @@ export const PaginationButton = ({
         size="sm"
         onClick={onNextPage}
       >
-        next page &gt;
+        Next
       </Button>
     ) : (
       <div></div>
     );
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-full justify-between h-[40px] mt-4">
       {renderPreviousButton()}
       {renderNextButton()}
     </div>

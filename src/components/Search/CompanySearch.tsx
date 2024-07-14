@@ -1,66 +1,50 @@
-import { Button, LoadingOverlay, Table } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useAppProviderCtx } from "../../app-provider";
-import { Company, CompanyPagination, paths } from "../../types";
+import { Company, paths } from "../../types";
 import { companyServices } from "../../services";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { TableWithPagination } from "../../ui";
+import usePagination from "../../hooks/usePagination";
+import { toast } from "../../lib/toast";
 
 export const CompanySearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
   const {
     data: { user },
   } = useAppProviderCtx();
-  const [companies, setCompanies] = useState<Array<Company> | null>([]);
-  const [companyPagination, setCompanyPagination] = useState<CompanyPagination>(
-    {
-      page: 1,
-    }
-  );
+  const { pagination, setPagination, resetPage, onNextPage, onPreviousPage } =
+    usePagination();
   const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
     resetPage();
   }, [keyword]);
 
-  const { isLoading } = useQuery({
-    queryKey: ["companySearch", companyPagination.page, debouncedSearchKeyword],
+  const { isLoading, data } = useQuery({
+    queryKey: ["companySearch", pagination.page, debouncedSearchKeyword],
     queryFn: () =>
       companyServices
         .getCompanies({
-          page: companyPagination?.page,
+          page: pagination?.page,
           keyword,
         })
         .then((res) => {
           if (res.result) {
             const { companies, ...pagination } = res.result;
-            setCompanies(companies);
-            setCompanyPagination(pagination);
-            if (!res.result.companies.length) setCompanies(null);
-            return res.result;
+            setPagination(pagination);
+            return companies;
           }
-          return null;
+          return [];
+        })
+        .catch(() => {
+          toast.error("Get companies failed");
+          return [];
         }),
   });
-
-  const resetPage = () => {
-    setCompanyPagination((prev) => ({ ...prev, page: 1 }));
-  };
-
-  const onNextPage = () => {
-    if (companyPagination?.maxPages && companyPagination?.page) {
-      setCompanyPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (companyPagination?.page! > 1) {
-      setCompanyPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
-    }
-  };
 
   const onViewDetail = (id: string | null) => {
     if (!id) return;
@@ -76,47 +60,24 @@ export const CompanySearch = ({ keyword }: { keyword: string }) => {
     navigate(`/${paths.ROOT}/${paths.CREATE_COMPANY}`);
   };
 
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm" }}
-        />
-      );
-    }
-
-    if (companies === null) {
-      return (
-        <tr>
-          <td colSpan={4}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-
-    return companies.map((element, index) => (
-      <Table.Tr key={index}>
-        <Table.Td
-          className="text-ellipsis cursor-pointer"
-          onClick={() => onViewDetail(element._id!)}
-        >
-          {element.companyName}
-        </Table.Td>
-        <Table.Td className="text-center">{element.companyCeo}</Table.Td>
-        <Table.Td className="text-center">{element.companyStatus}</Table.Td>
-        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-          {user?.accountType! > 0 && (
-            <IconEdit onClick={() => onEdit(element._id!)} />
-          )}
-          {/* {user?.accountType! > 1 && <IconTrash />} */}
-        </Table.Td>
-      </Table.Tr>
-    ));
-  }, [isLoading, companies]);
-
+  const transformData = (data: Array<Company>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p
+        className="text-ellipsis cursor-pointer"
+        onClick={() => onViewDetail(element._id!)}
+      >
+        {element.companyName}
+      </p>,
+      element.companyCeo,
+      element.companyStatus,
+      <span className="flex gap-2 justify-center items-center cursor-pointer">
+        {user?.accountType! > 0 && (
+          <IconEdit onClick={() => onEdit(element._id!)} />
+        )}
+      </span>,
+    ]);
+  };
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
       <div className="w-full h-fit mt-5 px-14">
@@ -131,21 +92,13 @@ export const CompanySearch = ({ keyword }: { keyword: string }) => {
       </div>
 
       <div className="w-full px-14 mt-2">
-        <Table withRowBorders={false} verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Description</Table.Th>
-              <Table.Th className="text-center">CEO</Table.Th>
-              <Table.Th className="text-center">Status</Table.Th>
-              <Table.Th className="text-center">Admin</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        <PaginationButton
-          pagination={companyPagination}
-          onNextPage={onNextPage}
+        <TableWithPagination
+          head={["Description", "CEO", "Status", "Admin"]}
+          body={transformData(data)}
+          pagination={pagination}
           onPreviousPage={onPreviousPage}
+          onNextPage={onNextPage}
+          loading={isLoading}
         />
       </div>
     </div>

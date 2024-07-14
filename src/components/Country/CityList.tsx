@@ -1,60 +1,54 @@
-import { Button, Table, LoadingOverlay } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
-import { useEffect, useState, useMemo } from "react";
-import { City, CityPagination, paths } from "../../types";
+import { useEffect } from "react";
+import { City, paths } from "../../types";
 import { countryService } from "../../services";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { TableWithPagination } from "../../ui";
+import { toast } from "../../lib/toast";
+import usePagination from "../../hooks/usePagination";
 
 export const CityList = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
-  const [cities, setCities] = useState<Array<City> | null>([]);
-  const [cityPagination, setCityPagination] = useState<CityPagination>({
-    page: 1,
-  });
+  const { pagination, setPagination, resetPage, onNextPage, onPreviousPage } =
+    usePagination();
   const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
     resetPage();
   }, [keyword]);
 
-  const { isLoading } = useQuery({
-    queryKey: ["cityList", cityPagination.page, debouncedSearchKeyword],
+  const { isLoading, data } = useQuery({
+    queryKey: ["cityList", pagination.page, debouncedSearchKeyword],
     queryFn: () =>
       countryService
         .getCities({
-          page: cityPagination?.page,
+          page: pagination?.page,
           keyword,
         })
         .then((res) => {
           if (res.result) {
             const { cities, ...pagination } = res.result;
-            setCities(cities);
-            setCityPagination(pagination);
-            if (!res.result.cities.length) setCities(null);
-            return res.result;
+            setPagination(pagination);
+            return cities.map((city: City) => [
+              city.cityName,
+              city.divisionName,
+              city.countryName,
+              <IconEdit
+                className="cursor-pointer"
+                onClick={() => onEdit(city.cityId!)}
+              />,
+            ]);
           }
-          return null;
+          return [];
+        })
+        .catch(() => {
+          toast.error("Get cities failed");
+          return [];
         }),
   });
-
-  const resetPage = () => {
-    setCityPagination((prev) => ({ ...prev, page: 1 }));
-  };
-
-  const onNextPage = () => {
-    if (cityPagination?.maxPages && cityPagination?.page) {
-      setCityPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (cityPagination?.page! > 1) {
-      setCityPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
-    }
-  };
 
   const onEdit = (id: string | null) => {
     if (!id) return;
@@ -64,49 +58,6 @@ export const CityList = ({ keyword }: { keyword: string }) => {
   const onAddCity = () => {
     navigate(`/${paths.ROOT}/${paths.CITY_CREATE}`);
   };
-
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <Table.Tr>
-          <Table.Td></Table.Td>
-          <Table.Td className="text-center">
-            <LoadingOverlay
-              visible={isLoading}
-              zIndex={1000}
-              overlayProps={{ radius: "sm" }}
-            />
-          </Table.Td>
-          <Table.Td></Table.Td>
-          <Table.Td></Table.Td>
-        </Table.Tr>
-      );
-    }
-
-    if (cities === null) {
-      return (
-        <tr>
-          <td colSpan={4}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-
-    return cities.map((element, index) => (
-      <Table.Tr key={index}>
-        <Table.Td className="text-ellipsis">{element.cityName}</Table.Td>
-        <Table.Td className="text-ellipsis">{element.divisionName}</Table.Td>
-        <Table.Td className="text-ellipsis">{element.countryName}</Table.Td>
-        <Table.Td>
-          <IconEdit
-            className="cursor-pointer"
-            onClick={() => onEdit(element.cityId!)}
-          />
-        </Table.Td>
-      </Table.Tr>
-    ));
-  }, [cities, isLoading]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -121,19 +72,11 @@ export const CityList = ({ keyword }: { keyword: string }) => {
         </Button>
       </div>
       <div className="w-full px-14 mt-2">
-        <Table withRowBorders={false} verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>City</Table.Th>
-              <Table.Th>State (Division)</Table.Th>
-              <Table.Th>Country</Table.Th>
-              <Table.Th>Action</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        <PaginationButton
-          pagination={cityPagination}
+        <TableWithPagination
+          head={["City", "State (Division)", "Country", "Action"]}
+          body={data}
+          pagination={pagination}
+          loading={isLoading}
           onNextPage={onNextPage}
           onPreviousPage={onPreviousPage}
         />

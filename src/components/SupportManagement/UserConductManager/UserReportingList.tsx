@@ -1,10 +1,10 @@
-import { LoadingOverlay, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "../../../lib/toast";
 import { supportManagementServices } from "../../../services";
-import { EmptyBoxMessage, PaginationButton } from "../../../ui";
-import { UserReport, UserReportPagination } from "../../../types";
+import { TableWithPagination } from "../../../ui";
+import { UserReport } from "../../../types";
+import usePagination from "../../../hooks/usePagination";
 
 const UserReportingList = ({
   searchType,
@@ -15,16 +15,14 @@ const UserReportingList = ({
   searchKeyword: string;
   reportTopic: string;
 }) => {
-  const [reports, setReports] = useState<Array<UserReport> | null>([]);
-  const [pagination, setPagination] = useState<UserReportPagination>({
-    page: 1,
-  });
+  const { pagination, setPagination, resetPage, onNextPage, onPreviousPage } =
+    usePagination();
 
   useEffect(() => {
     resetPage();
   }, [searchType, searchKeyword, reportTopic]);
 
-  const { isLoading } = useQuery({
+  const { isLoading, data } = useQuery({
     staleTime: 0,
     queryKey: [
       "userReportingList",
@@ -46,100 +44,36 @@ const UserReportingList = ({
         .then((res) => {
           if (res.result) {
             const { reports, ...pagination } = res.result;
-            setReports(reports);
             setPagination(pagination);
-            if (!reports.length) setReports(null);
-            return res.result;
+            return reports;
           }
-          return null;
+          return [];
         })
         .catch(() => {
           toast.error("Failed to get user reports");
-          return null;
+          return [];
         }),
   });
 
-  const resetPage = () => {
-    setPagination((prev) => ({ ...prev, page: 1 }));
+  const transformData = (data: Array<UserReport>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p className="text-ellipsis cursor-pointer">{element.reportTopic}</p>,
+      element.initiatorUserName,
+      element.reportedUserName,
+      element.reportStatus,
+    ]);
   };
-
-  const onNextPage = () => {
-    if (pagination?.maxPages && pagination?.page) {
-      setPagination((prev) => ({
-        ...prev,
-        page: prev.page! + 1,
-      }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (pagination?.page! > 1) {
-      setPagination((prev) => ({
-        ...prev,
-        page: prev.page! - 1,
-      }));
-    }
-  };
-
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <Table.Tr>
-          <Table.Td></Table.Td>
-          <Table.Td className="text-center">
-            <LoadingOverlay
-              visible={isLoading}
-              zIndex={1000}
-              overlayProps={{ radius: "sm" }}
-            />
-          </Table.Td>
-          <Table.Td></Table.Td>
-        </Table.Tr>
-      );
-    }
-
-    if (reports === null) {
-      return (
-        <tr>
-          <td colSpan={4}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-
-    return reports.map((element, index) => (
-      <Table.Tr key={index}>
-        <Table.Td>{element.reportTopic}</Table.Td>
-        <Table.Td className="text-ellipsis">
-          {element.initiatorUserName}
-        </Table.Td>
-        <Table.Td>{element.reportedUserName}</Table.Td>
-        <Table.Td>{element.reportStatus}</Table.Td>
-      </Table.Tr>
-    ));
-  }, [reports, isLoading]);
-
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="w-full px-14 mt-2">
-        <Table withRowBorders={false} verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Report Topic</Table.Th>
-              <Table.Th>Initiator</Table.Th>
-              <Table.Th>Reported User</Table.Th>
-              <Table.Th>Report Status</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        <PaginationButton
-          pagination={pagination}
-          onNextPage={onNextPage}
-          onPreviousPage={onPreviousPage}
-        />
-      </div>
+    <div className="w-full h-full px-14 mt-2">
+      <TableWithPagination
+        head={["Report Topic", "Initiator", "Reported User", "Report Status"]}
+        body={transformData(data)}
+        loading={isLoading}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+        pagination={pagination}
+      />
     </div>
   );
 };

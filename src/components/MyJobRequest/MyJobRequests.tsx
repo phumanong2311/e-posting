@@ -1,87 +1,63 @@
-import { Button, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { jobServices } from "../../services";
-import { Request, RequestPagination, paths } from "../../types";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { Request, paths } from "../../types";
+import { TableWithPagination } from "../../ui";
+import usePagination from "../../hooks/usePagination";
+import { toast } from "../../lib/toast";
+import moment from "moment";
 
 const MyJobRequestsPage = () => {
   const navigate = useNavigate();
-  const [requests, setRequests] = useState<Array<Request>>([]);
-  const [requestPagination, setRequestPagination] = useState<RequestPagination>(
-    {
-      page: 1,
-    }
-  );
+  const { pagination, setPagination, onNextPage, onPreviousPage } =
+    usePagination();
 
-  useQuery({
-    queryKey: ["jobsRequestList", requestPagination.page],
+  const { isLoading, data } = useQuery({
+    queryKey: ["jobsRequestList", pagination.page],
     queryFn: () =>
       jobServices
-        .getMyJobsRequest({ page: requestPagination?.page })
+        .getMyJobsRequest({ page: pagination?.page })
         .then((res) => {
           if (res.result) {
             const { requests, ...pagination } = res.result;
-            setRequests(requests);
-            setRequestPagination(pagination);
-            return res.result;
+            setPagination(pagination);
+            return requests;
           }
-          return null;
+          return [];
+        })
+        .catch(() => {
+          toast.error("Get jobs failed");
+          return [];
         }),
   });
-
-  const onNextPage = () => {
-    if (requestPagination?.maxPages && requestPagination?.page) {
-      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (requestPagination?.page! > 1) {
-      setRequestPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
-    }
-  };
 
   const onViewDetail = (id: string) => {
     navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_REQUEST}/${id}`);
   };
-
-  const rows = requests.map((element, index) => (
-    <Table.Tr key={index}>
-      <Table.Td
-        className="cursor-pointer "
+  const transformData = (data: Array<Request>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p
+        className="text-ellipsis cursor-pointer"
         onClick={() => onViewDetail(element.resourceId)}
       >
         {element.requestTitle}
-      </Table.Td>
-      <Table.Td className="text-center">{element.createdAt}</Table.Td>
-      <Table.Td className="text-center">{element.requestPostStatus}</Table.Td>
-    </Table.Tr>
-  ));
+      </p>,
+      moment(element.createdAt).format("MM/DD/YYYY"),
+      element.requestPostStatus,
+    ]);
+  };
+
   return (
     <div className="w-full px-14 mt-5">
-      <Table withRowBorders={false} verticalSpacing="md">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Job Title</Table.Th>
-            <Table.Th className="text-center">Posted date</Table.Th>
-            <Table.Th className="text-center">Status</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-      {!requests ||
-        (requests.length === 0 && (
-          <div className="w-full flex items-center justify-center mt-8">
-            <EmptyBoxMessage />
-          </div>
-        ))}
-      <PaginationButton
-        pagination={requestPagination}
+      <TableWithPagination
+        head={["Job Title", "Posted date", "Status"]}
+        body={transformData(data)}
+        pagination={pagination}
         onNextPage={onNextPage}
         onPreviousPage={onPreviousPage}
+        loading={isLoading}
       />
     </div>
   );
