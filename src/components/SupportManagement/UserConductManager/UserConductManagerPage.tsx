@@ -16,7 +16,7 @@ const UserConductManagerPage = () => {
     },
   ];
   return (
-    <div className="w-full h-full mt-2 px-16">
+    <div className="w-full h-full mt-6 px-16">
       <Tabs defaultValue={tabs[0].value}>
         <Tabs.List>
           {tabs.map((tab) => (

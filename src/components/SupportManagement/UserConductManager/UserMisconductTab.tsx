@@ -33,10 +33,12 @@ export const UserMisConductTab = () => {
         />
       </div>
 
-      <UserMisconductList
-        searchType={searchType}
-        searchKeyword={searchKeyword}
-      />
+      <div className="mt-6">
+        <UserMisconductList
+          searchType={searchType}
+          searchKeyword={searchKeyword}
+        />
+      </div>
     </>
   );
 };

@@ -66,12 +66,13 @@ export const UserReportingTab = () => {
           onChange={(value) => setReportTopic(value!)}
         />
       </div>
-
-      <UserReportingList
-        searchType={searchType}
-        searchKeyword={searchKeyword}
-        reportTopic={reportTopic}
-      />
+      <div className="mt-6">
+        <UserReportingList
+          searchType={searchType}
+          searchKeyword={searchKeyword}
+          reportTopic={reportTopic}
+        />
+      </div>
     </>
   );
 };
