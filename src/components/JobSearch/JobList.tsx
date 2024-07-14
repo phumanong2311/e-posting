@@ -4,7 +4,7 @@ import { ROLE } from "../../types/enums/role";
 import { useNavigate } from "react-router-dom";
 import { Job, paths } from "../../types";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 import moment from "moment";
 import { useMemo } from "react";
 
@@ -19,7 +19,7 @@ const JobList = ({
   jobs: Array<Job> | null;
   page: number;
   maxPage: number;
-  isLoading: boolean
+  isLoading: boolean;
   onNextPage: () => void;
   onPreviousPage: () => void;
 }) => {
@@ -88,7 +88,7 @@ const JobList = ({
         </Table.Td>
       </Table.Tr>
     ));
-  }, [jobs, isLoading])
+  }, [jobs, isLoading]);
 
   return (
     <div className="w-full px-14 mt-5">
@@ -107,30 +107,11 @@ const JobList = ({
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
 
-      <div className="flex w-full justify-between">
-        {page > 1 ? (
-          <Button
-            variant="outline"
-            className="w-fit"
-            size="sm"
-            onClick={onPreviousPage}
-          >
-            &lt; previous page
-          </Button>
-        ) : (
-          <div></div>
-        )}
-        {maxPage > 1 && page < maxPage && (
-          <Button
-            variant="outline"
-            className="w-fit float-right"
-            size="sm"
-            onClick={onNextPage}
-          >
-            next page &gt;
-          </Button>
-        )}
-      </div>
+      <PaginationButton
+        pagination={{ page, maxPages: maxPage }}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
     </div>
   );
 };

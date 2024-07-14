@@ -21,7 +21,7 @@ export const SelectSearchField = ({
   onChangeSearchType,
 }: SelectSearchFieldProps) => {
   return (
-    <div className="max-w-[400px] mt-10 flex items-center">
+    <div className="max-w-[500px] mt-10 flex items-center">
       <TextInput
         leftSection={<IconSearch />}
         radius={100}
@@ -39,7 +39,7 @@ export const SelectSearchField = ({
         classNames={{
           input: "rounded-tl-none rounded-bl-none",
         }}
-        className="mt-0 w-[30%]"
+        className="mt-0 w-[40%]"
         data={options}
         value={searchType}
         onChange={(value) => onChangeSearchType(value!)}

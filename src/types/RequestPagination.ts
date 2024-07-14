@@ -1,7 +1,5 @@
-export type RequestPagination = {
-  maxPages?: number
-  offset?: number
-  page?: number
-  pageSize?: number
-  totalRequests?: number
+import { Pagination } from "./Pagination";
+
+export class RequestPagination extends Pagination {
+  totalRequests?: number;
 }

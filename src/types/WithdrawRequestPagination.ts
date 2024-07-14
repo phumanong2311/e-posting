@@ -1,7 +1,5 @@
-export type WithdrawRequestPagination = {
-  maxPages?: number;
-  offset?: number;
-  page?: number;
-  pageSize?: number;
+import { Pagination } from "./Pagination";
+
+export class WithdrawRequestPagination extends Pagination {
   totalWithdrawRequests?: number;
-};
+}

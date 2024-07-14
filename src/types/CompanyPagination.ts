@@ -1,7 +1,5 @@
-export type CompanyPagination = {
-  maxPages?: number
-  offset?: number
-  page?: number
-  pageSize?: number
-  totalCompanies?: number
+import { Pagination } from "./Pagination";
+
+export class CompanyPagination extends Pagination {
+  totalCompanies?: number;
 }

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
 import { userServices } from "../../services";
 import { User, UserPagination, paths } from "../../types";
-import { EmptyBoxMessage } from "../../ui";
+import { EmptyBoxMessage, PaginationButton } from "../../ui";
 
 export const UserSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
         </Table.Td>
       </Table.Tr>
     ));
-  }, [isLoading, users])
+  }, [isLoading, users]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -132,31 +132,11 @@ export const UserSearch = ({ keyword }: { keyword: string }) => {
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
-        <div className="flex w-full justify-between">
-          {userPagination.page! > 1 ? (
-            <Button
-              variant="outline"
-              className="w-fit"
-              size="sm"
-              onClick={onPreviousPage}
-            >
-              &lt; previous page
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          {userPagination.maxPages! > 1 &&
-            userPagination.page! < userPagination.maxPages! && (
-              <Button
-                variant="outline"
-                className="w-fit float-right"
-                size="sm"
-                onClick={onNextPage}
-              >
-                next page &gt;
-              </Button>
-            )}
-        </div>
+        <PaginationButton
+          pagination={userPagination}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+        />
       </div>
     </div>
   );

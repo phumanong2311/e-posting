@@ -1,11 +1,12 @@
 import { LoadingOverlay } from "@mantine/core";
 import { Suspense, lazy } from "react";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
 
 import { PageLayout } from "./layout";
 import { CountryPage, ErrorBoundary, HomePage, NotFoundPage } from "./pages";
 import { paths } from "./types";
 import FinancePage from "./pages/FinancePage";
+import SupportManagementPage from "./pages/SupportManagementPage";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const MyProfile = lazy(() => import("./components/MyProfile/MyProfile"));
@@ -150,7 +151,37 @@ const UserBalanceDetailPage = lazy(
   () => import("./components/Finance/UserBalance/UserBalanceDetailPage")
 );
 
+const SupportTicketManagerPage = lazy(
+  () =>
+    import(
+      "./components/SupportManagement/SupportTicketManager/SupportTicketManagerPage"
+    )
+);
+
+const SupportTicketDetailPage = lazy(
+  () =>
+    import(
+      "./components/SupportManagement/SupportTicketManager/SupportTicketDetailPage"
+    )
+);
+
+const UserConductManagerPage = lazy(
+  () =>
+    import(
+      "./components/SupportManagement/UserConductManager/UserConductManagerPage"
+    )
+);
+
 const routesConfig: RouteObject[] = [
+  {
+    path: "",
+    element: (
+      <Navigate
+        replace
+        to={`${paths.ROOT}/${paths.DASHBOARD}/${paths.PROFILE}`}
+      />
+    ),
+  },
   {
     path: paths.ROOT,
     element: (
@@ -399,6 +430,43 @@ const routesConfig: RouteObject[] = [
             element: (
               <Suspense>
                 <UserBalanceDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+        ],
+      },
+
+      //Support Management Section
+      {
+        path: `${paths.SUPPORT_MANAGEMENT}`,
+        element: <SupportManagementPage />,
+        children: [
+          {
+            path: `${paths.SUPPORT_TICKET_MANAGER}/:id`,
+            element: (
+              <Suspense>
+                <SupportTicketDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: paths.SUPPORT_TICKET_MANAGER,
+            index: true,
+            element: (
+              <Suspense>
+                <SupportTicketManagerPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+
+          {
+            path: paths.USER_CONDUCT_MANAGER,
+            element: (
+              <Suspense>
+                <UserConductManagerPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,
