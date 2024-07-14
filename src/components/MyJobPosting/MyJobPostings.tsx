@@ -1,53 +1,86 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useQuery } from "@tanstack/react-query";
 
-import { jobServices } from '../../services'
-import { Job, JobPagination } from '../../types'
-import MyJobList from './MyJobList'
+import { jobServices } from "../../services";
+import { Job, paths, ROLE } from "../../types";
+import { toast } from "../../lib/toast";
+import { useAppProviderCtx } from "../../app-provider";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { TableWithPagination } from "../../ui";
+import usePagination from "../../hooks/usePagination";
 
 const MyJobPostingsPage = () => {
-  const [jobs, setJobs] = useState<Array<Job>>([])
-  const [jobPagination, setJobPagination] = useState<JobPagination>({
-    page: 1,
-  })
+  const {
+    data: { user },
+  } = useAppProviderCtx();
+  const navigate = useNavigate();
 
-  useQuery({
-    queryKey: ['jobsList', jobPagination.page],
+  const onViewDetail = (id: string) => {
+    navigate(`/${paths.ROOT}/${paths.DASHBOARD}/${paths.MY_JOB_POSTING}/${id}`);
+  };
+
+  const onEdit = (id: string) => {
+    navigate(
+      `/${paths.ROOT}/${paths.DASHBOARD}/${paths.EDIT_JOB_POSTING}/${id}`
+    );
+  };
+  const { pagination, setPagination, onNextPage, onPreviousPage } =
+    usePagination();
+
+  const { isLoading, data } = useQuery({
+    queryKey: ["myJobLists", pagination.page],
     queryFn: () =>
-      jobServices.getMyJobs({ page: jobPagination?.page }).then((res) => {
-        if (res.result) {
-          const { jobs, ...pagination } = res.result
-          setJobs(jobs)
-          setJobPagination(pagination)
-          return res.result
-        }
-        return null
-      }),
-  })
-
-  const onNextPage = () => {
-    if (jobPagination?.maxPages && jobPagination?.page) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! + 1 }))
-    }
-  }
-
-  const onPreviousPage = () => {
-    if (jobPagination?.page! > 1) {
-      setJobPagination((prev) => ({ ...prev, page: prev.page! - 1 }))
-    }
-  }
+      jobServices
+        .getMyJobs({ page: pagination?.page })
+        .then((res) => {
+          if (res.result) {
+            const { jobs, ...pagination } = res.result;
+            setPagination(pagination);
+            return jobs;
+          }
+          return [];
+        })
+        .catch(() => {
+          toast.error("Get jobs failed");
+          return [];
+        }),
+  });
+  const head = ["Description/Job Title", "Posted date", "Status", "Admin"];
+  const transformData = (data: Array<Job>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p
+        className="text-ellipsis cursor-pointer"
+        onClick={() => onViewDetail(element._id)}
+      >
+        {element.jobTitle}
+      </p>,
+      moment(element.createdAt).format("MM/DD/YYYY"),
+      element.jobPostStatus,
+      <span className="flex gap-2 justify-center items-center cursor-pointer">
+        {user?.role === ROLE.EDITOR && (
+          <IconEdit onClick={() => onEdit(element._id)} />
+        )}
+        {(user?.role === ROLE.EDITOR || user?.role === ROLE.ADMIN) && (
+          <IconTrash />
+        )}
+      </span>,
+    ]);
+  };
 
   return (
-    <div className="w-full">
-      <MyJobList
-        jobs={jobs}
-        page={jobPagination.page!}
-        maxPage={jobPagination.maxPages!}
-        onNextPage={onNextPage}
+    <div className="w-full px-14 mt-5">
+      <TableWithPagination
+        head={head}
+        body={transformData(data)}
+        pagination={pagination}
         onPreviousPage={onPreviousPage}
+        onNextPage={onNextPage}
+        loading={isLoading}
       />
     </div>
-  )
-}
+  );
+};
 
-export default MyJobPostingsPage
+export default MyJobPostingsPage;

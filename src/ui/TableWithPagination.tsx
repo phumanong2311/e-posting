@@ -12,7 +12,7 @@ export type TableWithPaginationProps = {
 };
 export const TableWithPagination = ({
   head,
-  body,
+  body = [[]],
   pagination,
   loading,
   onNextPage,
@@ -21,7 +21,7 @@ export const TableWithPagination = ({
   const tableData = {
     head,
     body,
-    caption: !loading && !pagination.maxPages ? "No data available" : "",
+    caption: !loading && !body.length ? "No data available" : "",
   };
   return (
     <>
@@ -33,7 +33,7 @@ export const TableWithPagination = ({
         data={tableData}
         captionSide="bottom"
       />
-      {body && body.length && (
+      {!!body.length && (
         <PaginationButton
           pagination={pagination}
           onNextPage={onNextPage}

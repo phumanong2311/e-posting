@@ -1,68 +1,50 @@
-import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppProviderCtx } from "../../app-provider";
 import { requestServices } from "../../services";
-import { Request, RequestPagination, paths } from "../../types";
+import { Request, paths } from "../../types";
 import { toast } from "../../lib/toast";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { TableWithPagination } from "../../ui";
+import usePagination from "../../hooks/usePagination";
 
 export const RequestSearch = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
   const {
     data: { user },
   } = useAppProviderCtx();
-  const [requests, setRequests] = useState<Array<Request> | null>([]);
-  const [requestPagination, setRequestPagination] = useState<RequestPagination>(
-    {
-      page: 1,
-    }
-  );
+  const { pagination, setPagination, resetPage, onNextPage, onPreviousPage } =
+    usePagination();
   const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
     resetPage();
   }, [keyword]);
 
-  const { isLoading, refetch } = useQuery({
-    queryKey: ["requestSearch", requestPagination.page, debouncedSearchKeyword],
+  const { isLoading, refetch, data } = useQuery({
+    queryKey: ["requestSearch", pagination.page, debouncedSearchKeyword],
     queryFn: () =>
       requestServices
         .getResources({
-          page: requestPagination?.page,
+          page: pagination?.page,
           keyword,
         })
         .then((res) => {
           if (res.result) {
             const { requests, ...pagination } = res.result;
-            setRequests(requests);
-            setRequestPagination(pagination);
-            if (!res.result.requests.length) setRequests(null);
-            return res.result;
+            setPagination(pagination);
+            return requests;
           }
-          return null;
+          return [];
+        })
+        .catch(() => {
+          toast.error("Get requests failed");
+          return [];
         }),
   });
-
-  const resetPage = () => {
-    setRequestPagination((prev) => ({ ...prev, page: 1 }));
-  };
-
-  const onNextPage = () => {
-    if (requestPagination?.maxPages && requestPagination?.page) {
-      setRequestPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (requestPagination?.page! > 1) {
-      setRequestPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
-    }
-  };
 
   const onViewDetail = (id: string | null) => {
     if (!id) return;
@@ -81,77 +63,49 @@ export const RequestSearch = ({ keyword }: { keyword: string }) => {
         result && toast.success("Request is deleted successfully");
         refetch();
       })
-      .catch((error) => {
-        toast.error(error.message);
+      .catch(() => {
+        toast.error("Request delete failed");
       });
   };
 
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm" }}
-        />
-      );
-    }
-
-    if (requests === null) {
-      return (
-        <tr>
-          <td colSpan={4}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-    return requests.map((element, index) => (
-      <Table.Tr key={index}>
-        <Table.Td
-          className="text-ellipsis cursor-pointer"
-          onClick={() => onViewDetail(element._id!)}
-        >
-          {element.requestOwner}
-        </Table.Td>
-        <Table.Td className="text-center">{element.requestTitle}</Table.Td>
-        <Table.Td className="text-center">
-          {moment(element.closingDate).format("MM/DD/YYYY")}
-        </Table.Td>
-        <Table.Td className="text-center">{element.employmentType}</Table.Td>
-        <Table.Td className="flex gap-2 justify-center items-center cursor-pointer">
-          {user?.accountType! > 0 && (
-            <>
-              <IconEdit onClick={() => onEdit(element._id!)} />
-              <IconTrash onClick={() => onDelete(element._id)} />
-            </>
-          )}
-        </Table.Td>
-      </Table.Tr>
-    ));
-  }, [isLoading, requests]);
-
+  const transformData = (data: Array<Request>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p
+        className="text-ellipsis cursor-pointer"
+        onClick={() => onViewDetail(element._id)}
+      >
+        {element.requestOwner}
+      </p>,
+      element.requestTitle,
+      moment(element.closingDate).format("MM/DD/YYYY"),
+      element.employmentType,
+      <span className="flex gap-2 justify-center items-center cursor-pointer">
+        {user?.accountType! > 0 && (
+          <>
+            <IconEdit onClick={() => onEdit(element._id!)} />
+            <IconTrash onClick={() => onDelete(element._id)} />
+          </>
+        )}
+      </span>,
+    ]);
+  };
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="w-full px-14 mt-5">
-        <Table withRowBorders={false} verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Description</Table.Th>
-              <Table.Th className="text-center">Request Owner</Table.Th>
-              <Table.Th className="text-center">Request Title</Table.Th>
-              <Table.Th className="text-center">Closing Date</Table.Th>
-              <Table.Th className="text-center">Employment Type</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        <PaginationButton
-          pagination={requestPagination}
-          onNextPage={onNextPage}
-          onPreviousPage={onPreviousPage}
-        />
-      </div>
+    <div className="w-full h-full px-14 mt-5">
+      <TableWithPagination
+        head={[
+          "Request Owner",
+          "Request Title",
+          "Closing Date",
+          "Employment Type",
+          "Action",
+        ]}
+        body={transformData(data)}
+        pagination={pagination}
+        loading={isLoading}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
     </div>
   );
 };

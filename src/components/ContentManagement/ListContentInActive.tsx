@@ -1,49 +1,48 @@
-import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { contentManagementServices } from "../../services";
-import { ContentPagination, ContentType, paths } from "../../types";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { ContentType, paths } from "../../types";
+import { TableWithPagination } from "../../ui";
+import usePagination from "../../hooks/usePagination";
 
-const ListContentActive = () => {
+const ListContentInactive = () => {
   const navigate = useNavigate();
-  const [contents, setContents] = useState<Array<ContentType> | null>([]);
-  const [contentPagination, setContentPagination] = useState<ContentPagination>(
-    {
-      page: 1,
-    }
-  );
+  const { pagination, setPagination, onNextPage, onPreviousPage } =
+    usePagination();
 
-  const { isLoading } = useQuery({
-    queryKey: ["contentList", contentPagination.page],
+  const { isLoading, data } = useQuery({
+    queryKey: ["inactiveContentList", pagination.page],
     queryFn: () => {
       return contentManagementServices
-        .getInActiveContents({ page: contentPagination?.page })
+        .getInActiveContents({ page: pagination?.page })
         .then((res: any) => {
           if (res.result) {
             const { media, ...pagination } = res.result;
-            setContents(media);
-            setContentPagination(pagination);
-            if (!res.result.media.length) setContents(null);
-            return res.result;
+            setPagination(pagination);
+            return media;
           }
           return null;
         });
     },
   });
 
-  const onNextPage = () => {
-    if (contentPagination?.maxPages && contentPagination?.page) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (contentPagination?.page! > 1) {
-      setContentPagination((prev: any) => ({ ...prev, page: prev.page! - 1 }));
-    }
+  const transformData = (data: any) => {
+    if (!data) return [];
+    return data.map((content: ContentType) => [
+      <p
+        className="text-ellipsis cursor-pointer"
+        onClick={() => onViewDetail(content.contentId)}
+      >
+        {content.title}
+      </p>,
+      content.contentType,
+      content.publisherName,
+      content.lastModifiedBy,
+      content.mediaStatus,
+      moment(content.publishDate).format("MM/DD/YYYY"),
+      moment(content.endDate).format("MM/DD/YYYY"),
+    ]);
   };
 
   const onViewDetail = (id: string) => {
@@ -52,82 +51,26 @@ const ListContentActive = () => {
     );
   };
 
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm" }}
-        />
-      );
-    }
-
-    if (contents === null) {
-      return (
-        <tr>
-          <td colSpan={7}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-
-    return (
-      <>
-        {contents.map((element, index) => (
-          <Table.Tr key={index}>
-            <Table.Td
-              className="text-ellipsis cursor-pointer"
-              onClick={() => onViewDetail(element.contentId)}
-            >
-              {element.title}
-            </Table.Td>
-            <Table.Td className="text-center">{element.contentType}</Table.Td>
-            <Table.Td className="text-center">{element.publisherName}</Table.Td>
-            <Table.Td className="text-center">
-              {element.lastModifiedBy}
-            </Table.Td>
-            <Table.Td className="text-center">{element.mediaStatus}</Table.Td>
-            <Table.Td className="text-center">
-              {moment(element.publishDate).format("MM/DD/YYYY")}
-            </Table.Td>
-            <Table.Td className="text-center">
-              {moment(element.endDate).format("MM/DD/YYYY")}
-            </Table.Td>
-          </Table.Tr>
-        ))}
-      </>
-    );
-  }, [isLoading, contents]);
-
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="w-full px-14 mt-5">
-        <>
-          <Table withRowBorders={false} verticalSpacing="md">
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Title</Table.Th>
-                <Table.Th className="text-center">Type</Table.Th>
-                <Table.Th className="text-center">Created By</Table.Th>
-                <Table.Th className="text-center">Last Modified By</Table.Th>
-                <Table.Th className="text-center">Status</Table.Th>
-                <Table.Th className="text-center">Publish Date</Table.Th>
-                <Table.Th className="text-center">End Date</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-          </Table>
-          <PaginationButton
-            pagination={contentPagination}
-            onNextPage={onNextPage}
-            onPreviousPage={onPreviousPage}
-          />
-        </>
-      </div>
+    <div className="w-full h-full px-14 mt-5">
+      <TableWithPagination
+        head={[
+          "Title",
+          "Type",
+          "Created By",
+          "Last Modified By",
+          "Status",
+          "Publish Date",
+          "End Date",
+        ]}
+        body={transformData(data)}
+        pagination={pagination}
+        loading={isLoading}
+        onNextPage={onNextPage}
+        onPreviousPage={onPreviousPage}
+      />
     </div>
   );
 };
 
-export default ListContentActive;
+export default ListContentInactive;

@@ -1,120 +1,69 @@
-import { Button, Table, LoadingOverlay } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useEffect, useState, useMemo } from "react";
-import { Skill, SkillPagination, paths } from "../../types";
+import { useEffect } from "react";
+import { Skill, paths } from "../../types";
 import { skillServices } from "../../services";
-import { EmptyBoxMessage, PaginationButton } from "../../ui";
+import { TableWithPagination } from "../../ui";
 import { toast } from "../../lib/toast";
+import usePagination from "../../hooks/usePagination";
 
 const SkillList = ({ keyword = "" }: { keyword: string }) => {
   const navigate = useNavigate();
-  const [skills, setSkills] = useState<Array<Skill> | null>([]);
-  const [skillPagination, setSkillPagination] = useState<SkillPagination>({
-    page: 1,
-  });
+  const { pagination, setPagination, resetPage, onNextPage, onPreviousPage } =
+    usePagination();
   const debouncedSearchKeyword = useDebouncedValue(keyword, 500);
 
   useEffect(() => {
     resetPage();
   }, [keyword]);
 
-  const { isLoading } = useQuery({
-    queryKey: ["skillList", skillPagination.page, debouncedSearchKeyword],
+  const { isLoading, data } = useQuery({
+    queryKey: ["skillList", pagination.page, debouncedSearchKeyword],
     queryFn: () =>
       skillServices
         .getSkills({
-          page: skillPagination?.page,
+          page: pagination?.page,
           keyword,
         })
         .then((res) => {
           console.log(res);
           if (res.result) {
             const { skills, ...pagination } = res.result;
-            setSkills(skills);
-            setSkillPagination(pagination);
-            if (!skills.length) setSkills(null);
-            return res.result;
+            setPagination(pagination);
+            return skills;
           }
-          return null;
+          return [];
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Fetching skills failed");
+          return [];
         }),
   });
-
-  const resetPage = () => {
-    setSkillPagination((prev) => ({ ...prev, page: 1 }));
-  };
-
-  const onNextPage = () => {
-    if (skillPagination?.maxPages && skillPagination?.page) {
-      setSkillPagination((prev) => ({ ...prev, page: prev.page! + 1 }));
-    }
-  };
-
-  const onPreviousPage = () => {
-    if (skillPagination?.page! > 1) {
-      setSkillPagination((prev) => ({ ...prev, page: prev.page! - 1 }));
-    }
-  };
 
   const onViewDetail = (id: string | null) => {
     if (!id) return;
     navigate(`/${paths.ROOT}/${paths.SKILLS_DETAIL}/${id}`);
   };
 
-  const onEdit = (id: string | null) => {
-    if (!id) return;
-    navigate(`/${paths.ROOT}/${paths.SKILLS_EDIT}/${id}`);
-  };
-
   const onAddSkill = () => {
     navigate(`/${paths.ROOT}/${paths.SKILLS_CREATE}`);
   };
 
-  const rows = useMemo(() => {
-    if (isLoading) {
-      return (
-        <Table.Tr>
-          <Table.Td></Table.Td>
-          <Table.Td className="text-center">
-            <LoadingOverlay
-              visible={isLoading}
-              zIndex={1000}
-              overlayProps={{ radius: "sm" }}
-            />
-          </Table.Td>
-          <Table.Td></Table.Td>
-        </Table.Tr>
-      );
-    }
-
-    if (skills === null) {
-      return (
-        <tr>
-          <td colSpan={3}>
-            <EmptyBoxMessage className="h-60" />
-          </td>
-        </tr>
-      );
-    }
-
-    return skills.map((element, index) => (
-      <Table.Tr key={index}>
-        <Table.Td
-          className="text-ellipsis cursor-pointer"
-          onClick={() => onViewDetail(element.skillId!)}
-        >
-          {element.skillName}
-        </Table.Td>
-        <Table.Td className="text-center">{element.functionalArea}</Table.Td>
-        <Table.Td className="text-center">{element.skillCategory}</Table.Td>
-      </Table.Tr>
-    ));
-  }, [skills, isLoading]);
-
+  const transformData = (data: Array<Skill>) => {
+    if (!data) return [];
+    return data.map((element) => [
+      <p
+        className="text-ellipsis cursor-pointer"
+        onClick={() => onViewDetail(element.skillId!)}
+      >
+        {element.skillName}
+      </p>,
+      element.functionalArea,
+      element.skillCategory,
+    ]);
+  };
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
       <div className="w-full h-fit mt-5 px-14">
@@ -129,18 +78,11 @@ const SkillList = ({ keyword = "" }: { keyword: string }) => {
       </div>
 
       <div className="w-full px-14 mt-2">
-        <Table withRowBorders={false} verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Skill Description</Table.Th>
-              <Table.Th className="text-center">Functional Area</Table.Th>
-              <Table.Th className="text-center">Skill Category</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-        <PaginationButton
-          pagination={skillPagination}
+        <TableWithPagination
+          head={["Skill Description", "Functional Area", "Skill Category"]}
+          body={transformData(data)}
+          pagination={pagination}
+          loading={isLoading}
           onNextPage={onNextPage}
           onPreviousPage={onPreviousPage}
         />
