@@ -8,3 +8,4 @@ export * from "./RichEditor";
 export * from "./SubMenu";
 export * from "./SelectSearchField";
 export * from "./PaginationButton";
+export * from "./TableWithPagination";
