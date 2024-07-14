@@ -23,11 +23,11 @@ class SupportManagementService extends API {
     page?: number;
     supportTicketStatus?: SupportTicketStatus;
     mainTopic?: string;
-    ticketProcessStatus?: TicketProcessStatus;
-    priorityLevel?: TicketPriorityLevel;
+    ticketProcessStatus?: TicketProcessStatus | string;
+    priorityLevel?: TicketPriorityLevel | string;
   }): Promise<ResponseWrapper> {
     let url =
-      `supports?` +
+      `support?` +
       buildQueryParams({
         page,
         supportTicketStatus,
@@ -37,16 +37,27 @@ class SupportManagementService extends API {
       });
     return this.getAPI(url);
   }
-  //   async getSkills({
-  //     keyword = "",
-  //     page = 1,
-  //   }: {
-  //     keyword?: string;
-  //     page?: number;
-  //   }): Promise<ResponseWrapper> {
-  //     let url = `skills?` + buildQueryParams({ keyword, page });
-  //     return this.getAPI(url);
-  //   }
+
+  async getSupportTicketDetail(id: string): Promise<ResponseWrapper> {
+    let url = `support/${id}`;
+    return this.getAPI(url);
+  }
+
+  async updateSupportTicketStatus({
+    supportTicketId,
+    supportTicketStatus,
+    priorityLevel,
+  }: {
+    supportTicketId: string;
+    supportTicketStatus: number;
+    priorityLevel: number;
+  }): Promise<ResponseWrapper> {
+    let url = `support/${supportTicketId}`;
+    return this.putAPI(url, {
+      supportTicketStatus,
+      priorityLevel,
+    });
+  }
 
   //   async getSkillDetail(id: string): Promise<ResponseWrapper> {
   //     const url = `skills/${id}`;

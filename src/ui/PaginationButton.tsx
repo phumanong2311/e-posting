@@ -19,7 +19,7 @@ export const PaginationButton = ({
     isShowPrevious ? (
       <Button
         variant="outline"
-        className="w-fit"
+        className="w-fit h-full"
         size="sm"
         onClick={onPreviousPage}
       >
@@ -32,7 +32,7 @@ export const PaginationButton = ({
     isShowNext ? (
       <Button
         variant="outline"
-        className="w-fit float-right"
+        className="w-fit float-right h-full"
         size="sm"
         onClick={onNextPage}
       >

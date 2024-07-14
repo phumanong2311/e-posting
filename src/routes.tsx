@@ -158,6 +158,13 @@ const SupportTicketManagerPage = lazy(
     )
 );
 
+const SupportTicketDetailPage = lazy(
+  () =>
+    import(
+      "./components/SupportManagement/SupportTicketManager/SupportTicketDetailPage"
+    )
+);
+
 const UserConductManagerPage = lazy(
   () =>
     import(
@@ -436,6 +443,15 @@ const routesConfig: RouteObject[] = [
         element: <SupportManagementPage />,
         children: [
           {
+            path: `${paths.SUPPORT_TICKET_MANAGER}/:id`,
+            element: (
+              <Suspense>
+                <SupportTicketDetailPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
             path: paths.SUPPORT_TICKET_MANAGER,
             index: true,
             element: (
@@ -445,6 +461,7 @@ const routesConfig: RouteObject[] = [
             ),
             errorElement: <ErrorBoundary />,
           },
+
           {
             path: paths.USER_CONDUCT_MANAGER,
             element: (

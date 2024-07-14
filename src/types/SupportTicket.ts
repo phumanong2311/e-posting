@@ -5,6 +5,7 @@ export class SupportTicket {
   firstName?: string;
   lastName?: string;
   email?: string;
+  company?: string;
   mainTopic?: string;
   subTopic?: string;
   issueDetails?: string;
