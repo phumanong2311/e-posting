@@ -1,4 +1,4 @@
-import { ResponseWrapper, Skill } from "../types";
+import { ResponseWrapper } from "../types";
 import {
   SupportTicketStatus,
   TicketPriorityLevel,
@@ -56,6 +56,57 @@ class SupportManagementService extends API {
     return this.putAPI(url, {
       supportTicketStatus,
       priorityLevel,
+    });
+  }
+
+  async getUserReports({
+    page = 1,
+    reportingUser,
+    reportedUser,
+    reportTopic,
+  }: {
+    page?: number;
+    reportingUser?: string;
+    reportedUser?: string;
+    reportTopic?: string;
+  }): Promise<ResponseWrapper> {
+    let url =
+      `reporting?` +
+      buildQueryParams({ page, reportingUser, reportedUser, reportTopic });
+    return this.getAPI(url);
+  }
+
+  async getUserMisconducts({
+    page = 1,
+    userId,
+    keyword,
+  }: {
+    page?: number;
+    userId?: string;
+    keyword?: string;
+  }): Promise<ResponseWrapper> {
+    let url = "reporting/user/list?" + buildQueryParams({ page });
+    if (userId || keyword) {
+      url =
+        ` reporting/user/user-query?` +
+        buildQueryParams({ page, userId, keyword });
+    }
+    return this.getAPI(url);
+  }
+
+  async updateUserMisconduct({
+    misconductId,
+    userName,
+    numberOfReports,
+  }: {
+    misconductId: string;
+    userName: string;
+    numberOfReports: number;
+  }) {
+    let url = `record/user/${misconductId}`;
+    return this.putAPI(url, {
+      userName,
+      numberOfReports,
     });
   }
 

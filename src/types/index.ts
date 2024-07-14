@@ -28,3 +28,6 @@ export * from "./WithdrawRequestPagination";
 export * from "./UserBalance";
 export * from "./SupportTicket";
 export * from "./SupportTicketPagination";
+export * from "./UserReport";
+export * from "./UserReportPagination";
+export * from "./UserMisconduct";
