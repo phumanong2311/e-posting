@@ -1,11 +1,11 @@
-import { useState } from 'react'
 import { IconChevronLeft } from '@tabler/icons-react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { contentManagementServices } from '../../services'
 import { toast } from '../../lib/toast'
-import { ContentPayload, ContentType } from '../../types'
+import { contentManagementServices } from '../../services'
+import { ContentPayload } from '../../types'
 import ContentForm from './ContentForm'
 
 const EditContentPage = () => {
@@ -16,7 +16,7 @@ const EditContentPage = () => {
     navigate(-1)
   }
 
-  const [contentDetail, setContentDetail] = useState<ContentType>()
+  const [contentDetail, setContentDetail] = useState<ContentPayload>()
 
   useQuery({
     queryKey: [id],
@@ -35,7 +35,7 @@ const EditContentPage = () => {
       title: value.title,
       contentType: value.contentType,
       tagline: value.tagline,
-      imageSourceUrl: value.imageSourceUrl,
+      imageSource: value.imageSource,
       description: value.description,
       publisherName: value.publisherName,
       imageSourceCitation: value.imageSourceCitation,
@@ -71,7 +71,7 @@ const EditContentPage = () => {
     }
 
     await contentManagementServices
-      .edit(id!, value)
+      .edit(id!, content)
       .then((result) => {
         result && toast.success('Content is edited successfully')
         onBack()

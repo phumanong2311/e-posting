@@ -34,6 +34,12 @@ export type ContentPayload = {
   endDate?: string;
   publishDate?: string;
   mediaStatus: string;
+  imageSource: string;
+  authorImage?: string;
+  publisherName?: string;
+  authorName?: string;
+  authorTitle?: string;
+  authorBio?: string;
 };
 
 export type ContentPagination = {
