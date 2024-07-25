@@ -21,4 +21,23 @@ export class SupportTicket {
   createdAt?: string;
   updatedAt?: string;
   supportTicketId?: string;
+  status?: string;
+}
+
+export class SupportTicketPayload {
+  assignedMemberId?: string;
+  priorityLevel?: number;
+  resolutionNotes?: string;
+  status?: number;
+}
+
+export class AssigneeProfile {
+  firstName?: string;
+  lastName?: string;
+  profileId!: string;
+}
+
+export class Assignee {
+  profile!: AssigneeProfile;
+  id!: string;
 }

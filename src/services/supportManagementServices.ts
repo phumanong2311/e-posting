@@ -1,4 +1,4 @@
-import { ResponseWrapper } from "../types";
+import { ResponseWrapper, SupportTicketPayload } from "../types";
 import {
   SupportTicketStatus,
   TicketPriorityLevel,
@@ -45,17 +45,14 @@ class SupportManagementService extends API {
 
   async updateSupportTicketStatus({
     supportTicketId,
-    supportTicketStatus,
-    priorityLevel,
+    payload
   }: {
     supportTicketId: string;
-    supportTicketStatus: number;
-    priorityLevel: number;
+    payload: SupportTicketPayload;
   }): Promise<ResponseWrapper> {
     let url = `support/${supportTicketId}`;
     return this.putAPI(url, {
-      supportTicketStatus,
-      priorityLevel,
+      payload
     });
   }
 
@@ -108,6 +105,11 @@ class SupportManagementService extends API {
       userName,
       numberOfReports,
     });
+  }
+
+  async getAssignee() {
+    let url = `v1/admin/users/eposting?role=admin`;
+    return await this.getAPI(url);
   }
 
   //   async getSkillDetail(id: string): Promise<ResponseWrapper> {

@@ -4,7 +4,7 @@ import "@mantine/notifications/styles.css";
 import "@mantine/tiptap/styles.css";
 
 import { RouterProvider } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import { AppProvider } from "./app-provider/AppProvider";
 import { router } from "./routes";
 

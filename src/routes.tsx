@@ -172,6 +172,8 @@ const UserConductManagerPage = lazy(
     )
 );
 
+const EditSupportTicketPage = lazy(() => import("./components/SupportManagement/SupportTicketManager/EditSupportTicketPage")); 
+
 const routesConfig: RouteObject[] = [
   {
     path: "",
@@ -461,12 +463,20 @@ const routesConfig: RouteObject[] = [
             ),
             errorElement: <ErrorBoundary />,
           },
-
           {
             path: paths.USER_CONDUCT_MANAGER,
             element: (
               <Suspense>
                 <UserConductManagerPage />
+              </Suspense>
+            ),
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: `${paths.EDIT_SUPPORT_TICKET}/:id`,
+            element: (
+              <Suspense>
+                <EditSupportTicketPage />
               </Suspense>
             ),
             errorElement: <ErrorBoundary />,

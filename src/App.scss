@@ -37,8 +37,8 @@
   }
 }
 
-/* [aria-current="page"] {
-  p {
-    color: red
+.noBorderBottomTrTableMantine {
+  tr {
+    --_tr-border-bottom: none !important;
   }
-} */
+}

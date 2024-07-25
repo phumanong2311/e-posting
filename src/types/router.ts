@@ -71,4 +71,5 @@ export enum paths {
   SUPPORT_MANAGEMENT = "support-management",
   SUPPORT_TICKET_MANAGER = "support-ticket-manager",
   USER_CONDUCT_MANAGER = "user-conduct-manager",
+  EDIT_SUPPORT_TICKET = "edit-support-ticket",
 }

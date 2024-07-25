@@ -1,13 +1,11 @@
-import { IconChevronLeft } from "@tabler/icons-react";
+import { IconChevronLeft, IconPencil } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { supportManagementServices } from "../../../services";
-import { SupportTicket } from "../../../types";
+import { paths, SupportTicket } from "../../../types";
 import { InformationField } from "../../../ui";
-import UpdateTicketModal from "./UpdateTicketModal";
-import { toast } from "../../../lib/toast";
 
 const ContentDetailPage = () => {
   const { id } = useParams();
@@ -30,50 +28,33 @@ const ContentDetailPage = () => {
     navigate(-1);
   };
 
-  const handleUpdateStatus = (
-    supportTicketId: string,
-    status: number,
-    priorityLevel: number
-  ) => {
-    supportManagementServices
-      .updateSupportTicketStatus({
-        supportTicketId,
-        supportTicketStatus: status,
-        priorityLevel,
-      })
-      .then((result) => {
-        result && toast.success("Update status successfully");
-      })
-      .catch(() => {
-        toast.error("Update support ticket failed");
-      });
+  const onEdit = () => {
+    return navigate(
+      `/${paths.ROOT}/${paths.SUPPORT_MANAGEMENT}/${paths.EDIT_SUPPORT_TICKET}/${id}`
+    );
   };
 
   if (!supportTicket) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
-      <div className="w-full px-16 items-center w-full justify-end">
+      <div className="w-full px-16 items-center justify-end">
         <p
           className="flex text-lg  text-purple-500 cursor-pointer "
           onClick={() => onBack()}
         >
           <IconChevronLeft /> back to list
         </p>
-        <div className="flex gap-3 justify-end">
-          <>
-            <UpdateTicketModal
-              supportTicketId={id!}
-              currentStatus={supportTicket.supportTicketStatus!}
-              currentPriorityLevel={supportTicket.priorityLevel!}
-              handleUpdateStatus={handleUpdateStatus}
-            />
-          </>
+        <div className="flex w-full justify-between items-center my-6">
+          <InformationField
+            label="Contact Reason:"
+            value={supportTicket.mainTopic!}
+          />
+          <div className="flex gap-3">
+            <>
+              <IconPencil className="cursor-pointer" onClick={() => onEdit()} />
+            </>
+          </div>
         </div>
-
-        <InformationField
-          label="Contact Reason:"
-          value={supportTicket.mainTopic!}
-        />
         <InformationField label="Sub topic:" value={supportTicket.subTopic!} />
         <InformationField
           label="First Name:"

@@ -1,41 +1,41 @@
-import { Image } from '@mantine/core'
-import { IconChevronLeft, IconPencil } from '@tabler/icons-react'
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { Image } from "@mantine/core";
+import { IconChevronLeft, IconPencil } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
-import { useNavigate, useParams } from 'react-router-dom'
-import { contentManagementServices } from '../../services'
-import { ContentType, paths } from '../../types'
-import { InformationField } from '../../ui'
+import { useNavigate, useParams } from "react-router-dom";
+import { contentManagementServices } from "../../services";
+import { ContentType, paths } from "../../types";
+import { InformationField } from "../../ui";
 
 const ContentDetailPage = () => {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [contentDetail, setContentDetail] = useState<ContentType>()
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [contentDetail, setContentDetail] = useState<ContentType>();
 
   useQuery({
     queryKey: [id],
     queryFn: () =>
       contentManagementServices.getDetail(id!).then((res) => {
         if (res.result) {
-          setContentDetail(res.result)
-          return res.result
+          setContentDetail(res.result);
+          return res.result;
         }
-        return null
+        return null;
       }),
-  })
+  });
 
   const onBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const onEdit = () => {
     navigate(
       `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.EDIT_CONTENT}/${id}`
-    )
-  }
+    );
+  };
 
-  if (!contentDetail) return <></>
+  if (!contentDetail) return <></>;
   return (
     <div className="w-full flex justify-center items-center mt-10 pb-[100px]">
       <div className="w-full px-16">
@@ -72,19 +72,19 @@ const ContentDetailPage = () => {
         <InformationField label="Title:" value={contentDetail.title} />
         <InformationField
           label="Tagline Display:"
-          value={contentDetail.tagline ? contentDetail.tagline : ''}
+          value={contentDetail.tagline || ""}
         />
         <InformationField
           label="Cite image source:"
-          value={contentDetail.imageSourceUrl}
+          value={contentDetail.imageSourceUrl || ""}
         />
         <InformationField
           label="Description:"
-          value={contentDetail.description || ''}
+          value={contentDetail.description || ""}
         />
         <InformationField
           label="Publication Name:"
-          value={contentDetail.publisherName || ''}
+          value={contentDetail.publisherName || ""}
         />
 
         <div className="flex w-full justify-between items-center my-6">
@@ -93,7 +93,7 @@ const ContentDetailPage = () => {
               Author Image:
             </p>
             <Image
-              src={contentDetail!.authorImage}
+              src={contentDetail.authorImage || ""}
               w={80}
               h={80}
               className="ml-3"
@@ -104,45 +104,45 @@ const ContentDetailPage = () => {
 
         <InformationField
           label="Author Name:"
-          value={contentDetail.authorName}
+          value={contentDetail.authorName || ""}
         />
         <InformationField
           label="Author Title:"
-          value={contentDetail.authorTitle || ''}
+          value={contentDetail.authorTitle || ""}
         />
         <InformationField
           label="Author Bio:"
-          value={contentDetail.authorBio || ''}
+          value={contentDetail.authorBio || ""}
         />
 
         <InformationField
           label="Source URL:"
-          value={contentDetail.imageSourceCitation || ''}
+          value={contentDetail.imageSourceCitation || ""}
         />
         <InformationField
           label="End Date:"
-          value={contentDetail.endDate || ''}
+          value={contentDetail.endDate || ""}
         />
         <InformationField
           label="Category:"
-          value={contentDetail.category || ''}
+          value={contentDetail.category || ""}
         />
         <InformationField
           label="Status:"
-          value={contentDetail.mediaStatus || ''}
+          value={contentDetail.mediaStatus || ""}
         />
         <InformationField
           label="Publish Date:"
-          value={contentDetail.publishDate || ''}
+          value={contentDetail.publishDate || ""}
         />
         <InformationField label="Visibility Status:" value="Active/InActive" />
         <InformationField
           label="Created Date:"
-          value={contentDetail.createdAt || ''}
+          value={contentDetail.createdAt || ""}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ContentDetailPage
+export default ContentDetailPage;

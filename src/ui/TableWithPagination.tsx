@@ -27,11 +27,10 @@ export const TableWithPagination = ({
     <>
       {loading && <LoadingOverlay visible />}
       <Table
-        withColumnBorders
-        striped
         verticalSpacing="md"
         data={tableData}
         captionSide="bottom"
+        className="noBorderBottomTrTableMantine"
       />
       {!!body.length && (
         <PaginationButton

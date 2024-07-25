@@ -18,7 +18,12 @@ export type ContentType = {
   lastModifiedBy?: string;
   lastModifiedById?: string;
   contentId: string;
-  publisherName?: string
+  publisherName?: string;
+  imageSourceUrl?: string;
+  authorImage?: string;
+  authorName?: string;
+  authorTitle?: string;
+  authorBio?: string;
 };
 
 export type ContentPayload = {

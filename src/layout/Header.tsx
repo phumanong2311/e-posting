@@ -23,7 +23,7 @@ export const Header = ({ containerClass = "" }) => {
       },
       {
         label: "Content Management",
-        path: `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}`,
+        path: `/${paths.ROOT}/${paths.CONTENT_MANAGEMENT}/${paths.LIST_OF_ACTIVE_CONTENTS}`,
         isActive: location.pathname.includes(paths.CONTENT_MANAGEMENT),
       },
       {
