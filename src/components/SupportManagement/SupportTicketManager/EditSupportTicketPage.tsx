@@ -32,8 +32,8 @@ const EditSupportTicketPage = () => {
 
   useQuery({
     queryKey: ["assignee"],
-    queryFn: () => {
-      supportManagementService.getAssignee().then((res) => {
+    queryFn: async () => {
+      await supportManagementService.getAssignee().then((res) => {
         if (res.result) {
           setAssignee(res.result.users);
           return res.result.users;
@@ -47,7 +47,7 @@ const EditSupportTicketPage = () => {
     const payload: SupportTicketPayload = {
       assignedMemberId: data.assignedMemberId,
       priorityLevel: Number(data.priorityLevel),
-      status: Number(data.status),
+      supportTicketStatus: Number(data.status),
       resolutionNotes: data.resolutionNotes,
     };
     await supportManagementService.updateSupportTicketStatus({

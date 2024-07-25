@@ -52,7 +52,7 @@ class SupportManagementService extends API {
   }): Promise<ResponseWrapper> {
     let url = `support/${supportTicketId}`;
     return this.putAPI(url, {
-      payload
+      ...payload
     });
   }
 

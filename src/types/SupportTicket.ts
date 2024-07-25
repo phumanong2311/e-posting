@@ -28,13 +28,18 @@ export class SupportTicketPayload {
   assignedMemberId?: string;
   priorityLevel?: number;
   resolutionNotes?: string;
-  status?: number;
+  supportTicketStatus?: number;
 }
 
 export class AssigneeProfile {
   firstName?: string;
   lastName?: string;
   profileId!: string;
+}
+
+export class AsssigneeArr {
+  value!: string;
+  label!: string;
 }
 
 export class Assignee {

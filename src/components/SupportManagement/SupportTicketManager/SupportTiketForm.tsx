@@ -1,9 +1,8 @@
-import { Button, Input, Select, Textarea } from "@mantine/core";
-import { useEffect } from "react";
+import { Button, Input, Select } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Assignee, SupportTicket } from "../../../types";
+import { Assignee, AsssigneeArr, SupportTicket } from "../../../types";
 import { InformationField, RichEditor } from "../../../ui";
-import { dataTagSymbol } from "@tanstack/react-query";
 
 type SupportTiketFormProps = {
   onSubmit: (value: any) => void;
@@ -17,13 +16,35 @@ const SupportTiketForm = ({
   assignee,
 }: SupportTiketFormProps) => {
   const methods = useForm({});
-  const { handleSubmit, reset, watch, formState, control } = methods;
+  const { handleSubmit, reset, formState, control } = methods;
 
   const { isDirty } = formState;
 
-  if (!supportTicket) return <></>;
-  console.log("supportTicket.priorityLevel", supportTicket);
+  const [assigneeData, setAssigneeData] = useState<AsssigneeArr[]>();
 
+  useEffect(() => {
+    const data =
+      assignee && assignee.length > 0
+        ? assignee.map((item) => {
+            return {
+              value: item.id,
+              label: item.profile.firstName + " " + item.profile.lastName,
+            };
+          })
+        : [];
+    setAssigneeData(data);
+  }, [supportTicket, assignee]);
+
+  useEffect(() => {
+    if (assigneeData && supportTicket) {
+      reset({
+        assignedMemberId: supportTicket?.assignedMemberId,
+        priorityLevel: supportTicket?.priorityLevel,
+      });
+    }
+  }, [supportTicket && assigneeData]);
+
+  if (!supportTicket) return <></>;
   return (
     <>
       <div className="w-3/4 mx-auto p-6 max-w-screen-lg space-y-4">
@@ -57,28 +78,18 @@ const SupportTiketForm = ({
             <Controller
               name="assignedMemberId"
               control={control}
-              defaultValue={supportTicket?.assignedMemberId || ""}
+              defaultValue={
+                assigneeData?.find(
+                  (data) =>
+                    data.value === supportTicket?.assignedMemberId?.toString()
+                )?.value || ""
+              }
               render={({ field: { onChange, value } }) => {
-                const data =
-                  assignee && assignee.length > 0
-                    ? assignee.map((item) => {
-                        return {
-                          value: item.id,
-                          label:
-                            item.profile.firstName +
-                            " " +
-                            item.profile.lastName,
-                        };
-                      })
-                    : [];
                 return (
                   <Select
-                    data={data}
+                    data={assigneeData}
                     onChange={onChange}
-                    defaultValue={
-                      (data.find((option) => option.value === value) || data[0])
-                        ?.value
-                    }
+                    value={value}
                   />
                 );
               }}
@@ -110,16 +121,7 @@ const SupportTiketForm = ({
                     label: "Critical",
                   },
                 ];
-                return (
-                  <Select
-                    data={data}
-                    defaultValue={
-                      (data.find((option) => option.value === value) || data[0])
-                        ?.value
-                    }
-                    onChange={onChange}
-                  />
-                );
+                return <Select data={data} value={value} onChange={onChange} />;
               }}
             />
           </Input.Wrapper>
@@ -143,7 +145,9 @@ const SupportTiketForm = ({
             <Controller
               name="status"
               control={control}
-              defaultValue={supportTicket?.supportTicketStatus || "1"}
+              defaultValue={
+                supportTicket?.supportTicketStatus?.toString() || "1"
+              }
               render={({ field: { onChange, value } }) => {
                 const data = [
                   {
@@ -155,16 +159,7 @@ const SupportTiketForm = ({
                     label: "Closed",
                   },
                 ];
-                return (
-                  <Select
-                    data={data}
-                    defaultValue={
-                      (data.find((option) => option.value === value) || data[0])
-                        ?.value
-                    }
-                    onChange={onChange}
-                  />
-                );
+                return <Select data={data} value={value} onChange={onChange} />;
               }}
             />
           </Input.Wrapper>
