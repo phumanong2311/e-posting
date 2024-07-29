@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import usePagination from "../../../hooks/usePagination";
 import { toast } from "../../../lib/toast";
 import { supportManagementServices } from "../../../services";
-import { TableWithPagination } from "../../../ui";
+import { paths } from "../../../types";
 import {
   SupportTicketStatus,
   TicketPriorityLevel,
   TicketProcessStatus,
 } from "../../../types/enums/SupportTicketStatus";
 import { SupportTicket } from "../../../types/SupportTicket";
-import { paths } from "../../../types";
-import { useNavigate } from "react-router-dom";
-import usePagination from "../../../hooks/usePagination";
+import { TableWithPagination } from "../../../ui";
 
 const TicketList = ({
   ticketStatusFilter,
@@ -70,19 +71,41 @@ const TicketList = ({
     );
   };
 
+  const mapperPriorityLevel = (priorityLevel: number) => {
+    switch (priorityLevel) {
+      case 0:
+        return TicketPriorityLevel.LOW;
+      case 1:
+        return TicketPriorityLevel.MEDIUM;
+      case 2:
+        return TicketPriorityLevel.HIGH;
+      case 3:
+        return TicketPriorityLevel.CRITICAL;
+      default:
+        return TicketPriorityLevel.LOW;
+    }
+  };
+
   const transformData = (data: Array<SupportTicket>) => {
     if (!data) return [];
     return data.map((element) => [
       <p
-        className="text-ellipsis cursor-pointer"
+        className="text-ellipsis cursor-pointer capitalize"
         onClick={() => goToDetail(element.supportTicketId!)}
       >
         {element.mainTopic}
       </p>,
-      element.subTopic,
-      element.priorityLevel,
-      element.ticketProcessStatus,
-      element.supportTicketStatus,
+      <p className="capitalize">{element.subTopic}</p>,
+      <p className="capitalize">{element.firstName}</p>,
+      <p className="capitalize">{element.lastName}</p>,
+      element.email,
+      moment(element.createdAt).format("MM/DD/YYYY hh:mm A"),
+      <p className="capitalize">{element.ticketProcessStatus}</p>,
+      <p className="capitalize">
+        {element.priorityLevel !== undefined
+          ? mapperPriorityLevel(element.priorityLevel)
+          : ""}
+      </p>,
     ]);
   };
   return (
@@ -91,9 +114,12 @@ const TicketList = ({
         head={[
           "Contact Reason",
           "Sub Topic",
-          "Priority Level",
-          "Process Status",
-          "Ticket Status",
+          "First Name",
+          "Last Name",
+          "Email",
+          "Date Submitted",
+          "Status",
+          "Priority",
         ]}
         body={transformData(data)}
         pagination={pagination}

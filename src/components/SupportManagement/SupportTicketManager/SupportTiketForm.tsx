@@ -49,7 +49,6 @@ const SupportTiketForm = ({
     <>
       <div className="w-3/4 mx-auto p-6 max-w-screen-lg space-y-4">
         <InformationField
-          className=""
           label="Sub-Topic:"
           value={supportTicket.subTopic!}
         />
@@ -69,10 +68,9 @@ const SupportTiketForm = ({
           value={supportTicket.systemGeneratedTicket ? "Referral" : "Website"}
         />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <div className="w-full px-6 max-w-screen-lg space-y-4">
-          <Input.Wrapper className="flex items-center">
-            <span className="mr-2 w-1/3 text-right font-bold">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-3/4 mx-auto p-6 max-w-screen-lg space-y-4">
+          <Input.Wrapper className="flex">
+            <span className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Assignee (Handling Ticket):
             </span>
             <Controller
@@ -87,6 +85,7 @@ const SupportTiketForm = ({
               render={({ field: { onChange, value } }) => {
                 return (
                   <Select
+                  className="text-lg ml-3"
                     data={assigneeData}
                     onChange={onChange}
                     value={value}
@@ -96,8 +95,8 @@ const SupportTiketForm = ({
             />
           </Input.Wrapper>
 
-          <Input.Wrapper className="flex items-center">
-            <span className="mr-2 w-1/3 text-right font-bold">Priority :</span>
+          <Input.Wrapper className="flex">
+            <span className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">Priority :</span>
             <Controller
               name="priorityLevel"
               control={control}
@@ -121,7 +120,7 @@ const SupportTiketForm = ({
                     label: "Critical",
                   },
                 ];
-                return <Select data={data} value={value} onChange={onChange} />;
+                return <Select className="text-lg ml-3" data={data} value={value} onChange={onChange} />;
               }}
             />
           </Input.Wrapper>
@@ -132,16 +131,16 @@ const SupportTiketForm = ({
               <RichEditor
                 name="resolutionNotes"
                 label="Resolution Notes: "
-                labelClass="text-right w-1/3"
-                className="w-2/3 rounded-md"
+                labelClass="!font-bold text-lg text-right min-w-[200px] max-w-[200px]"
+                className="text-lg ml-1 rounded-md"
                 value={value}
                 onChange={onChange}
               />
             )}
           />
 
-          <Input.Wrapper className="flex items-center">
-            <span className="mr-2 w-1/3 text-right font-bold">Status :</span>
+          <Input.Wrapper className="flex">
+            <span className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">Status :</span>
             <Controller
               name="status"
               control={control}
@@ -159,13 +158,12 @@ const SupportTiketForm = ({
                     label: "Closed",
                   },
                 ];
-                return <Select data={data} value={value} onChange={onChange} />;
+                return <Select className="text-lg ml-3" data={data} value={value} onChange={onChange} />;
               }}
             />
           </Input.Wrapper>
-        </div>
 
-        <div className="flex justify-end gap-5 items-center">
+        <div className="flex justify-end gap-5">
           <Button
             type="submit"
             className={`rounded-lg border-1 cursor-pointer ${
