@@ -19,6 +19,10 @@ export const PageLayout = () => {
       if (res.result) {
         updateUser(res.result);
       }
+    }).catch((err) => {
+      if (err && err.message === "Invalid token.") {
+        window.location.href = `/${paths.LOGIN}`;
+      }
     });
   }, [token]);
 

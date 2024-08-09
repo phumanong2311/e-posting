@@ -68,7 +68,7 @@ const SupportTiketForm = ({
           value={supportTicket.systemGeneratedTicket ? "Referral" : "Website"}
         />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-3/4 mx-auto p-6 max-w-screen-lg space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-3/4 mx-auto px-6 pb-6 max-w-screen-lg space-y-4">
           <Input.Wrapper className="flex">
             <span className="font-bold text-lg text-right min-w-[200px] max-w-[200px]">
               Assignee (Handling Ticket):
